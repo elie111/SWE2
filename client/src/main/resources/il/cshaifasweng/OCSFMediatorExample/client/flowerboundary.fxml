@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="Item" prefHeight="480.0" prefWidth="340.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FlowerBoundary">
+<AnchorPane fx:id="Item" prefHeight="480.0" prefWidth="340.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FlowerBoundary">
     <children>
-        <ImageView id="flowerImg" fx:id="img" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="258.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="226.0" AnchorPane.topAnchor="72.0">
+        <ImageView id="flowerImg" fx:id="flowerImg" fitHeight="120.0" fitWidth="120.0" layoutX="14.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
             <image>
-<!--                <Image url="@../../../../../../../../../Pictures/031f67bd6b6bb0487eff63e804f63515.jpg" />-->
+                <Image url="@Images/beamingblush.jpg" />
             </image></ImageView>
-        <Button id="editbtn" fx:id="editbtn" layoutX="170.0" layoutY="419.0" mnemonicParsing="false" onAction="#edit" text="edit" AnchorPane.leftAnchor="170.0" />
-        <TextField id="txt" fx:id="txt" layoutX="14.0" layoutY="240.0" prefWidth="100.0" text="flower name" AnchorPane.rightAnchor="226.0" />
-        <Button id="addbtn" fx:id="addbtn" layoutX="233.0" layoutY="419.0" mnemonicParsing="false" onAction="#addBtn" text="add to cart" />
-        <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnbtn" prefHeight="26.0" prefWidth="60.0" text="return " />
-        <TextField id="descriptiontxt" fx:id="descriptiontxt" layoutX="145.0" layoutY="72.0" prefHeight="150.0" prefWidth="178.0" text="flower description and type" />
-        <TextField id="pricetxt" fx:id="pricetxt" layoutX="14.0" layoutY="282.0" prefHeight="26.0" prefWidth="100.0" text="price" />
+        <Button id="editbtn" fx:id="editbtn" layoutX="235.0" layoutY="401.0" mnemonicParsing="false" onAction="#edit" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: linear-gradient(#f0ff35, #a9ff00),        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: black; -fx-font-size: 15px; -fx-font-weight: bold;" text="edit" />
+        <TextField id="txt" fx:id="txt" layoutX="159.0" layoutY="104.0" prefHeight="28.0" prefWidth="174.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="flower name" />
+        <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnbtn" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: linear-gradient(#f0ff35, #a9ff00),        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: black; -fx-font-size: 15px; -fx-font-weight: bold;" text="return " />
+        <TextField id="pricetxt" fx:id="pricetxt" layoutX="221.0" layoutY="175.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="price" />
+      <TextField layoutX="260.0" layoutY="175.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="\$" />
+      <TextArea id="descriptiontxt" fx:id="descriptiontxt" layoutX="13.0" layoutY="229.0" prefHeight="152.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 14px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2;" />
+      <TextField layoutX="159.0" layoutY="175.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold;" text="price: " />
 
     </children>
 </AnchorPane>

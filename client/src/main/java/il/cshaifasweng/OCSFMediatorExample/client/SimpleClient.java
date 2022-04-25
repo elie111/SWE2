@@ -58,6 +58,7 @@ public class SimpleClient extends AbstractClient {
 			f.setName((String) arrarr.get(i).get(0));
 			f.setType((String) arrarr.get(i).get(6));
 			f.setSale((Boolean) arrarr.get(i).get(3));
+			f.setImageurl((String) arrarr.get(i).get(7));
 			arr.add(f);
 
 		}

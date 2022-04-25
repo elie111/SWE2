@@ -12,6 +12,7 @@ public class Flower {
     private String name;
     private String type;
     private int discount;
+    private String imageurl;
     private double price;
     private String color;
     private Boolean sale;
@@ -19,6 +20,18 @@ public class Flower {
     private Catalog catalog;
 
     public Flower() {
+        this.imageurl="Images/lile.jpg" ;//defualt image
+        this.sale=false;
+        this.color="red";
+    }
+
+    public String getImageurl() {
+        return imageurl;
+
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public Flower(String name, String type, double price) {
@@ -27,7 +40,9 @@ public class Flower {
         this.type = type;
 
         this.price = price;
-
+        this.imageurl="Images/lile.jpg" ;//defualt image
+        this.sale=false;
+        this.color="red";
 
     }
 

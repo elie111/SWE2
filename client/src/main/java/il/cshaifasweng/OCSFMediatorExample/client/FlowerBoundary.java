@@ -22,14 +22,14 @@ public class FlowerBoundary {
     @FXML
     private AnchorPane Item;
 
-    @FXML
-    private Button addbtn;
 
     @FXML
     private Button editbtn;
 
     @FXML
-    private ImageView img;
+    private ImageView flowerImg;
+
+    private String imageUrl;
 
     @FXML
     private Button returnbtn;
@@ -37,7 +37,7 @@ public class FlowerBoundary {
     @FXML
     private TextField txt;
     @FXML
-    private TextField descriptiontxt;
+    private TextArea descriptiontxt;
     @FXML
     private TextField pricetxt;
     Flower flower=new Flower();
@@ -51,33 +51,23 @@ public class FlowerBoundary {
         flower=CatalogBoundary.getCurrentflower();
         txt.setText(flower.getName());
         descriptiontxt.setText(flower.getType());
-        pricetxt.setText((flower.getPrice())+"$");
+        pricetxt.setText((flower.getPrice())+"");
         txt.setEditable(false);
+        descriptiontxt.setWrapText(true);
+
         descriptiontxt.setEditable(false);
         pricetxt.setEditable(false);
+        flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
         // txt.setText(itemstr[0]);
         // img=new ImageView(new Image("target/image1.png"));
 
     }
-    @FXML
-    void addBtn(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("");
-        alert.setHeaderText("Do you want to this Item to your cart?");
-        alert.setContentText("");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            // ... user chose OK
-        } else {
-            // ... user chose CANCEL or closed the dialog
-        }
-    }
+
     @FXML
     void edit(ActionEvent event) throws IOException {
         if(editbtn.getText().equals("edit")) {
-            txt.setEditable(true);
-            descriptiontxt.setEditable(true);
+
             pricetxt.setEditable(true);
             editbtn.setText("done");
 
@@ -85,16 +75,16 @@ public class FlowerBoundary {
         else{
 
 
-            txt.setEditable(false);
-            descriptiontxt.setEditable(false);
+
             pricetxt.setEditable(false);
             editbtn.setText("edit");
-            flower.setPrice(Integer.parseInt(pricetxt.getText().toString()));
+            flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
             ArrayList<Object> arr=new ArrayList<>();
             arr.add("#updateflower");
             arr.add(flower.getId());
             arr.add(flower.getPrice());
-            arr.add( flower.getSale());
+            arr.add( flower.getDiscount());
+
             App.getClient().sendToServer(arr);
 
         }
