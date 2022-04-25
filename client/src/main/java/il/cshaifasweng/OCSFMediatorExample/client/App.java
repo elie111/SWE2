@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,16 +21,29 @@ import org.greenrobot.eventbus.Subscribe;
 public class App extends Application {
 
     private static Scene scene;
-    private SimpleClient client;
+    private static SimpleClient client;
+
+    public static SimpleClient getClient() {
+        return client;
+    }
+
+    public void setClient(SimpleClient client) {
+        this.client = client;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        ArrayList<Object> arr=new ArrayList<>();
+        arr.add("#getcatalog");
+        client.sendToServer(arr);
+
+        scene = new Scene(loadFXML("catalogboundary"), 340, 480);
         stage.setScene(scene);
         stage.show();
+
     }
 
     static void setRoot(String fxml) throws IOException {
