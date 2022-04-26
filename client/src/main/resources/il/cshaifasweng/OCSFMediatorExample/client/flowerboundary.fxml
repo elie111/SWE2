@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,13 +13,13 @@
             <image>
                 <Image url="@Images/beamingblush.jpg" />
             </image></ImageView>
-        <Button id="editbtn" fx:id="editbtn" layoutX="235.0" layoutY="401.0" mnemonicParsing="false" onAction="#edit" prefHeight="35.0" prefWidth="75.0" style="-fx-background-color: linear-gradient(#f0ff35, #a9ff00),        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: black; -fx-font-size: 15px; -fx-font-weight: bold;" text="edit" />
-        <TextField id="txt" fx:id="txt" layoutX="159.0" layoutY="104.0" prefHeight="28.0" prefWidth="174.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="flower name" />
-        <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnbtn" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: linear-gradient(#f0ff35, #a9ff00),        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: black; -fx-font-size: 15px; -fx-font-weight: bold;" text="return " />
-        <TextField id="pricetxt" fx:id="pricetxt" layoutX="221.0" layoutY="175.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="price" />
-      <TextField layoutX="260.0" layoutY="175.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px;" text="\$" />
-      <TextArea id="descriptiontxt" fx:id="descriptiontxt" layoutX="13.0" layoutY="229.0" prefHeight="152.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 14px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2;" />
-      <TextField layoutX="159.0" layoutY="175.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold;" text="price: " />
+        <Button id="editbtn" fx:id="editbtn" layoutX="221.0" layoutY="409.0" mnemonicParsing="false" onAction="#edit" prefHeight="35.0" prefWidth="103.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Update" />
+        <TextField id="txt" fx:id="txt" layoutX="159.0" layoutY="104.0" prefHeight="28.0" prefWidth="174.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="flower name" />
+        <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnbtn" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="return " />
+        <TextField id="pricetxt" fx:id="pricetxt" layoutX="221.0" layoutY="175.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="price" />
+      <TextField editable="false" layoutX="260.0" layoutY="175.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="\$" />
+      <Label id="descriptiontxt" fx:id="descriptiontxt" layoutX="13.0" layoutY="229.0" prefHeight="152.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 16px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2; -fx-font-weight: bold; -fx-font-style: italic;" />
+      <TextField layoutX="159.0" layoutY="175.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-style: italic;" text="price: " />
 
     </children>
 </AnchorPane>

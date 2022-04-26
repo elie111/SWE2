@@ -37,7 +37,7 @@ public class FlowerBoundary {
     @FXML
     private TextField txt;
     @FXML
-    private TextArea descriptiontxt;
+    private Label descriptiontxt;
     @FXML
     private TextField pricetxt;
     Flower flower=new Flower();
@@ -50,12 +50,13 @@ public class FlowerBoundary {
     void initialize(){
         flower=CatalogBoundary.getCurrentflower();
         txt.setText(flower.getName());
+      //  descriptiontxt.setStyle("-fx-background-color: transparent;-fx-fill: black;-fx-font-weight: bold;");
         descriptiontxt.setText(flower.getType());
         pricetxt.setText((flower.getPrice())+"");
         txt.setEditable(false);
         descriptiontxt.setWrapText(true);
 
-        descriptiontxt.setEditable(false);
+       // descriptiontxt.setEditable(false);
         pricetxt.setEditable(false);
         flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
         // txt.setText(itemstr[0]);
@@ -66,18 +67,21 @@ public class FlowerBoundary {
 
     @FXML
     void edit(ActionEvent event) throws IOException {
-        if(editbtn.getText().equals("edit")) {
+        if(editbtn.getText().equals("Update")) {
 
             pricetxt.setEditable(true);
             editbtn.setText("done");
+            pricetxt .setStyle("-fx-background-color: white;");
+
 
         }
         else{
 
+            pricetxt .setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
 
 
             pricetxt.setEditable(false);
-            editbtn.setText("edit");
+            editbtn.setText("Update");
             flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
             ArrayList<Object> arr=new ArrayList<>();
             arr.add("#updateflower");
