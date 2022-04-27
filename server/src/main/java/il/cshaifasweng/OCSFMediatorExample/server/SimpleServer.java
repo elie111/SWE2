@@ -31,21 +31,7 @@ public class SimpleServer extends AbstractServer {
 	private static FlowerController flowerController;
 	private static CatalogController catalogController;
 	static Scanner  sc=new Scanner(System.in);
-	private static SessionFactory getSessionFactory() throws HibernateException {
 
-		Configuration configuration = new Configuration();
-		// Add ALL of your entities here. You can also try adding a whole package.
-		configuration.addAnnotatedClass(Catalog.class);
-		configuration.addAnnotatedClass(Flower.class);
-
-
-
-		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties())
-				.build();
-
-		return configuration.buildSessionFactory(serviceRegistry);
-	}
 
 	public SimpleServer(int port) {
 		super(port);
@@ -55,11 +41,14 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException,Exception {
 
 		ArrayList<Object> arr=new ArrayList<>();
+
 		try
 		{
 		 //sessionFactory = getSessionFactory();
-		 session = sessionFactory.openSession();
+		 session = App.getSession().openSession();
 		 session.beginTransaction();
+			FlowerController flowerController=new FlowerController(session);
+			CatalogController catalogController=new CatalogController(session);
 		 flowerController.setSession(session);
 		 catalogController.setSession(session);
 
@@ -156,80 +145,14 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	public static void main(String[] args) throws IOException,Exception {
-
-		try {
-
-			sessionFactory = getSessionFactory();
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			flowerController=new FlowerController(session);
-			catalogController=new CatalogController(session);
-
-			List<Flower> flowerslst = new ArrayList<Flower>();
-
-
-
-			Flower floweritem=new Flower("Infinite Happiness","Lile",120);
-			floweritem.setImageurl("Images/lile.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Rosy Smile","Rose",350);
-			floweritem.setImageurl("Images/smileyroses.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Inmarcesible Passion","Red Rose",198);
-			floweritem.setImageurl("Images/inmarcible.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Beaming Blush","roses, lilies and matthiola ",45);
-			floweritem.setImageurl("Images/beamingblush.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Wild Cherry","Rose",150);
-			floweritem.setImageurl("Images/wildcherry.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Velvety Burgundy","Rose",60);
-			floweritem.setImageurl("Images/velvet.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Soulful Yellow","yellow flowers and roses",65);
-			floweritem.setImageurl("Images/yellow.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Roseate Charm","combination of hydrangeas, chrysanthemums, amaryllis, and roses",160);
-			floweritem.setImageurl("Images/roseat.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Ignited Passion","fiery roses",120);
-			floweritem.setImageurl("Images/ignited.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-			floweritem=new Flower("Dreamy Pink","pink hyacinths",95);
-			floweritem.setImageurl("Images/dreamypink.jpg");
-			flowerslst.add(floweritem);
-			session.save(floweritem);
-
-				session.flush();
-
-			session.getTransaction().commit();
-
-			if (args.length != 1) {
-				System.out.println("Required argument: <port>");
-			} else {
-				SimpleServer server = new SimpleServer(Integer.parseInt(args[0]));
-				server.listen();
-			}
-		} catch (Exception exception) {
-			if (session != null) {
-				session.getTransaction().rollback();
-
-			}
-			System.err.println("An error occured, changes have been rolled back.");
-			exception.printStackTrace();
-		} finally {
-
-			session.close();
+		if (args.length != 1) {
+			System.out.println("Required argument: <port>");
+		} else {
+			System.out.println("please enter the port number: ");
+			SimpleServer server = new SimpleServer(sc.nextInt());
+			server.listen();
 		}
 	}
+
+
 }

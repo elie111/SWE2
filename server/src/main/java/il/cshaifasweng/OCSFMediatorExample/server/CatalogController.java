@@ -28,6 +28,9 @@ public class CatalogController {
         this.session = session;
     }
 
+    public CatalogController() {
+    }
+
     public  <T> List<T> getAllData(Class<T> c) throws Exception {
 
         CriteriaBuilder builder = session.getCriteriaBuilder();

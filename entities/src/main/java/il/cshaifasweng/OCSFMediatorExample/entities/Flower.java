@@ -30,6 +30,14 @@ public class Flower {
 
     }
 
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }

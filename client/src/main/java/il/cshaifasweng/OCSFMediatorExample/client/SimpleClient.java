@@ -6,21 +6,24 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class SimpleClient extends AbstractClient {
 	private static final Logger LOGGER =
 			Logger.getLogger(SimpleClient.class.getName());
+	static Scanner sc=new Scanner(System.in);
 
-	private ClientCLI ClientCLI;
+
 	private static SimpleClient client = null;
 	public SimpleClient(String host, int port) {
 		super(host, port);
-		this.ClientCLI = new ClientCLI(this);
+
 	}
 	public static SimpleClient getClient() {
 		if (client == null) {
-			client = new SimpleClient("localhost", 3000);
+			System.out.println("please enter the IP address and then the port number: ");
+			client = new SimpleClient(sc.next(), sc.nextInt());
 		}
 		return client;
 	}
@@ -30,11 +33,6 @@ public class SimpleClient extends AbstractClient {
 		super.connectionEstablished();
 		LOGGER.info("Connected to server.");
 
-		try {
-			ClientCLI.loop();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -73,7 +71,7 @@ public class SimpleClient extends AbstractClient {
 	protected void connectionClosed() {
 		// TODO Auto-generated method stub
 		super.connectionClosed();
-		ClientCLI.closeConnection();
+
 	}
 
 	public static void main(String[] args) throws IOException {

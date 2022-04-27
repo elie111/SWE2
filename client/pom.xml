@@ -56,6 +56,18 @@
 			<version>${javafx.version}</version>
 			<classifier>win</classifier>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.openjfx</groupId>-->
+<!--			<artifactId>javafx-graphics</artifactId>-->
+<!--			<version>14</version>-->
+<!--			<classifier>linux</classifier>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.openjfx</groupId>-->
+<!--			<artifactId>javafx-graphics</artifactId>-->
+<!--			<version>14</version>-->
+<!--			<classifier>mac</classifier>-->
+<!--		</dependency>-->
 
 
 		<dependency>
@@ -102,7 +114,23 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>13</release>
+				</configuration>
+			</plugin>
 
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
 </project>
