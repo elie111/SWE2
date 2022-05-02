@@ -15,11 +15,8 @@ import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-/**
- * JavaFX App
- */
+/** JavaFX App */
 public class App extends Application {
-
     private static Scene scene;
     private static SimpleClient client;
 
@@ -36,14 +33,13 @@ public class App extends Application {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        ArrayList<Object> arr=new ArrayList<>();
+        ArrayList<Object> arr = new ArrayList<>();
         arr.add("#getcatalog");
         client.sendToServer(arr);
 
         scene = new Scene(loadFXML("catalogboundary"), 340, 480);
         stage.setScene(scene);
         stage.show();
-
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -54,8 +50,6 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-    
-    
 
     @Override
 	public void stop() throws Exception {
@@ -74,11 +68,9 @@ public class App extends Application {
         	);
         	alert.show();
     	});
-    	
     }
 
 	public static void main(String[] args) {
         launch();
     }
-
 }

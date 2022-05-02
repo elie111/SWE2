@@ -21,7 +21,7 @@ public class CatalogController {
     private Session session;
 
     public CatalogController(Session session) {
-        this.session=session;
+        this.session = session;
     }
 
     public void setSession(Session session) {
@@ -31,25 +31,18 @@ public class CatalogController {
     public CatalogController() {
     }
 
-    public  <T> List<T> getAllData(Class<T> c) throws Exception {
-
+    public <T> List<T> getAllData(Class<T> c) throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
         Root<T> rootEntry = criteriaQuery.from(c);
         CriteriaQuery<T> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
-
-
-
     }
-
 
     public List<Flower>getFlowers(int id) throws Exception {
         List<Flower> flowers = (getAllData(Catalog.class)).get(0).getFlowers();//if we added more than one catalog we
         //should look for the catalog with id=id
         return  flowers;
-
     }
-
 }

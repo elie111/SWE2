@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class PrimaryController {
-
     @FXML
     void sendWarning(ActionEvent event) {
     	try {
@@ -16,5 +15,4 @@ public class PrimaryController {
 			e.printStackTrace();
 		}
     }
-
 }

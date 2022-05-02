@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -20,14 +19,13 @@ public class Flower {
     private Catalog catalog;
 
     public Flower() {
-        this.imageurl="Images/lile.jpg" ;//defualt image
-        this.sale=false;
-        this.color="red";
+        this.imageurl = "Images/lile.jpg" ;//defualt image
+        this.sale = false;
+        this.color = "red";
     }
 
     public String getImageurl() {
         return imageurl;
-
     }
 
     public Catalog getCatalog() {
@@ -48,10 +46,9 @@ public class Flower {
         this.type = type;
 
         this.price = price;
-        this.imageurl="Images/lile.jpg" ;//defualt image
-        this.sale=false;
-        this.color="red";
-
+        this.imageurl = "Images/lile.jpg" ;//defualt image
+        this.sale = false;
+        this.color = "red";
     }
 
     public int getId() {
