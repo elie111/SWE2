@@ -10,10 +10,10 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.LoginController">
    <children>
       <Text fill="#d91616" layoutX="216.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Sign in" />
-      <Label layoutX="140.0" layoutY="172.0" text="UserName:" />
+      <Label layoutX="140.0" layoutY="172.0" text="Email" />
       <Label layoutX="140.0" layoutY="211.0" text="Password:" />
-      <TextField fx:id="username" layoutX="289.0" layoutY="168.0" onKeyReleased="#keyReleasedPropert" />
-      <PasswordField fx:id="password" layoutX="289.0" layoutY="207.0" onKeyReleased="#keyReleasedPropert"/>
+      <TextField fx:id="email" layoutX="289.0" layoutY="168.0" onKeyReleased="#keyReleasedPropert" />
+      <PasswordField fx:id="password" layoutX="289.0" layoutY="207.0" onKeyReleased="#keyReleasedPropert" />
       <Button fx:id="loginBtn" layoutX="263.0" layoutY="291.0" mnemonicParsing="false" onAction="#onClick" text="login" />
    </children>
 </AnchorPane>

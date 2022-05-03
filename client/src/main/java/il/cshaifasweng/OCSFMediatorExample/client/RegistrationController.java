@@ -82,7 +82,6 @@ public class RegistrationController implements Initializable {
             if(newV.equals("Store Account")){
                 Lstore.setVisible(true);
                 Cstore.setVisible(true);
-
             }
             else{
                 Lstore.setVisible(false);
@@ -113,6 +112,9 @@ public class RegistrationController implements Initializable {
                 store = Cstore.getSelectionModel().getSelectedItem();
             }
         }
+        else{
+            store = null;
+        }
 
         // 0 = name, 1 = ID, 2 = email, 3 = phone, 4 = credit, 5 = cvv, 6 = password
         boolean[] answers = new boolean[8];
@@ -126,7 +128,7 @@ public class RegistrationController implements Initializable {
         answers[7] = checkMonthYear(vMonth, vYear);
 
         int counter = 0;
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 8; i++){
             if(!answers[i]){
                 counter++;
             }
@@ -144,6 +146,9 @@ public class RegistrationController implements Initializable {
 
     public boolean checkName(String name){
         if(name == null){
+            return false;
+        }
+        if(name.trim().isEmpty()){
             return false;
         }
 
@@ -199,7 +204,7 @@ public class RegistrationController implements Initializable {
         }
         else{
             begin = Email.substring(0, index);
-            if(begin  == null){
+            if(begin  == null || begin.trim().isEmpty()){
                 return false;
             }
             end = Email.substring(index + 1, Email.length());
@@ -322,6 +327,9 @@ public class RegistrationController implements Initializable {
         LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
         LocalDate myDate = LocalDate.parse(monthAndYear, formatter);
 
+//        System.out.println(today);
+//        System.out.println(myDate);
+
         if(myDate.isBefore(today)) {
             return false;
         }
@@ -333,10 +341,23 @@ public class RegistrationController implements Initializable {
     public void addNewUser(String name, String id, String email, String phone, String credit, String month,
                            String year, String cvv, String password, String account, String storeOrNull) throws IOException {
         String monthAndYear = month + "/" + year;
-        User user = new User(name, id, email, phone, credit, monthAndYear, cvv, password, account, storeOrNull);
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#register");
-        arr.add(user);
+        arr.add(name);
+        arr.add(id);
+        arr.add(email);
+        arr.add(phone);
+        arr.add(credit);
+        arr.add(monthAndYear);
+        arr.add(cvv);
+        arr.add(password);
+        arr.add(account);
+        if(storeOrNull == null){
+            arr.add("");
+        }
+        else{
+            arr.add(storeOrNull);
+        }
 
         App.getClient().sendToServer(arr);
     }

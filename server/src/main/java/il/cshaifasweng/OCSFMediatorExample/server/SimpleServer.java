@@ -29,6 +29,7 @@ public class SimpleServer extends AbstractServer {
 	private static SessionFactory sessionFactory;
 	private static FlowerController flowerController;
 	private static CatalogController catalogController;
+	private static UserController userController;
 	static Scanner sc = new Scanner(System.in);
 
 	public SimpleServer(int port) {
@@ -65,6 +66,7 @@ public class SimpleServer extends AbstractServer {
 
 			if((arr.get(0)).equals("#getcatalog")){
 				List<Flower> lst = flowerController.getAllData(Flower.class);
+				ArrayList<Object> answers = new ArrayList<>();
 				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
 
 				// 1 for name, 2 for id, 3 for price, 4 for sale
@@ -80,16 +82,50 @@ public class SimpleServer extends AbstractServer {
 					(newarr.get(i)).add(lst.get(i).getType());
 					(newarr.get(i)).add(lst.get(i).getImageurl());
 				}
+				answers.add("#getcatalog");
+				newarr.add(answers);
 
 				sendToAllClients(newarr);
 				//if we added more than one catalog we must change 1
 			}
 
 			if((arr.get(0)).equals("#register")){
-				userController.addUser((User)arr.get(1));
-				System.out.println("a");
+				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
+									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
+									 (String)arr.get(10));
+				userController.addUser(user);
 				session.getTransaction().commit();
-				System.out.println("b");
+			}
+
+			if((arr.get(0)).equals("#loginUser")){
+				List<User> lst = userController.getAllData(User.class);
+				ArrayList<Object> answers = new ArrayList<>();
+				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
+
+				String eMail = "", password = "";
+				String myMail = (String)arr.get(1);
+				String myPassword = (String)arr.get(2);
+
+				for(int i = 0; i < lst.size(); i++){
+					eMail = lst.get(i).getEmail();
+					if(eMail.equals(myMail)){
+						password = lst.get(i).getPassword();
+						if(password.equals(myPassword)){
+							answers.add("#connectUser");
+							answers.add(true);
+							answers.add(lst.get(i));
+							newarr.add(answers);
+						}
+					}
+					else{
+						answers.add("#connectUser");
+						answers.add(false);
+						newarr.add(answers);
+					}
+				}
+
+				client.sendToClient(newarr);
 			}
 		}
 		catch (Exception exception) {

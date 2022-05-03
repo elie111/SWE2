@@ -1,5 +1,6 @@
-package org.example;
+package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -18,40 +19,37 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController {
-
-    @FXML private TextField username;
+    @FXML private TextField email;
     @FXML private PasswordField password;
-
     @FXML private Button loginBtn;
 
-
     public void initialize() {
-
         loginBtn.setDisable(true);
     }
 
+    public void onClick() throws IOException {
+        // user put username and password that are not only spaces or null
+        String un = email.getText();
+        String up = password.getText();
 
-   public void onClick(){
-        //user put username and password that are not only spaces or null
-       String un = username.getText();
-       String up = password.getText();
+        // write to database
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#loginUser");
+        arr.add(un);
+        arr.add(up);
+        App.getClient().sendToServer(arr);
+    }
 
-       //write to database
-       ArrayList<Object> arr = new ArrayList<>();
-       arr.add("#loginUser");
-       arr.add(un);
-       arr.add(up);
-       //App.getClient().sendToServer(arr);
+    public void keyReleasedPropert(){
+        // disable signIn button while user name or password is empty or spaces
+        String un = email.getText();
+        String up = password.getText();
+        // check if user put input and that the input isn't spaces
+        boolean isDisable = (un.isEmpty() || un.trim().isEmpty()) || (up.isEmpty() || up.trim().isEmpty());
+        loginBtn.setDisable(isDisable);
+    }
 
-   }
+    public void showMessage(boolean answer, User user){
 
-   public void keyReleasedPropert(){
-        //disable signIn button while user name or password is empty or spaces
-       String un = username.getText();
-       String up = password.getText();
-       //check if user put input and that the input isnt spaces
-       boolean isDisable = (un.isEmpty() || un.trim().isEmpty()) || (up.isEmpty() || up.trim().isEmpty());
-       loginBtn.setDisable(isDisable);
-   }
-
+    }
 }

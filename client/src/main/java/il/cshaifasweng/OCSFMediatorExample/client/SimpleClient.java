@@ -43,20 +43,29 @@ public class SimpleClient extends AbstractClient {
 		ArrayList<ArrayList<Object>> arrarr = new ArrayList<ArrayList<Object>>();
 		arrarr = (ArrayList<ArrayList<Object>>)(msg);
 
-		for(int i = 0; i < arrarr.size(); i++) {
-			//go over all the flowers
-			Flower f = new Flower();
-			f.setId((int)arrarr.get(i).get(1));
-			f.setPrice((double)arrarr.get(i).get(2));
-			f.setColor((String) arrarr.get(i).get(5));
-			f.setDiscount((int)arrarr.get(i).get(4));
-			f.setName((String) arrarr.get(i).get(0));
-			f.setType((String) arrarr.get(i).get(6));
-			f.setSale((Boolean) arrarr.get(i).get(3));
-			f.setImageurl((String) arrarr.get(i).get(7));
-			arr.add(f);
+		String answer = (String)arrarr.get(arrarr.size() - 1).get(0);
+
+		if(answer.equals("#getcatalog")){
+			for(int i = 0; i < arrarr.size(); i++) {
+				//go over all the flowers
+				Flower f = new Flower();
+				f.setId((int)arrarr.get(i).get(1));
+				f.setPrice((double)arrarr.get(i).get(2));
+				f.setColor((String) arrarr.get(i).get(5));
+				f.setDiscount((int)arrarr.get(i).get(4));
+				f.setName((String) arrarr.get(i).get(0));
+				f.setType((String) arrarr.get(i).get(6));
+				f.setSale((Boolean) arrarr.get(i).get(3));
+				f.setImageurl((String) arrarr.get(i).get(7));
+				arr.add(f);
+			}
+			CatalogBoundary.setFlowers(arr);
 		}
-        CatalogBoundary.setFlowers(arr);
+
+		if(answer.equals("#connectUser")){
+			// complete
+		}
+
 	}
 
 	@Override
