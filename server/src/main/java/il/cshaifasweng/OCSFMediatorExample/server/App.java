@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,7 @@ public class App {
     private static FlowerController flowerController;
     private static CatalogController catalogController;
     static Scanner sc = new Scanner(System.in);
+    private static UserController userController;
 
     public static SessionFactory getSession(){
         return sessionFactory;
@@ -32,6 +34,7 @@ public class App {
         // Add ALL of your entities here. You can also try adding a whole package.
         configuration.addAnnotatedClass(Catalog.class);
         configuration.addAnnotatedClass(Flower.class);
+        configuration.addAnnotatedClass(User.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
@@ -50,6 +53,7 @@ public class App {
             session.beginTransaction();
             flowerController = new FlowerController(session);
             catalogController = new CatalogController(session);
+            userController = new UserController(session);
 
             List<Flower> flowerslst = new ArrayList<Flower>();
             Catalog catalog = new Catalog();

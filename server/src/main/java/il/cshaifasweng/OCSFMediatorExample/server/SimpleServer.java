@@ -8,6 +8,7 @@ import java.util.concurrent.Flow;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import org.hibernate.HibernateException;
@@ -43,6 +44,7 @@ public class SimpleServer extends AbstractServer {
 		 	session.beginTransaction();
 			FlowerController flowerController = new FlowerController(session);
 			CatalogController catalogController = new CatalogController(session);
+			UserController userController = new UserController(session);
 			flowerController.setSession(session);
 			catalogController.setSession(session);
 
@@ -82,8 +84,14 @@ public class SimpleServer extends AbstractServer {
 				sendToAllClients(newarr);
 				//if we added more than one catalog we must change 1
 			}
-		}
 
+			if((arr.get(0)).equals("#register")){
+				userController.addUser((User)arr.get(1));
+				System.out.println("a");
+				session.getTransaction().commit();
+				System.out.println("b");
+			}
+		}
 		catch (Exception exception) {
 			if (session != null) {
 				session.getTransaction().rollback();

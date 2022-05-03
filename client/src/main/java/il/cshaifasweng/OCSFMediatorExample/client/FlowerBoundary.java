@@ -57,10 +57,10 @@ public class FlowerBoundary {
         if(editbtn.getText().equals("Update")) {
             pricetxt.setEditable(true);
             editbtn.setText("done");
-            pricetxt .setStyle("-fx-background-color: white;");
+            pricetxt.setStyle("-fx-background-color: white;");
         }
         else {
-            pricetxt .setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
+            pricetxt.setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
             pricetxt.setEditable(false);
             editbtn.setText("Update");
             flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
@@ -68,7 +68,7 @@ public class FlowerBoundary {
             arr.add("#updateflower");
             arr.add(flower.getId());
             arr.add(flower.getPrice());
-            arr.add( flower.getDiscount());
+            arr.add(flower.getDiscount());
 
             App.getClient().sendToServer(arr);
         }
