@@ -18,9 +18,7 @@ public class Catalog {
         this.flowers = new ArrayList<Flower>();
     }
 
-    public Catalog() {
-
-    }
+    public Catalog() {}
 
     public List<Flower> getFlowers() {
         return flowers;

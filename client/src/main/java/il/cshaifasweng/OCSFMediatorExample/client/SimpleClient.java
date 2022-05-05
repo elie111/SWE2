@@ -34,19 +34,14 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
-		newarr = (ArrayList<ArrayList<Object>>)msg;
-
 		ArrayList<Flower> arr = new ArrayList<>();
-		// right now we only need the caralog from the server if we changed that
-		// then we need to also get #getcatalog from the server
 		ArrayList<ArrayList<Object>> arrarr = new ArrayList<ArrayList<Object>>();
 		arrarr = (ArrayList<ArrayList<Object>>)(msg);
 
 		String answer = (String)arrarr.get(arrarr.size() - 1).get(0);
 
-		if(answer.equals("#getcatalog")){
-			for(int i = 0; i < arrarr.size(); i++) {
+		if(answer.equals("#getcatalog")) {
+			for(int i = 0; i < arrarr.size() - 1; i++) {
 				//go over all the flowers
 				Flower f = new Flower();
 				f.setId((int)arrarr.get(i).get(1));
@@ -62,10 +57,9 @@ public class SimpleClient extends AbstractClient {
 			CatalogBoundary.setFlowers(arr);
 		}
 
-		if(answer.equals("#connectUser")){
+		if(answer.equals("#connectUser")) {
 			// complete
 		}
-
 	}
 
 	@Override

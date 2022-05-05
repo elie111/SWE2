@@ -1,17 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,8 +13,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CatalogBoundary implements Initializable {
-    @FXML
-    private ListView<String> myListView;
+    @FXML private ListView<String> myListView;
     private static String currentString;
     private static ArrayList<Flower> flowers = new ArrayList<Flower>();
     private static Flower currentflower;
@@ -54,7 +47,7 @@ public class CatalogBoundary implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 int currentid = myListView.getSelectionModel().getSelectedIndex();
-                for(int i = 0; i < 10; i++){
+                for(int i = 0; i < 10; i++) {
                     if(flowers.get(i).getId() == (currentid + 1)) {
                         currentflower = flowers.get(i);
                         break;

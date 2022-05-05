@@ -1,33 +1,26 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
-import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import javax.security.auth.RefreshFailedException;
-import javax.security.auth.Refreshable;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class LoginController {
     @FXML private TextField email;
     @FXML private PasswordField password;
     @FXML private Button loginBtn;
+    @FXML private Button backBtn;
 
     public void initialize() {
         loginBtn.setDisable(true);
     }
 
-    public void onClick() throws IOException {
+    public void onClick(ActionEvent event) throws IOException {
         // user put username and password that are not only spaces or null
         String un = email.getText();
         String up = password.getText();
@@ -40,7 +33,7 @@ public class LoginController {
         App.getClient().sendToServer(arr);
     }
 
-    public void keyReleasedPropert(){
+    public void keyReleasedPropert() {
         // disable signIn button while user name or password is empty or spaces
         String un = email.getText();
         String up = password.getText();
@@ -49,7 +42,11 @@ public class LoginController {
         loginBtn.setDisable(isDisable);
     }
 
-    public void showMessage(boolean answer, User user){
+    public void showMessage(boolean answer, User user) {
 
+    }
+
+    public void backButton(ActionEvent event) throws IOException {
+        App.setRoot("loginOrsignupBoundary");
     }
 }

@@ -1,22 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
-import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.concurrent.Flow;
 
 public class FlowerController {
     private Session session;
@@ -74,7 +65,5 @@ public class FlowerController {
         session.flush();
     }
 
-    public FlowerController() {
-
-    }
+    public FlowerController() {}
 }

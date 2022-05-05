@@ -2,14 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
-import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -41,8 +34,8 @@ public class CatalogController {
     }
 
     public List<Flower>getFlowers(int id) throws Exception {
-        List<Flower> flowers = (getAllData(Catalog.class)).get(0).getFlowers();//if we added more than one catalog we
-        //should look for the catalog with id=id
+        // if we added more than one catalog we should look for the catalog with id = id
+        List<Flower> flowers = (getAllData(Catalog.class)).get(0).getFlowers();
         return  flowers;
     }
 }

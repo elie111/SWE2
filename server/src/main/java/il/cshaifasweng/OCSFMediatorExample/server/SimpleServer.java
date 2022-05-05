@@ -1,28 +1,20 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.Flow;
-
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
-import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class SimpleServer extends AbstractServer {
 	private static Session session;
@@ -64,11 +56,10 @@ public class SimpleServer extends AbstractServer {
 				session.getTransaction().commit();
 			}
 
-			if((arr.get(0)).equals("#getcatalog")){
+			if((arr.get(0)).equals("#getcatalog")) {
 				List<Flower> lst = flowerController.getAllData(Flower.class);
 				ArrayList<Object> answers = new ArrayList<>();
 				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
-
 				// 1 for name, 2 for id, 3 for price, 4 for sale
 				// 5 for discount, 6 for color, 7 for type, 8 for image url
 				for(int i = 0; i < lst.size(); i++) {
@@ -84,12 +75,11 @@ public class SimpleServer extends AbstractServer {
 				}
 				answers.add("#getcatalog");
 				newarr.add(answers);
-
-				sendToAllClients(newarr);
 				//if we added more than one catalog we must change 1
+				sendToAllClients(newarr);
 			}
 
-			if((arr.get(0)).equals("#register")){
+			if((arr.get(0)).equals("#register")) {
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
 									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
 									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
@@ -98,7 +88,7 @@ public class SimpleServer extends AbstractServer {
 				session.getTransaction().commit();
 			}
 
-			if((arr.get(0)).equals("#loginUser")){
+			if((arr.get(0)).equals("#loginUser")) {
 				List<User> lst = userController.getAllData(User.class);
 				ArrayList<Object> answers = new ArrayList<>();
 				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
@@ -107,18 +97,18 @@ public class SimpleServer extends AbstractServer {
 				String myMail = (String)arr.get(1);
 				String myPassword = (String)arr.get(2);
 
-				for(int i = 0; i < lst.size(); i++){
+				for(int i = 0; i < lst.size(); i++) {
 					eMail = lst.get(i).getEmail();
-					if(eMail.equals(myMail)){
+					if(eMail.equals(myMail)) {
 						password = lst.get(i).getPassword();
-						if(password.equals(myPassword)){
+						if(password.equals(myPassword)) {
 							answers.add("#connectUser");
 							answers.add(true);
 							answers.add(lst.get(i));
 							newarr.add(answers);
 						}
 					}
-					else{
+					else {
 						answers.add("#connectUser");
 						answers.add(false);
 						newarr.add(answers);

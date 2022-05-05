@@ -25,7 +25,7 @@ public class App {
     static Scanner sc = new Scanner(System.in);
     private static UserController userController;
 
-    public static SessionFactory getSession(){
+    public static SessionFactory getSession() {
         return sessionFactory;
     }
 
@@ -43,7 +43,7 @@ public class App {
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main(String[] args) throws IOException {
         System.out.println("please enter the port number: ");
         server = new SimpleServer(sc.nextInt());
         server.listen();
@@ -116,9 +116,9 @@ public class App {
             floweritem.setImageurl("Images/dreamypink.jpg");
             floweritem.setCatalog(catalog);
             flowerslst.add(floweritem);
+            session.save(floweritem);
 
             catalog.setFlowers(flowerslst);
-            session.save(floweritem);
             session.save(catalog);
 
             session.flush();

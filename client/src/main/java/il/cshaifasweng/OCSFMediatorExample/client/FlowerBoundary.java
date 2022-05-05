@@ -3,37 +3,28 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class FlowerBoundary {
-    @FXML
-    private AnchorPane Item;
-    @FXML
-    private Button editbtn;
-    @FXML
-    private ImageView flowerImg;
+    @FXML private AnchorPane Item;
+    @FXML private Button editbtn;
+    @FXML private ImageView flowerImg;
 
     private String imageUrl;
 
-    @FXML
-    private Button returnbtn;
-    @FXML
-    private TextField txt;
-    @FXML
-    private Label descriptiontxt;
-    @FXML
-    private TextField pricetxt;
-    Flower flower=new Flower();
-
-    // private String[] itemstr={"flower 1","flower 2","flower 3","flower 4","flower 5","flower 6"};
+    @FXML private Button returnbtn;
+    @FXML private TextField txt;
+    @FXML private Label descriptiontxt;
+    @FXML private TextField pricetxt;
+    Flower flower = new Flower();
 
     @FXML
     void initialize() {
@@ -49,7 +40,7 @@ public class FlowerBoundary {
         pricetxt.setEditable(false);
         flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
         // txt.setText(itemstr[0]);
-        // img=new ImageView(new Image("target/image1.png"));
+        // img = new ImageView(new Image("target/image1.png"));
     }
 
     @FXML
