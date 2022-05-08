@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.server;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.Order;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,6 +27,7 @@ public class App
     private static SessionFactory sessionFactory;
     private static FlowerController flowerController;
     private static CatalogController catalogController;
+    private static OrderController orderController;
     static Scanner sc=new Scanner(System.in);
     public static SessionFactory getSession(){
         return sessionFactory;
@@ -36,6 +38,7 @@ public class App
         // Add ALL of your entities here. You can also try adding a whole package.
         configuration.addAnnotatedClass(Catalog.class);
         configuration.addAnnotatedClass(Flower.class);
+        configuration.addAnnotatedClass(Order.class);
 
 
 
@@ -57,11 +60,13 @@ public class App
             session.beginTransaction();
             flowerController=new FlowerController(session);
             catalogController=new CatalogController(session);
+            orderController=new OrderController(session);
 
             List<Flower> flowerslst = new ArrayList<Flower>();
             Catalog catalog=new Catalog();
 
-
+            Order or=new Order() ;
+            session.save(or);
             Flower floweritem=new Flower("Infinite Happiness","Lile",120);
             floweritem.setImageurl("Images/lile.jpg");
             floweritem.setCatalog(catalog);
