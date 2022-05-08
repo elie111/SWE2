@@ -20,6 +20,7 @@
       <TextField editable="false" layoutX="260.0" layoutY="175.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="\$" />
       <Label id="descriptiontxt" fx:id="descriptiontxt" layoutX="13.0" layoutY="229.0" prefHeight="152.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 16px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2; -fx-font-weight: bold; -fx-font-style: italic;" />
       <TextField layoutX="159.0" layoutY="175.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-style: italic;" text="price: " />
+      <Button fx:id="addtocartbtn" onAction="#addbtn" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="103.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Add to cart" />
 
     </children>
 </AnchorPane>

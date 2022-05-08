@@ -40,7 +40,7 @@ public class App extends Application {
         arr.add("#getcatalog");
         client.sendToServer(arr);
 
-        scene = new Scene(loadFXML("Order"), 600, 400);
+        scene = new Scene(loadFXML("catalogboundary"));
         stage.setScene(scene);
         stage.show();
 

@@ -33,6 +33,9 @@ public class FlowerBoundary {
 
     @FXML
     private Button returnbtn;
+    @FXML
+    private Button addtocartbtn;
+
 
     @FXML
     private TextField txt;
@@ -97,6 +100,18 @@ public class FlowerBoundary {
     void returnbtn(ActionEvent event) throws IOException {
         try {
 
+            App.setRoot("catalogboundary");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void addbtn(ActionEvent event) throws IOException {
+        try {
+            CatalogBoundary.addtocart(flower);
             App.setRoot("catalogboundary");
 
         } catch (IOException e) {
