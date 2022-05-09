@@ -88,10 +88,12 @@ public class RegistrationController implements Initializable {
         });
     }
 
+    @FXML
     public void backButton(ActionEvent event) throws IOException {
         App.setRoot("loginOrsignupBoundary");
     }
 
+    @FXML
     public void signButton(ActionEvent event) throws IOException {
         String firstName = TFname.getText();
         String ID = Tid.getText();
@@ -324,9 +326,6 @@ public class RegistrationController implements Initializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
         LocalDate myDate = LocalDate.parse(monthAndYear, formatter);
-
-//        System.out.println(today);
-//        System.out.println(myDate);
 
         if(myDate.isBefore(today)) {
             return false;

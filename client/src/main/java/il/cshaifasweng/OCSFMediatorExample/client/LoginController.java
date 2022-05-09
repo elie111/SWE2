@@ -20,6 +20,7 @@ public class LoginController {
         loginBtn.setDisable(true);
     }
 
+    @FXML
     public void onClick(ActionEvent event) throws IOException {
         // user put username and password that are not only spaces or null
         String un = email.getText();
@@ -46,6 +47,7 @@ public class LoginController {
 
     }
 
+    @FXML
     public void backButton(ActionEvent event) throws IOException {
         App.setRoot("loginOrsignupBoundary");
     }

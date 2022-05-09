@@ -19,9 +19,10 @@ import java.util.Scanner;
 public class SimpleServer extends AbstractServer {
 	private static Session session;
 	private static SessionFactory sessionFactory;
-	private static FlowerController flowerController;
-	private static CatalogController catalogController;
-	private static UserController userController;
+//	private static FlowerController flowerController;
+//	private static CatalogController catalogController;
+//	private static OrderController orderController;
+//	private static UserController userController;
 	static Scanner sc = new Scanner(System.in);
 
 	public SimpleServer(int port) {
@@ -37,9 +38,12 @@ public class SimpleServer extends AbstractServer {
 		 	session.beginTransaction();
 			FlowerController flowerController = new FlowerController(session);
 			CatalogController catalogController = new CatalogController(session);
+			OrderController orderController=new OrderController(session);
 			UserController userController = new UserController(session);
-			flowerController.setSession(session);
-			catalogController.setSession(session);
+//			flowerController.setSession(session);
+//			catalogController.setSession(session);
+//			orderController.setSession(session);
+//			userController.setSession(session);
 
 			arr = (ArrayList<Object>) msg;
 

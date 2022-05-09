@@ -21,6 +21,8 @@ public class FlowerBoundary {
     private String imageUrl;
 
     @FXML private Button returnbtn;
+    @FXML private Button addtocartbtn;
+
     @FXML private TextField txt;
     @FXML private Label descriptiontxt;
     @FXML private TextField pricetxt;
@@ -28,19 +30,15 @@ public class FlowerBoundary {
 
     @FXML
     void initialize() {
-        flower = CatalogBoundary.getCurrentflower();
+        flower = CatalogBoundary.getCurrentFlower();
         txt.setText(flower.getName());
-        // descriptiontxt.setStyle("-fx-background-color: transparent;-fx-fill: black;-fx-font-weight: bold;");
         descriptiontxt.setText(flower.getType());
         pricetxt.setText((flower.getPrice()) + "");
         txt.setEditable(false);
         descriptiontxt.setWrapText(true);
 
-        // descriptiontxt.setEditable(false);
         pricetxt.setEditable(false);
         flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
-        // txt.setText(itemstr[0]);
-        // img = new ImageView(new Image("target/image1.png"));
     }
 
     @FXML
@@ -66,8 +64,18 @@ public class FlowerBoundary {
     }
 
     @FXML
-    void returnbtn(ActionEvent event) throws IOException {
+    void returnBtn(ActionEvent event) throws IOException {
         try {
+            App.setRoot("catalogboundary");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void addBtn(ActionEvent event) throws IOException {
+        try {
+            CatalogBoundary.addToCart(flower);
             App.setRoot("catalogboundary");
         } catch (IOException e) {
             e.printStackTrace();
