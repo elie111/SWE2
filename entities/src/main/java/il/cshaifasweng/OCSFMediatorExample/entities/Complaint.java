@@ -5,15 +5,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "complaint")
 
-public class Compleint{
+public class Complaint{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String orderId;
-    private String content;
-    private boolean status;
-    private localDate date;
     private String answer;
+    private String content;
+    private String date;
+    private String orderId;
+    private boolean status;
 
     public int getId() {
         return id;
@@ -47,11 +47,11 @@ public class Compleint{
         this.status = status;
     }
 
-    public localDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(localDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -63,8 +63,7 @@ public class Compleint{
         this.answer = answer;
     }
 
-    public Compleint(int id, String orderId, String content, boolean status, localDate date, String answer) {
-        this.id = id;
+    public Complaint(String orderId, String content, boolean status, String date, String answer) {
         this.orderId = orderId;
         this.content = content;
         this.status = status;

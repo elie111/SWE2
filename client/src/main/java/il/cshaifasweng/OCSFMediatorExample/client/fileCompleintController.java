@@ -84,7 +84,7 @@ public class fileCompleintController {
         String content = complaintTF.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
-
+        
         // write to database
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#complaint");
