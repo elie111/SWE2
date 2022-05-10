@@ -19,10 +19,6 @@ import java.util.Scanner;
 public class SimpleServer extends AbstractServer {
 	private static Session session;
 	private static SessionFactory sessionFactory;
-//	private static FlowerController flowerController;
-//	private static CatalogController catalogController;
-//	private static OrderController orderController;
-//	private static UserController userController;
 	static Scanner sc = new Scanner(System.in);
 
 	public SimpleServer(int port) {
@@ -33,17 +29,12 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException,Exception {
 		ArrayList<Object> arr = new ArrayList<>();
 		try {
-			//sessionFactory = getSessionFactory();
-		 	session = App.getSession().openSession();
+			session = App.getSession().openSession();
 		 	session.beginTransaction();
 			FlowerController flowerController = new FlowerController(session);
 			CatalogController catalogController = new CatalogController(session);
 			OrderController orderController=new OrderController(session);
 			UserController userController = new UserController(session);
-//			flowerController.setSession(session);
-//			catalogController.setSession(session);
-//			orderController.setSession(session);
-//			userController.setSession(session);
 
 			arr = (ArrayList<Object>) msg;
 
@@ -84,12 +75,46 @@ public class SimpleServer extends AbstractServer {
 			}
 
 			if((arr.get(0)).equals("#register")) {
+				// registration process
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
 									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
 									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
 									 (String)arr.get(10));
 				userController.addUser(user);
 				session.getTransaction().commit();
+
+				// login
+				List<User> lst = userController.getAllData(User.class);
+				ArrayList<Object> answers = new ArrayList<>();
+				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
+				String eMail = "", password = "";
+				String myMail = (String)arr.get(3);
+				String myPassword = (String)arr.get(8);
+				for(int i = lst.size() - 1; i >= 0; i++) {
+					eMail = lst.get(i).getEmail();
+					if(eMail.equals(myMail)) {
+						password = lst.get(i).getPassword();
+						if(password.equals(myPassword)) {
+							answers.add("#connectUser");
+							answers.add(true);
+							answers.add(lst.get(i).getName());
+							answers.add(lst.get(i).getId());
+							answers.add(lst.get(i).getEmail());
+							answers.add(lst.get(i).getPhone());
+							answers.add(lst.get(i).getCredit());
+							answers.add(lst.get(i).getMonthAndYear());
+							answers.add(lst.get(i).getCvv());
+							answers.add(lst.get(i).getPassword());
+							answers.add(lst.get(i).getAccount());
+							answers.add(lst.get(i).getStoreOrNull());
+							answers.add(lst.get(i).getID());
+							answers.add(0);
+							newarr.add(answers);
+							client.sendToClient(newarr);
+						}
+					}
+					break;
+				}
 			}
 
 			if((arr.get(0)).equals("#loginUser")) {
@@ -100,6 +125,7 @@ public class SimpleServer extends AbstractServer {
 				String eMail = "", password = "";
 				String myMail = (String)arr.get(1);
 				String myPassword = (String)arr.get(2);
+				int flag = 0;
 
 				for(int i = 0; i < lst.size(); i++) {
 					eMail = lst.get(i).getEmail();
@@ -108,18 +134,31 @@ public class SimpleServer extends AbstractServer {
 						if(password.equals(myPassword)) {
 							answers.add("#connectUser");
 							answers.add(true);
-							answers.add(lst.get(i));
+							answers.add(lst.get(i).getName());
+							answers.add(lst.get(i).getId());
+							answers.add(lst.get(i).getEmail());
+							answers.add(lst.get(i).getPhone());
+							answers.add(lst.get(i).getCredit());
+							answers.add(lst.get(i).getMonthAndYear());
+							answers.add(lst.get(i).getCvv());
+							answers.add(lst.get(i).getPassword());
+							answers.add(lst.get(i).getAccount());
+							answers.add(lst.get(i).getStoreOrNull());
+							answers.add(lst.get(i).getID());
+							answers.add(1);
 							newarr.add(answers);
+							client.sendToClient(newarr);
+							flag = 1;
 						}
 					}
-					else {
-						answers.add("#connectUser");
-						answers.add(false);
-						newarr.add(answers);
-					}
+					break;
 				}
-
-				client.sendToClient(newarr);
+				if(flag == 0) {
+					answers.add("#connectUser");
+					answers.add(false);
+					newarr.add(answers);
+					client.sendToClient(newarr);
+				}
 			}
 		}
 		catch (Exception exception) {

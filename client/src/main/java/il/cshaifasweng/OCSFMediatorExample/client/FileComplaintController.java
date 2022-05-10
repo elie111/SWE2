@@ -1,43 +1,24 @@
-package org.example;
+package il.cshaifasweng.OCSFMediatorExample.client;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class fileCompleintController {
-    @FXML
-    private Label complaintLable;
-
-    @FXML
-    private TextField complaintTF;
-
-    @FXML
-    private Button sendBtn;
-
-    @FXML
-    private Button cancleBtn;
-
-    @FXML
-    private Label orderNumberLable;
-
-    @FXML
-    private TextField orderNumberTF;
-
-    @FXML
-    private Label orderNumEmpty;
-
-    @FXML
-    private Label invalidInputOrNum;
-
-    @FXML
-    private Label compEmpty;
-
+public class FileComplaintController {
+    @FXML private Label complaintLable;
+    @FXML private TextField complaintTF;
+    @FXML private Button sendBtn;
+    @FXML private Button cancleBtn;
+    @FXML private Label orderNumberLable;
+    @FXML private TextField orderNumberTF;
+    @FXML private Label orderNumEmpty;
+    @FXML private Label invalidInputOrNum;
+    @FXML private Label compEmpty;
 
 //    Complaint complaint = new Complaint(); //create complaint in db
 
@@ -46,8 +27,8 @@ public class fileCompleintController {
         App.setRoot("catalogBoundary");
     }
 
-    //check that order number is included only numbers
-    private boolean isValidOrderNum (TextField fieldA){
+    // check that order number only has numbers
+    private boolean isValidOrderNum (TextField fieldA) {
         for (int i = 0; i<fieldA.getText().length() ; i++){
             char temp = fieldA.getText().charAt(i);
             if(!((temp >= '0') && (temp <= '9'))){
@@ -94,7 +75,4 @@ public class fileCompleintController {
         arr.add(today); //the date of the complaint
         App.getClient().sendToServer(arr);
     }
-
-
-
 }

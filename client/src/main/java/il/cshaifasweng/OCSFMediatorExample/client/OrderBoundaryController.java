@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class OrderBoundary {
+public class OrderBoundaryController {
     @FXML private AnchorPane Item;
     @FXML private TextField txt;
     @FXML private ChoiceBox<String> str;

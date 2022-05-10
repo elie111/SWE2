@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FlowerBoundary {
+public class FlowerBoundaryController {
     @FXML private AnchorPane Item;
     @FXML private Button editbtn;
     @FXML private ImageView flowerImg;
@@ -30,7 +30,7 @@ public class FlowerBoundary {
 
     @FXML
     void initialize() {
-        flower = CatalogBoundary.getCurrentFlower();
+        flower = CatalogBoundaryController.getCurrentFlower();
         txt.setText(flower.getName());
         descriptiontxt.setText(flower.getType());
         pricetxt.setText((flower.getPrice()) + "");
@@ -75,7 +75,7 @@ public class FlowerBoundary {
     @FXML
     void addBtn(ActionEvent event) throws IOException {
         try {
-            CatalogBoundary.addToCart(flower);
+            CatalogBoundaryController.addToCart(flower);
             App.setRoot("catalogboundary");
         } catch (IOException e) {
             e.printStackTrace();

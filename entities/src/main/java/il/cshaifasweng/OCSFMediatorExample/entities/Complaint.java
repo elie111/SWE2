@@ -15,12 +15,10 @@ public class Complaint{
     private String orderId;
     private boolean status;
 
+    public Complaint() {}
+
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getOrderId() {
@@ -39,7 +37,7 @@ public class Complaint{
         this.content = content;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 

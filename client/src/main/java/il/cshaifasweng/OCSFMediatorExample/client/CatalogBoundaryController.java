@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CatalogBoundary implements Initializable {
+public class CatalogBoundaryController implements Initializable {
     @FXML private ListView<String> myListView;
     @FXML private ListView<String> mycart;
     @FXML private Slider pricerange;
@@ -52,7 +52,7 @@ public class CatalogBoundary implements Initializable {
     }
 
     public static void setFlowers(ArrayList<Flower> flowers) {
-        CatalogBoundary.flowers = flowers;
+        CatalogBoundaryController.flowers = flowers;
     }
 
     public static Flower getCurrentFlower() {

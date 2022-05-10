@@ -3,10 +3,12 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public class loginOrsignupController {
+public class LoginOrSignupController {
+    @FXML private Text welcome;
     @FXML private Button loginBtn;
     @FXML private Button signupBtn;
     @FXML private Button showCatalogBtn;
@@ -23,6 +25,7 @@ public class loginOrsignupController {
         App.setRoot("loginBoundary");
     }
 
+    // go to catalog screen
     @FXML
     public void showCatalogBtn(ActionEvent event) throws IOException {
         App.setRoot("catalogboundary");

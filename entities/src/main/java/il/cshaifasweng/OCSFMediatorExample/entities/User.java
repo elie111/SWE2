@@ -115,4 +115,8 @@ public class User {
     public void setStoreOrNull(String storeOrNull) {
         this.storeOrNull = storeOrNull;
     }
+
+    public int getID() {
+        return id;
+    }
 }

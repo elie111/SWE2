@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="Item" prefHeight="400" prefWidth="600" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderBoundary">
+<AnchorPane fx:id="Item" prefHeight="400" prefWidth="600" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderBoundaryController">
     <children>
         <TextField fx:id="txt" layoutX="13.0" layoutY="57.0" promptText="card" />
         <Label layoutX="12.0" layoutY="91.0" text="store pickup:" />

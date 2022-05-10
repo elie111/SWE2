@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,11 +55,35 @@ public class SimpleClient extends AbstractClient {
 				f.setImageurl((String) arrarr.get(i).get(7));
 				arr.add(f);
 			}
-			CatalogBoundary.setFlowers(arr);
+			CatalogBoundaryController.setFlowers(arr);
 		}
 
 		if(answer.equals("#connectUser")) {
-			// complete
+			boolean a = (boolean)arrarr.get(arrarr.size() - 1).get(1);
+			if(a == true) {
+				User user = new User((String)arrarr.get(arrarr.size() - 1).get(2),
+									 (String)arrarr.get(arrarr.size() - 1).get(3),
+									 (String)arrarr.get(arrarr.size() - 1).get(4),
+									 (String)arrarr.get(arrarr.size() - 1).get(5),
+									 (String)arrarr.get(arrarr.size() - 1).get(6),
+									 (String)arrarr.get(arrarr.size() - 1).get(7),
+									 (String)arrarr.get(arrarr.size() - 1).get(8),
+									 (String)arrarr.get(arrarr.size() - 1).get(9),
+									 (String)arrarr.get(arrarr.size() - 1).get(10),
+									 (String)arrarr.get(arrarr.size() - 1).get(11));
+				int id = (int)arrarr.get(arrarr.size() - 1).get(12);
+				UserHolder.setUser(user);
+				UserHolder.setID(id);
+				int index = (int)arrarr.get(arrarr.size() - 1).get(13);
+				if(index == 1) {
+					LoginController loginController = new LoginController();
+					loginController.nextStep(1);
+				}
+			}
+			else {
+				LoginController loginController = new LoginController();
+				loginController.nextStep(2);
+			}
 		}
 	}
 
