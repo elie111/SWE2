@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -30,13 +32,13 @@ public class OrderBoundary {
     @FXML
     private Button confirm;
     @FXML
-    private ListView list;
+    private ListView<String> list;
 
     @FXML
     private ChoiceBox<String> payment;
 
     private ArrayList<String> liststr = new ArrayList<String>();
-    private ArrayList<String> cartlist = new ArrayList<String>();
+    private ArrayList<String> cartlist = new ArrayList<String>(); //cart names
     HashMap<Flower, Integer> map = CatalogBoundary.getMap();
 
     public void getCartItems() {
@@ -113,6 +115,59 @@ public class OrderBoundary {
 //        //if we added more than one catalog we must change 1
 //        App.getClient().sendToServer(newarr);
 //
+
+    }
+
+    @FXML
+    public void removefunc(ActionEvent event) throws IOException {
+        String item=list.getSelectionModel().getSelectedItem();
+        String item2;
+        //mycart.getItems().remove(item);
+
+        for ( Flower key : map.keySet() ) {
+            if(item!=null&&item.startsWith(key.getName())==true){
+                if(map.get(key)>1){
+
+                    cartlist.remove(key.getName());
+
+                    item2=key.getName()+" x"+String.valueOf(map.get(key)-1);
+                    cartlist.add(item2);
+
+
+                    map.put(key,map.get(key)-1);
+
+                    list.getItems().remove(item);
+                    list.getItems().add(item2);
+
+
+                    //   Collections.sort(mycart.getItems());
+                    list.refresh();
+                }
+                else{
+
+                    cartlist.remove(key.getName());
+                    list.getItems().remove(item);
+                    map.remove(key);
+                    list.refresh();
+                }
+                break;
+            }
+        }
+        int p=0;
+        for ( Flower key : map.keySet() ) {
+            p +=key.getPrice()*map.get(key);
+        }
+
+        String pricetxt = p + " $";
+        finalprice.setText(pricetxt);
+
+        list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+
+
+            }
+        });
 
     }
 }
