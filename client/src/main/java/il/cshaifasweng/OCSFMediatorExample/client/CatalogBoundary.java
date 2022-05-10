@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import com.mysql.cj.exceptions.CJCommunicationsException;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,11 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import org.hibernate.mapping.Property;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CatalogBoundary implements Initializable {
     @FXML private ListView<String> myListView;
@@ -26,22 +28,27 @@ public class CatalogBoundary implements Initializable {
     @FXML private Button searchbtn;
     @FXML private Button resetbtn;
 
-    @FXML private CheckBox all;
-    @FXML private CheckBox red;
-    @FXML private CheckBox pink;
-    @FXML private CheckBox blue;
-    @FXML private CheckBox yellow;
+    @FXML private  CheckBox all;
+    @FXML private  CheckBox red;
+    @FXML private  CheckBox pink;
+    @FXML private  CheckBox blue;
+    @FXML private  CheckBox yellow;
+
+    private static HashMap<String,Integer> colorsmap=new HashMap<>();
 
     @FXML private  Label price;
     private static String pricetxt;
-
+    private static Label placeholdercart=new Label("add flowers to your cart");
+    private static Label placeholderlist=new Label("no flowers in catalog");
     private int pricelimit = 1000;
     private int toplimit = 1000;
+    int p;
     private String colorfilter;
 
     private static String currentString;
     private static ArrayList<Flower> flowers = new ArrayList<Flower>();
-    private static ArrayList<Flower> cartlst = new ArrayList<Flower>();
+   // private static ArrayList<Flower> cartlst = new ArrayList<Flower>();
+    private static HashMap<Flower,Integer> cartmap=new HashMap<>();
     private static Flower currentflower;
 
     private ArrayList<String> liststr = new ArrayList<String>();
@@ -71,6 +78,17 @@ public class CatalogBoundary implements Initializable {
         pricerange.setBlockIncrement(10);
         pricerange.setShowTickMarks(false);
         pricerange.setShowTickLabels(true);
+        all.setSelected(true);
+        colorsmap.put("all",1);
+        colorsmap.put("red",0);
+        colorsmap.put("pink",0);
+        colorsmap.put("blue",0);
+        colorsmap.put("yellow",0);
+
+        placeholdercart.setStyle("-fx-text-fill: linear-gradient(#ff5400, #be1d00);-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
+        placeholderlist.setStyle("-fx-text-fill: linear-gradient(#ff5400, #be1d00);-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
+        myListView.setPlaceholder(placeholderlist);
+        mycart.setPlaceholder(placeholdercart);
 
         vb = new VBox();
         vb.setPadding(new Insets(20));
@@ -78,10 +96,13 @@ public class CatalogBoundary implements Initializable {
 
         getCatalogItems();
         getCartItems();
-        int p = 0;
+        p = 0;
 
-        for (int i = 0; i < cartlst.size(); i++) {
-            p += cartlst.get(i).getPrice();
+//        for (int i = 0; i < cartlst.size(); i++) {
+//            p += cartlst.get(i).getPrice();
+//        }
+        for ( Flower key : cartmap.keySet() ) {
+            p+=key.getPrice()*cartmap.get(key);
         }
 
         pricetxt = "final price: " + p + " $";
@@ -94,19 +115,30 @@ public class CatalogBoundary implements Initializable {
     }
 
     public void getCartItems() {
-        for(int i = 0; i < cartlst.size(); i++) {
-            cartnames.add(cartlst.get(i).getName());
+//        for(int i = 0; i < cartlst.size(); i++) {
+//            cartnames.add(cartlst.get(i).getName());
+//        }
+        for ( Flower key : cartmap.keySet() ) {
+            cartnames.add(key.getName()+" x"+cartmap.get(key));
         }
         mycart.getItems().addAll(cartnames);
     }
 
     public static void addToCart(Flower flower) {
-        cartlst.add(flower);
+       // cartlst.add(flower);
+        int counter;
+        if(cartmap.get(flower)==null)
+        cartmap.put(flower,1);
+        else{
+            counter=cartmap.get(flower)+1;
+            cartmap.put(flower,counter);
+        }
     }
 
     public void getCatalogItems() {
-        for(int i = 0; i < flowers.size(); i++) {
-            if(flowers.get(i).getPrice() <= pricelimit) {
+        for(int i = 0; i < flowers.size(); i++ ) {
+            if(flowers.get(i).getPrice() <= pricelimit && ((colorsmap.get(flowers.get(i).getColor())==1)
+                    ||colorsmap.get("all")==1)) {
                 liststr.add(flowers.get(i).getName());
             }
         }
@@ -134,17 +166,58 @@ public class CatalogBoundary implements Initializable {
 
     @FXML
     public void clear(ActionEvent event) throws IOException {
-        cartlst.clear();
-        cartnames.clear();
-        mycart.getItems().clear();
-        pricetxt = "final price: 0 $";
-        price.setText(pricetxt);
+        if(mycart.getItems().size()>0) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("clear cart");
+            alert.setHeaderText("are you sure you want \nto remove all items in your cart?");
+
+            ButtonType confirmbtn = new ButtonType("remove all");
+            ButtonType cancelbtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(confirmbtn, cancelbtn);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == confirmbtn) {
+                cartmap.clear();
+                cartnames.clear();
+                mycart.getItems().clear();
+                pricetxt = "final price: 0 $";
+                price.setText(pricetxt);
+            } else {
+
+            }
+
+        }
     }
 
     @FXML
     public void updateFilter(ActionEvent event) throws IOException {
         liststr.clear();
         myListView.getItems().clear();
+        if(all.isSelected())
+            colorsmap.put("all",1);
+        else{
+            colorsmap.put("all",0);
+        }
+        if(red.isSelected())
+            colorsmap.put("red",1);
+        else{
+            colorsmap.put("red",0);
+        }
+        if(pink.isSelected())
+            colorsmap.put("pink",1);
+        else{
+            colorsmap.put("pink",0);
+        }
+        if(blue.isSelected())
+            colorsmap.put("blue",1);
+        else{
+            colorsmap.put("blue",0);
+        }
+        if(yellow.isSelected())
+            colorsmap.put("yellow",1);
+        else{
+            colorsmap.put("yellow",0);
+        }
         getCatalogItems();
     }
 
@@ -154,6 +227,17 @@ public class CatalogBoundary implements Initializable {
         pricerange.setValue(350);
         liststr.clear();
         myListView.getItems().clear();
+        colorsmap.put("all",1);
+        colorsmap.put("red",0);
+        colorsmap.put("pink",0);
+        colorsmap.put("yellow",0);
+        colorsmap.put("blue",0);
+        all.setSelected(true);
+        red.setSelected(false);
+        pink.setSelected(false);
+        blue.setSelected(false);
+        yellow.setSelected(false);
+
         getCatalogItems();
     }
 
@@ -161,4 +245,59 @@ public class CatalogBoundary implements Initializable {
     public void goToOrder(ActionEvent event) throws IOException {
         App.setRoot("Order");
     }
+    @FXML
+    public void removefunc(ActionEvent event) throws IOException {
+        String item=mycart.getSelectionModel().getSelectedItem();
+        String item2;
+        //mycart.getItems().remove(item);
+
+        for ( Flower key : cartmap.keySet() ) {
+            if(item!=null&&item.startsWith(key.getName())==true){
+                if(cartmap.get(key)>1){
+
+                    cartnames.remove(key.getName());
+
+                    item2=key.getName()+" x"+String.valueOf(cartmap.get(key)-1);
+                    cartnames.add(item2);
+
+
+                    cartmap.put(key,cartmap.get(key)-1);
+
+                    mycart.getItems().remove(item);
+                    mycart.getItems().add(item2);
+
+
+                 //   Collections.sort(mycart.getItems());
+                    mycart.refresh();
+                }
+                else{
+
+                    cartnames.remove(key.getName());
+                    mycart.getItems().remove(item);
+                    cartmap.remove(key);
+                    mycart.refresh();
+                }
+                break;
+            }
+        }
+        p=0;
+        for ( Flower key : cartmap.keySet() ) {
+            p +=key.getPrice()*cartmap.get(key);
+        }
+
+        pricetxt = "final price: " + p + " $";
+        price.setText(pricetxt);
+
+        mycart.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+
+
+            }
+        });
+
+    }
+
+
+
 }
