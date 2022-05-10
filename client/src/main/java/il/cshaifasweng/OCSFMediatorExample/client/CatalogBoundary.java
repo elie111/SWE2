@@ -70,6 +70,11 @@ public class CatalogBoundary implements Initializable {
         return currentString;
     }
 
+    public  static HashMap<Flower,Integer>  getMap()
+    {
+        return cartmap;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pricerange.setMin(0);

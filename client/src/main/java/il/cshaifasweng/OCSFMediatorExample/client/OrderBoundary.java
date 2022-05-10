@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -8,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static il.cshaifasweng.OCSFMediatorExample.client.CatalogBoundary.getMap;
 
 public class OrderBoundary {
     @FXML private AnchorPane Item;
@@ -16,10 +20,22 @@ public class OrderBoundary {
     @FXML private DatePicker datepick;
     @FXML private Label finalprice;
     @FXML private Button returnbtn;
+    @FXML private ListView list;
 
     @FXML private ChoiceBox<String> payment;
 
     private ArrayList<String> liststr = new ArrayList<String>();
+    private ArrayList<String> cartlist = new ArrayList<String>();
+    HashMap<Flower,Integer> map=CatalogBoundary.getMap();
+    public void getCartItems() {
+
+        for ( Flower key : map.keySet() ) {
+            cartlist.add(key.getName()+" x"+map.get(key));
+        }
+        list.getItems().addAll(cartlist);
+    }
+
+
 
     @FXML
     void initialize() {
@@ -28,10 +44,20 @@ public class OrderBoundary {
         liststr.add("haifa");
         liststr.add("Herzilya");
         liststr.add("Ramat-Gan");
+        getCartItems();
+
 
         str.getItems().addAll(liststr);
         str.setValue("none");
-        finalprice.setText("120$");
+        String pricetxt;
+        int p=0;
+        for ( Flower key : map.keySet() ) {
+            p +=key.getPrice()*map.get(key);
+        }
+
+        pricetxt =   p + " $";
+        finalprice.setText(pricetxt);
+
 
         payment.getItems().add("my credit card");
         payment.getItems().add("new credit card");
