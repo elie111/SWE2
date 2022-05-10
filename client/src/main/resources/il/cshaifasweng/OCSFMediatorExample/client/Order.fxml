@@ -18,7 +18,7 @@
         <DatePicker fx:id="datepick" layoutX="20.0" layoutY="217.0" />
         <Label layoutX="20.0" layoutY="182.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="pickup date:" />
         <Label layoutX="208.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="add card: (optional)" />
-        <Button layoutX="19.0" layoutY="337.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="confirm order" />
+        <Button fx:id="confirm" onAction="#confirmorder" layoutX="19.0" layoutY="337.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="confirm order" />
         <Label layoutX="19.0" layoutY="306.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-size: 12px; -fx-font-style: italic;" text="final price :" />
         <Label  fx:id="finalprice" layoutX="102.0" layoutY="306.0" />
         <Label layoutX="19.0" layoutY="243.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="payment method:" />
