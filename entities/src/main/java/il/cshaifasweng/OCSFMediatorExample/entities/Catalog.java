@@ -1,7 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.List;
 public class Catalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; //if all shops have one common catalog then we dont need entity catalog
+    private int id; // if all shops have one common catalog then we dont need entity catalog
     @OneToMany
     private List<Flower> flowers;
 
@@ -20,9 +18,7 @@ public class Catalog {
         this.flowers = new ArrayList<Flower>();
     }
 
-    public Catalog() {
-
-    }
+    public Catalog() {}
 
     public List<Flower> getFlowers() {
         return flowers;
