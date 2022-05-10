@@ -4,15 +4,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OrderBoundary {
     @FXML private AnchorPane Item;
-    @FXML private TextField txt;
+    @FXML private TextArea txt;
     @FXML private ChoiceBox<String> str;
     @FXML private DatePicker datepick;
     @FXML private Label finalprice;
+    @FXML private Button returnbtn;
 
     @FXML private ChoiceBox<String> payment;
 
@@ -41,5 +44,11 @@ public class OrderBoundary {
                 setDisable(empty || date.compareTo(today) < 0);
             }
         });
+    }
+
+
+    @FXML
+    public void returnfunc(javafx.event.ActionEvent actionEvent) throws IOException {
+        App.setRoot("catalogboundary");
     }
 }
