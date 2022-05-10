@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "complaint")
 
-public class User {
+public class Compleint{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,7 +15,7 @@ public class User {
     private localDate date;
     private String answer;
 
-    public User(String name, String identificationNumber, String email, String phone, String credit,
+    public Compleint(String name, String identificationNumber, String email, String phone, String credit,
                 String monthAndYear, String cvv, String password, String account, String storeOrNull) {
         this.userName = name;
         this.identificationNumber = identificationNumber;
@@ -29,7 +29,7 @@ public class User {
         this.storeOrNull = storeOrNull;
     }
 
-    public User(int id, String orderId, String content, boolean status, Date date, String answer) {
+    public Compleint(int id, String orderId, String content, boolean status, Date date, String answer) {
         this.id = id;
         this.orderId = orderId;
         this.content = content;
