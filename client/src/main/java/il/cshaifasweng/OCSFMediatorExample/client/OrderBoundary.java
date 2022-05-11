@@ -5,9 +5,11 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Order;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Popup;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -91,6 +93,37 @@ public class OrderBoundary {
                 setDisable(empty || date.compareTo(today) < 0);
             }
         });
+
+        // create a alert
+        Alert a = new Alert(Alert.AlertType.NONE);
+
+        // action event
+        EventHandler<ActionEvent> event = new
+                EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        // set alert type
+                        a.setAlertType(Alert.AlertType.CONFIRMATION);
+
+                        // show the dialog
+                        a.show();
+                        a.setContentText("Order Completed !");
+
+                        Order order=new Order(price,flowerslst);
+                        String msg="#addorder";
+                        ArrayList<Object> arr=new ArrayList<>();
+                        arr.add(msg);
+                        arr.add(order);
+                        try {
+                            App.getClient().sendToServer(arr);
+                            App.setRoot("catalogboundary");
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+
+                    }
+                };
+        confirm.setOnAction(event);
     }
 
 
@@ -107,6 +140,23 @@ public class OrderBoundary {
         arr.add(msg);
         arr.add(order);
         App.getClient().sendToServer(arr);
+        // create a label
+        Label label = new Label("Order confirmed !");
+
+        // create a popup
+        Popup popup = new Popup();
+
+        // set background
+        label.setStyle(" -fx-background-color: white;");
+
+        // add the label
+        popup.getContent().add(label);
+        popup.centerOnScreen();
+
+        // set size of label
+        label.setMinWidth(80);
+        label.setMinHeight(50);
+        //popup.show(popup.getOwnerWindow());
         App.setRoot("catalogboundary");
 
 
