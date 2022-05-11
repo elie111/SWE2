@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.Order;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -33,18 +34,23 @@ public class OrderBoundary {
     private Button confirm;
     @FXML
     private ListView<String> list;
-
+    private int price=0;
     @FXML
     private ChoiceBox<String> payment;
 
     private ArrayList<String> liststr = new ArrayList<String>();
     private ArrayList<String> cartlist = new ArrayList<String>(); //cart names
-    HashMap<Flower, Integer> map = CatalogBoundary.getMap();
+    private ArrayList<Flower> flowerslst=new ArrayList<>();
+    private HashMap<Flower, Integer> map = CatalogBoundary.getMap();
+    private static Label placeholdercart=new Label("cart is empty");
 
     public void getCartItems() {
 
         for (Flower key : map.keySet()) {
             cartlist.add(key.getName() + " x" + map.get(key));
+            for(int i=0;i<map.get(key);i++) {
+                flowerslst.add(key);
+            }
         }
         list.getItems().addAll(cartlist);
     }
@@ -58,8 +64,9 @@ public class OrderBoundary {
         liststr.add("Herzilya");
         liststr.add("Ramat-Gan");
         getCartItems();
-
-
+        placeholdercart.setStyle("-fx-text-fill: linear-gradient(#ff5400, #be1d00);" +
+                "-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
+        list.setPlaceholder(placeholdercart);
         str.getItems().addAll(liststr);
         str.setValue("none");
         String pricetxt;
@@ -69,6 +76,7 @@ public class OrderBoundary {
         }
 
         pricetxt = p + " $";
+        price=p;
         finalprice.setText(pricetxt);
 
 
@@ -93,28 +101,14 @@ public class OrderBoundary {
 
     @FXML
     public void confirmorder(ActionEvent actionEvent) throws IOException {
+        Order order=new Order(price,flowerslst);
+        String msg="#addorder";
+        ArrayList<Object> arr=new ArrayList<>();
+        arr.add(msg);
+        arr.add(order);
+        App.getClient().sendToServer(arr);
+        App.setRoot("catalogboundary");
 
-//        List<Flower> lst = flowerController.getAllData(Flower.class);
-//        ArrayList<Object> answers = new ArrayList<>();
-//        ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
-//        // 1 for name, 2 for id, 3 for price, 4 for sale
-//        // 5 for discount, 6 for color, 7 for type, 8 for image url
-//        for (int i = 0; i < lst.size(); i++) {
-//            newarr.add(new ArrayList<>());
-//            (newarr.get(i)).add(lst.get(i).getName());
-//            (newarr.get(i)).add(lst.get(i).getId());
-//            (newarr.get(i)).add(lst.get(i).getPrice());
-//            (newarr.get(i)).add(lst.get(i).getSale());
-//            (newarr.get(i)).add(lst.get(i).getDiscount());
-//            (newarr.get(i)).add(lst.get(i).getColor());
-//            (newarr.get(i)).add(lst.get(i).getType());
-//            (newarr.get(i)).add(lst.get(i).getImageurl());
-//        }
-//        answers.add("#addOrder");
-//        newarr.add(answers);
-//        //if we added more than one catalog we must change 1
-//        App.getClient().sendToServer(newarr);
-//
 
     }
 
@@ -159,6 +153,7 @@ public class OrderBoundary {
         }
 
         String pricetxt = p + " $";
+        price=p;
         finalprice.setText(pricetxt);
 
         list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {

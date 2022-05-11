@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.Order;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
@@ -46,7 +47,9 @@ public class SimpleServer extends AbstractServer {
 //			userController.setSession(session);
 
 			arr = (ArrayList<Object>) msg;
-
+            if ("#addorder".equals(arr.get(0))){
+            	orderController.addOrder((Order)arr.get(1));
+			}
 			if ("#addflower".equals(arr.get(0))) {
 				//1 is name 2 is type 3 is price
 				Flower flower = new Flower((String)(arr.get(1)),(String)(arr.get(2)),(double)(arr.get(3)));

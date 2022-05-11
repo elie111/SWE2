@@ -1,10 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "flowers")
-public class Flower {
+public class Flower implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -17,11 +20,14 @@ public class Flower {
     private Boolean sale;
     @ManyToOne
     private Catalog catalog;
+    @ManyToMany
+    private List<Order> order;
 
     public Flower() {
         this.imageurl = "Images/lile.jpg" ;//defualt image
         this.sale = false;
         this.color = "red";
+        order=new ArrayList<>();
     }
 
     public String getImageurl() {
