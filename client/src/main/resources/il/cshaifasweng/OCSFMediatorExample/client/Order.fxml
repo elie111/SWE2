@@ -9,24 +9,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="Item" prefHeight="400" prefWidth="600" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderBoundary">
+<AnchorPane fx:id="Item" prefHeight="400" prefWidth="600" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderBoundary">
     <children>
       <ListView fx:id="list" layoutX="406.0" layoutY="143.0" prefHeight="200.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-radius: 30;" />
         <TextArea fx:id="txt" layoutX="208.0" layoutY="123.0" prefHeight="118.0" prefWidth="159.0" promptText="card" />
-        <Label layoutX="18.0" layoutY="109.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="store pickup:" />
-        <ChoiceBox fx:id="str" layoutX="19.0" layoutY="144.0" prefWidth="150.0" />
-        <DatePicker fx:id="datepick" layoutX="20.0" layoutY="217.0" />
-        <Label layoutX="20.0" layoutY="182.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="pickup date:" />
+        <Label layoutX="19.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="store pickup:" />
+        <ChoiceBox fx:id="str" layoutX="14.0" layoutY="123.0" prefWidth="150.0" />
+        <DatePicker fx:id="datepick" layoutX="14.0" layoutY="169.0" />
+        <Label layoutX="13.0" layoutY="149.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="pickup date:" />
         <Label layoutX="208.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="add card: (optional)" />
         <Button fx:id="confirm" layoutX="19.0" layoutY="337.0" mnemonicParsing="false" onAction="#confirmorder" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="confirm order" />
         <Label layoutX="19.0" layoutY="306.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-size: 12px; -fx-font-style: italic;" text="final price :" />
         <Label fx:id="finalprice" layoutX="102.0" layoutY="306.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="price" />
-        <Label layoutX="19.0" layoutY="243.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="payment method:" />
-        <ChoiceBox fx:id="payment" layoutX="19.0" layoutY="273.0" prefWidth="150.0" />
+        <Label layoutX="16.0" layoutY="262.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="payment method:" />
+        <ChoiceBox fx:id="payment" layoutX="16.0" layoutY="280.0" prefWidth="150.0" />
         <Text layoutX="241.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 35px;" text="Order" />
         <Button layoutX="511.0" layoutY="27.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="login" />
       <Button id="returnbtn" fx:id="returnbtn" layoutX="22.0" layoutY="27.0" mnemonicParsing="false" onAction="#returnfunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="return" />
       <Label layoutX="406.0" layoutY="118.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="cart:" />
       <Button fx:id="removebtn" layoutX="406.0" layoutY="350.0" mnemonicParsing="false" onAction="#removefunc" style=" -fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="remove" />
+      <Label layoutX="13.0" layoutY="200.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="pickup hour:" />
+      <ChoiceBox fx:id="hour" layoutX="32.0" layoutY="218.0" prefHeight="26.0" prefWidth="46.0" />
+      <ChoiceBox fx:id="minutes" layoutX="90.0" layoutY="218.0" prefHeight="26.0" prefWidth="46.0" />
+      <Label layoutX="81.0" layoutY="222.0" text=":" />
     </children>
 </AnchorPane>
