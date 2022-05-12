@@ -35,31 +35,17 @@ public class SimpleClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		ArrayList<Flower> arr = new ArrayList<>();
-		ArrayList<ArrayList<Object>> arrarr = new ArrayList<ArrayList<Object>>();
-		arrarr = (ArrayList<ArrayList<Object>>)(msg);
 
-		String answer = (String)arrarr.get(arrarr.size() - 1).get(0);
+		ArrayList<Object> msgarray=new ArrayList<>();
 
-		if(answer.equals("#getcatalog")) {
-			for(int i = 0; i < arrarr.size() - 1; i++) {
-				//go over all the flowers
-				Flower f = new Flower();
-				f.setId((int)arrarr.get(i).get(1));
-				f.setPrice((double)arrarr.get(i).get(2));
-				f.setColor((String) arrarr.get(i).get(5));
-				f.setDiscount((int)arrarr.get(i).get(4));
-				f.setName((String) arrarr.get(i).get(0));
-				f.setType((String) arrarr.get(i).get(6));
-				f.setSale((Boolean) arrarr.get(i).get(3));
-				f.setImageurl((String) arrarr.get(i).get(7));
-				arr.add(f);
-			}
-			CatalogBoundary.setFlowers(arr);
+		msgarray=(ArrayList<Object>) msg;
+
+
+		if(msgarray.get(0).equals("#getcatalog")) {
+			System.out.println("here"+ msgarray.get(1));
+			CatalogBoundary.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
 		}
 
-		if(answer.equals("#connectUser")) {
-			// complete
-		}
 	}
 
 	@Override

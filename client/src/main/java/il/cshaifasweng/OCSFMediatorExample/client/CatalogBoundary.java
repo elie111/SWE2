@@ -153,7 +153,7 @@ public class CatalogBoundary implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 int currentid = myListView.getSelectionModel().getSelectedIndex();
-                for(int i = 0; i < 10; i++) {
+                for(int i = 0; i < flowers.size(); i++) {
                     if(flowers.get(i).getId() == (currentid + 1)) {
                         currentflower = flowers.get(i);
                         break;

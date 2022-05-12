@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.Flow;
 
 public class SimpleServer extends AbstractServer {
 	private static Session session;
@@ -52,38 +53,27 @@ public class SimpleServer extends AbstractServer {
 			}
 			if ("#addflower".equals(arr.get(0))) {
 				//1 is name 2 is type 3 is price
-				Flower flower = new Flower((String)(arr.get(1)),(String)(arr.get(2)),(double)(arr.get(3)));
+				Flower flower = new Flower();
+				flower=(Flower)arr.get(1);
 				flowerController.addFlower(flower);
 				session.getTransaction().commit();
 			}
 
 			if ((arr.get(0)).equals("#updateflower")) {
 				// 1 is id 2 is price 3 is discount
-				flowerController.updateData((int)(arr.get(1)),(double)(arr.get(2)),(int)(arr.get(3)));
+				flowerController.updateData((Flower)arr.get(1));
 				session.getTransaction().commit();
 			}
 
 			if((arr.get(0)).equals("#getcatalog")) {
-				List<Flower> lst = flowerController.getAllData(Flower.class);
+				System.out.println("here server");
+				ArrayList<Flower> lst = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
 				ArrayList<Object> answers = new ArrayList<>();
-				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
-				// 1 for name, 2 for id, 3 for price, 4 for sale
-				// 5 for discount, 6 for color, 7 for type, 8 for image url
-				for(int i = 0; i < lst.size(); i++) {
-					newarr.add(new ArrayList<>());
-					(newarr.get(i)).add(lst.get(i).getName());
-					(newarr.get(i)).add(lst.get(i).getId());
-					(newarr.get(i)).add(lst.get(i).getPrice());
-					(newarr.get(i)).add(lst.get(i).getSale());
-					(newarr.get(i)).add(lst.get(i).getDiscount());
-					(newarr.get(i)).add(lst.get(i).getColor());
-					(newarr.get(i)).add(lst.get(i).getType());
-					(newarr.get(i)).add(lst.get(i).getImageurl());
-				}
 				answers.add("#getcatalog");
-				newarr.add(answers);
-				//if we added more than one catalog we must change 1
-				sendToAllClients(newarr);
+				answers.add(lst);
+				System.out.println(answers);
+
+				sendToAllClients(answers);
 			}
 
 			if((arr.get(0)).equals("#register")) {

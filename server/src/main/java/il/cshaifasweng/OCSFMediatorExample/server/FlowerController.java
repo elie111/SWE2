@@ -41,16 +41,17 @@ public class FlowerController {
         return flower;
     }
 
-    public void updateData(int id,double price,int sale) throws Exception {
+    public void updateData(Flower flower) throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Flower> criteriaQuery = builder.createQuery(Flower.class);
         Root<Flower> rootEntry = criteriaQuery.from(Flower.class);
         CriteriaQuery<Flower> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<Flower> allQuery = session.createQuery(allCriteriaQuery);
-        allQuery.getResultList().get(id-1).setPrice(price);
-        allQuery.getResultList().get(id-1).setDiscount(sale);
+//        allQuery.getResultList().get(id-1).setPrice(price);
+//        allQuery.getResultList().get(id-1).setDiscount(sale);
 
-        session.update( allQuery.getResultList().get(id-1));
+
+        session.update( flower);
 
         session.flush();
     }
