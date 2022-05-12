@@ -36,7 +36,7 @@ public Order(String card, int userId, String formOfOrder, double finalPrice, Str
     this.pickup = pickup;
     this.status = status;
     this.shopId = shopId;
-     this.flowers = new ArrayList<>();
+
 }
 
     public Order(double finalPrice,ArrayList<Flower> flowers) {
@@ -49,7 +49,7 @@ public Order(String card, int userId, String formOfOrder, double finalPrice, Str
         super();
         this.card = "card";
         this.pickup = "pickup";
-        this.flowers = new ArrayList<>();
+
     }
     public int getId() {
         return id;

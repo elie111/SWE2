@@ -30,6 +30,7 @@ public class FlowerBoundary {
 
     @FXML
     void initialize() {
+
         flower = CatalogBoundary.getCurrentFlower();
         txt.setText(flower.getName());
         descriptiontxt.setText(flower.getType());
@@ -42,34 +43,34 @@ public class FlowerBoundary {
         flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
     }
 
-    @FXML
-    void edit(ActionEvent event) throws IOException {
-        if(editbtn.getText().equals("Update")) {
-            pricetxt.setEditable(true);
-            txt.setEditable(true);
-            descriptiontxt.setEditable(true);
-            editbtn.setText("done");
-            pricetxt.setStyle("-fx-background-color: white;");
-        }
-        else {
-            pricetxt.setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
-            pricetxt.setEditable(false);
-            txt.setEditable(false);
-            descriptiontxt.setEditable(false);
-            editbtn.setText("Update");
-            flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
-            flower.setName(txt.getText());
-            flower.setType(descriptiontxt.getText());
-            ArrayList<Object> arr = new ArrayList<>();
-            arr.add("#updateflower");
-//            arr.add(flower.getId());
-//            arr.add(flower.getPrice());
-//            arr.add(flower.getDiscount());
-            arr.add(flower);
-
-            App.getClient().sendToServer(arr);
-        }
-    }
+//    @FXML
+//    void edit(ActionEvent event) throws IOException {
+//        if(editbtn.getText().equals("Update")) {
+//            pricetxt.setEditable(true);
+//            txt.setEditable(true);
+//            descriptiontxt.setEditable(true);
+//            editbtn.setText("done");
+//            pricetxt.setStyle("-fx-background-color: white;");
+//        }
+//        else {
+//            pricetxt.setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
+//            pricetxt.setEditable(false);
+//            txt.setEditable(false);
+//            descriptiontxt.setEditable(false);
+//            editbtn.setText("Update");
+//            flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
+//            flower.setName(txt.getText());
+//            flower.setType(descriptiontxt.getText());
+//            ArrayList<Object> arr = new ArrayList<>();
+//            arr.add("#updateflower");
+////            arr.add(flower.getId());
+////            arr.add(flower.getPrice());
+////            arr.add(flower.getDiscount());
+//            arr.add(flower);
+//
+//            App.getClient().sendToServer(arr);
+//        }
+//    }
 
     @FXML
     void returnBtn(ActionEvent event) throws IOException {

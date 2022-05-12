@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import il.cshaifasweng.OCSFMediatorExample.entities.Order;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
@@ -58,6 +59,10 @@ public class SimpleServer extends AbstractServer {
 				flowerController.addFlower(flower);
 				session.getTransaction().commit();
 			}
+			if("#deleteflower".equals(arr.get(0))){
+
+				flowerController.deleteFlower((Flower)arr.get(1));
+			}
 
 			if ((arr.get(0)).equals("#updateflower")) {
 				// 1 is id 2 is price 3 is discount
@@ -66,12 +71,12 @@ public class SimpleServer extends AbstractServer {
 			}
 
 			if((arr.get(0)).equals("#getcatalog")) {
-				System.out.println("here server");
+
 				ArrayList<Flower> lst = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
 				ArrayList<Object> answers = new ArrayList<>();
 				answers.add("#getcatalog");
 				answers.add(lst);
-				System.out.println(answers);
+
 
 				sendToAllClients(answers);
 			}

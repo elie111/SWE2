@@ -6,19 +6,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="Item" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FlowerBoundary">
+<AnchorPane fx:id="Item" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FlowerEmployee">
     <children>
         <ImageView id="flowerImg" fx:id="flowerImg" fitHeight="120.0" fitWidth="120.0" layoutX="141.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@Images/beamingblush.jpg" />
             </image></ImageView>
+        <Button id="editbtn" fx:id="editbtn" layoutX="141.0" layoutY="333.0" mnemonicParsing="false" onAction="#edit" prefHeight="35.0" prefWidth="103.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Update" />
         <TextField id="txt" fx:id="txt" layoutX="286.0" layoutY="99.0" prefHeight="28.0" prefWidth="174.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="flower name" />
         <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnBtn" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="return " />
         <TextField id="pricetxt" fx:id="pricetxt" layoutX="348.0" layoutY="170.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="price" />
         <TextField editable="false" layoutX="387.0" layoutY="170.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="\$" />
         <TextField id="descriptiontxt" fx:id="descriptiontxt" layoutX="150.0" layoutY="220.0" prefHeight="100.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 16px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2; -fx-font-weight: bold; -fx-font-style: italic;" />
         <TextField editable="false" layoutX="286.0" layoutY="170.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-style: italic;" text="price: " />
-        <Button fx:id="addtocartbtn" layoutX="150.0" layoutY="335.0" mnemonicParsing="false" onAction="#addBtn" prefHeight="35.0" prefWidth="103.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Add to cart" />
 
     </children>
 </AnchorPane>

@@ -23,6 +23,14 @@ public class Flower implements Serializable {
     @ManyToMany
     private List<Order> order;
 
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
     public Flower() {
         this.imageurl = "Images/lile.jpg" ;//defualt image
         this.sale = false;

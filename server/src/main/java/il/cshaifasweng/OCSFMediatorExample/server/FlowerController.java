@@ -1,8 +1,12 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import il.cshaifasweng.OCSFMediatorExample.entities.Order;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -62,8 +66,11 @@ public class FlowerController {
     }
 
     public void deleteFlower(Flower flower) throws Exception {
+
         session.delete(flower);
         session.flush();
+
+
     }
 
     public FlowerController() {}

@@ -25,6 +25,7 @@ public class loginOrsignupController {
 
     @FXML
     public void showCatalogBtn(ActionEvent event) throws IOException {
+//        App.setRoot("catalogemployee");
         App.setRoot("catalogboundary");
     }
 }

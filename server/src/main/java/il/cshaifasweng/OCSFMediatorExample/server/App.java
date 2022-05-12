@@ -82,7 +82,7 @@ public class App {
             floweritem = new Flower("Inmarcesible Passion","Red Rose",198);
             floweritem.setImageurl("Images/inmarcible.jpg");
             floweritem.setColor("red");
-            floweritem.setCatalog(catalog);
+           // floweritem.setCatalog(catalog);
             flowerslst.add(floweritem);
             session.save(floweritem);
 
@@ -135,7 +135,7 @@ public class App {
             flowerslst.add(floweritem);
             session.save(floweritem);
 
-            catalog.setFlowers(flowerslst);
+            //catalog.setFlowers(flowerslst);
             session.save(catalog);
 
             session.flush();

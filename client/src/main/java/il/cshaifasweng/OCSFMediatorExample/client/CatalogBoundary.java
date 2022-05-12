@@ -77,6 +77,7 @@ public class CatalogBoundary implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         pricerange.setMin(0);
         pricerange.setMax(350);
         pricerange.setValue(350);
@@ -132,8 +133,10 @@ public class CatalogBoundary implements Initializable {
     public static void addToCart(Flower flower) {
        // cartlst.add(flower);
         int counter;
-        if(cartmap.get(flower)==null)
-        cartmap.put(flower,1);
+        if(cartmap.get(flower)==null) {
+            System.out.println("here");
+            cartmap.put(flower, 1);
+        }
         else{
             counter=cartmap.get(flower)+1;
             cartmap.put(flower,counter);
@@ -301,6 +304,15 @@ public class CatalogBoundary implements Initializable {
             }
         });
 
+    }
+    @FXML
+    void refresh(ActionEvent event) {
+        myListView.getItems().clear();
+        liststr.clear();
+        cartnames.clear();
+        mycart.getItems().clear();
+         getCatalogItems();
+         getCartItems();
     }
 
 

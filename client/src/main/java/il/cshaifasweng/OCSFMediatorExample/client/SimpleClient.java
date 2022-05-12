@@ -42,8 +42,8 @@ public class SimpleClient extends AbstractClient {
 
 
 		if(msgarray.get(0).equals("#getcatalog")) {
-			System.out.println("here"+ msgarray.get(1));
 			CatalogBoundary.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
+			CatalogEmployee.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
 		}
 
 	}
