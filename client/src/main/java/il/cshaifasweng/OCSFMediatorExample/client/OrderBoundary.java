@@ -48,6 +48,9 @@ public class OrderBoundary {
     private ChoiceBox<String> hour;
     @FXML
     private ChoiceBox<String> minutes;
+    @FXML
+
+    private CheckBox immediate;
 
     private ArrayList<String> liststr = new ArrayList<String>();
     private ArrayList<String> cartlist = new ArrayList<String>(); //cart names
@@ -62,12 +65,8 @@ public class OrderBoundary {
             "20", "21", "22", "23");
 
     private ObservableList<String> minuteList = FXCollections.observableArrayList("" +
-                    "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
-            "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-            "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-            "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-            "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
-            "50", "51", "52", "53", "54", "55", "56", "57", "58", "59");
+                    "00", "15",
+            "30",  "45");
 
     public void getCartItems() {
 
@@ -108,10 +107,14 @@ public class OrderBoundary {
         minutes.setItems(minuteList);
 
         LocalTime currentTime = LocalTime.now();
+        currentTime=currentTime.plusHours(3);
         String hours = Integer.toString(currentTime.getHour());
         String minute = Integer.toString(currentTime.getMinute());
+
         hour.setValue(hours);
         minutes.setValue(minute);
+
+
         payment.getItems().add("my credit card");
         payment.getItems().add("new credit card");
         payment.setValue("my credit card");
@@ -155,6 +158,12 @@ public class OrderBoundary {
                     }
                 };
         confirm.setOnAction(event);
+//        immediate.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+//            hour.setValue(hours);
+//            minutes.setValue(minute);
+//            hour.hide();
+//            minutes.hide();
+//        });
     }
 
 
@@ -245,5 +254,25 @@ public class OrderBoundary {
             }
         });
 
+    }
+
+    @FXML
+    public void checkimmediate(ActionEvent actionEvent) {
+        if(immediate.isSelected())
+        {
+            LocalTime currentTime = LocalTime.now();
+            currentTime=currentTime.plusHours(3);
+            String hours = Integer.toString(currentTime.getHour());
+            String minute = Integer.toString(currentTime.getMinute());
+
+            hour.setValue(hours);
+            minutes.setValue(minute);
+            hour.hide();
+            minutes.hide();
+        }
+        else {
+            hour.show();
+            minutes.show();
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Order implements Serializable {
     private String card;
     private int userId;
     private String formOfOrder;
+    private  int orderID;
     private double finalPrice;
     private String paymentMethod;
     private Date date;
