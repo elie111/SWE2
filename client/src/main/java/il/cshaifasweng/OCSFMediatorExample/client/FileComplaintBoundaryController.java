@@ -76,12 +76,30 @@ public class FileComplaintBoundaryController implements Initializable {
         
         // write to database
         ArrayList<Object> arr = new ArrayList<>();
-        arr.add("#complaint");
+        arr.add("#newComplaint");
+        arr.add(EntityHolder.getUser().getID()); //user id
         arr.add(orderNumber); //order number
         arr.add(content); //content of complaint
-        arr.add(true); //status
         arr.add(today); //the date of the complaint
+        arr.add(0); //status
         App.getClient().sendToServer(arr);
+
+        //alert box that says complaint was filed
+        //come back to general screen
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Complaint Filed");
+        alert.setHeaderText("Your complaint has been submitted \nPlaese wait a response! ");
+        ButtonType moveOnBtn = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        ButtonBar.ButtonData.CANCEL_CLOSE;
+        alert.getButtonTypes().setAll(moveOnBtn);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == moveOnBtn) {
+            //App.setRoot("profileScreen");
+        }
+        alert.setOnCloseRequest(e -> {
+            //App.setRoot("profileScreen");
+        });
+
     }
 
 

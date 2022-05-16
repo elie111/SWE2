@@ -10,11 +10,20 @@ public class Complaint implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String answer;
-    private String content;
-    private String date;
-    private String orderId;
-    private boolean status;
+    private int userId;
+    private int orderId; //number of order
+    private int content;
+    private LocalDateTime dateTime; //date of complaint
+    private int status; //status of order
+
+    public Complaint(int userId, int orderId, int content, LocalDateTime dateTime, int status) {
+        super();
+        this.userId = userId;
+        this.orderId = orderId;
+        this.content = content;
+        this.dateTime = dateTime;
+        this.status = status;
+    }
 
     public Complaint() {
         super();
@@ -24,51 +33,48 @@ public class Complaint implements Serializable {
         return id;
     }
 
-    public String getOrderId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public String getContent() {
+    public int getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(int content) {
         this.content = content;
     }
 
-    public boolean getStatus() {
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    //0 - complaint is open, 1 - complaint in process, 2- user got anser about the complaint
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Complaint(String orderId, String content, boolean status, String date, String answer) {
-        this.orderId = orderId;
-        this.content = content;
-        this.status = status;
-        this.date = date;
-        this.answer = answer;
     }
 }

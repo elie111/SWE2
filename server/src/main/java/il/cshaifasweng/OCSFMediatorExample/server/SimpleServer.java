@@ -131,6 +131,19 @@ public class SimpleServer extends AbstractServer {
 				flowerController.updateData((Flower)arr.get(1));
 				session.getTransaction().commit();
 			}
+
+			if((arr.get(0)).equals("#newComplaint")) {
+				// registration process
+				Complaint complaint = new Complaint((String) arr.get(1), (String) arr.get(2), (String) arr.get(3),
+						(String) arr.get(4), (String) arr.get(5));
+				complaintController.addComplaint(complaint);
+				session.getTransaction().commit();
+			}
+
+			//yael - my orders
+			//get order list like get catalog
+			//after order list - create new list of orders according to userId
+			//client.sentToClient
 		}
 		catch (Exception exception) {
 			if (session != null) {

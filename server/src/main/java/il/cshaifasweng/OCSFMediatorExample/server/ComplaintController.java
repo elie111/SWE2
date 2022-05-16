@@ -23,4 +23,9 @@ public class ComplaintController {
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
     }
+
+    public void addComplaint(Complaint complaint) throws Exception {
+        session.save(complaint);
+        session.flush();
+    }
 }

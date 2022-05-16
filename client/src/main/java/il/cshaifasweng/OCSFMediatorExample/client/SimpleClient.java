@@ -114,6 +114,8 @@ public class SimpleClient extends AbstractClient {
 				loginController.showMessage();
 			}
 		}
+
+		//yael - my orders - like get catalog
 	}
 
 	@Override
