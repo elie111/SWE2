@@ -1,11 +1,12 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "complaint")
 
-public class Complaint{
+public class Complaint implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,7 +16,9 @@ public class Complaint{
     private String orderId;
     private boolean status;
 
-    public Complaint() {}
+    public Complaint() {
+        super();
+    }
 
     public int getId() {
         return id;

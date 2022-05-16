@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
@@ -9,16 +8,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class UserController {
+public class StoreManagerController {
     private Session session;
 
-    public UserController(Session session) {
+    public StoreManagerController(Session session) {
         this.session = session;
-    }
-
-    public void addUser(User user) throws Exception {
-        session.save(user);
-        session.flush();
     }
 
     public <T> List<T> getAllData(Class<T> c) throws Exception {

@@ -2,14 +2,17 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class FileComplaintController {
+public class FileComplaintBoundaryController implements Initializable {
     @FXML private Label complaintLable;
     @FXML private TextField complaintTF;
     @FXML private Button sendBtn;
@@ -22,9 +25,14 @@ public class FileComplaintController {
 
 //    Complaint complaint = new Complaint(); //create complaint in db
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
     @FXML
     public void onCLickCancel(ActionEvent event) throws IOException {
-        App.setRoot("catalogBoundary");
+        App.setRoot("CatalogBoundary");
     }
 
     // check that order number only has numbers
@@ -75,4 +83,6 @@ public class FileComplaintController {
         arr.add(today); //the date of the complaint
         App.getClient().sendToServer(arr);
     }
+
+
 }

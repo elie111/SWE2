@@ -1,8 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
-import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,53 +35,83 @@ public class SimpleClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		ArrayList<Flower> arr = new ArrayList<>();
-		ArrayList<ArrayList<Object>> arrarr = new ArrayList<ArrayList<Object>>();
-		arrarr = (ArrayList<ArrayList<Object>>)(msg);
+		ArrayList<Object> msgArray = new ArrayList<>();
+		msgArray = (ArrayList<Object>) msg;
 
-		String answer = (String)arrarr.get(arrarr.size() - 1).get(0);
-
-		if(answer.equals("#getcatalog")) {
-			for(int i = 0; i < arrarr.size() - 1; i++) {
-				//go over all the flowers
-				Flower f = new Flower();
-				f.setId((int)arrarr.get(i).get(1));
-				f.setPrice((double)arrarr.get(i).get(2));
-				f.setColor((String) arrarr.get(i).get(5));
-				f.setDiscount((int)arrarr.get(i).get(4));
-				f.setName((String) arrarr.get(i).get(0));
-				f.setType((String) arrarr.get(i).get(6));
-				f.setSale((Boolean) arrarr.get(i).get(3));
-				f.setImageurl((String) arrarr.get(i).get(7));
-				arr.add(f);
-			}
-			CatalogBoundaryController.setFlowers(arr);
+		if(msgArray.get(0).equals("#getcatalog")) {
+			CatalogBoundaryController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
+			CatalogEmployeeController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
 		}
 
-		if(answer.equals("#connectUser")) {
-			boolean a = (boolean)arrarr.get(arrarr.size() - 1).get(1);
-			if(a == true) {
-				User user = new User((String)arrarr.get(arrarr.size() - 1).get(2),
-									 (String)arrarr.get(arrarr.size() - 1).get(3),
-									 (String)arrarr.get(arrarr.size() - 1).get(4),
-									 (String)arrarr.get(arrarr.size() - 1).get(5),
-									 (String)arrarr.get(arrarr.size() - 1).get(6),
-									 (String)arrarr.get(arrarr.size() - 1).get(7),
-									 (String)arrarr.get(arrarr.size() - 1).get(8),
-									 (String)arrarr.get(arrarr.size() - 1).get(9),
-									 (String)arrarr.get(arrarr.size() - 1).get(10),
-									 (String)arrarr.get(arrarr.size() - 1).get(11));
-				int id = (int)arrarr.get(arrarr.size() - 1).get(12);
-				UserHolder.setUser(user);
-				UserHolder.setID(id);
-				int index = (int)arrarr.get(arrarr.size() - 1).get(13);
-				if(index == 1) {
-					LoginController loginController = new LoginController();
-					loginController.nextStep(1);
+		if(msgArray.get(0).equals("#connectUserAfterRegistration")) {
+			EntityHolder.setTable(0);
+			User user = new User((String)msgArray.get(1), (String)msgArray.get(2),
+								 (String)msgArray.get(3), (String)msgArray.get(4),
+								 (String)msgArray.get(5), (String)msgArray.get(6),
+								 (String)msgArray.get(7), (String)msgArray.get(8),
+								 (String)msgArray.get(9), (String)msgArray.get(10),
+								 (double)msgArray.get(11));
+			int id = (int)msgArray.get(12);
+			EntityHolder.setUser(user);
+			EntityHolder.setID(id);
+			RegistrationBoundaryController r = new RegistrationBoundaryController();
+			r.nextStep();
+		}
+
+		if(msgArray.get(0).equals("#connectEntity")) {
+			if((boolean)msgArray.get(1) == true) {
+				if(msgArray.get(2).equals("User")) {
+					EntityHolder.setTable(0);
+					User user = new User((String)msgArray.get(3), (String)msgArray.get(4),
+										 (String)msgArray.get(5), (String)msgArray.get(6),
+										 (String)msgArray.get(7), (String)msgArray.get(8),
+										 (String)msgArray.get(9), (String)msgArray.get(10),
+										 (String)msgArray.get(11), (String)msgArray.get(12),
+										 (double)msgArray.get(13));
+					int id = (int)msgArray.get(14);
+					EntityHolder.setUser(user);
+					EntityHolder.setID(id);
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(2);
+				}
+				else if(msgArray.get(2).equals("Employee")) {
+					EntityHolder.setTable(1);
+					Employee employee = new Employee((String)msgArray.get(3),
+													 (String)msgArray.get(4),
+													 (String)msgArray.get(5));
+					int id = (int)msgArray.get(6);
+					EntityHolder.setEmployee(employee);
+					EntityHolder.setID(id);
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(3);
+				}
+				else if(msgArray.get(2).equals("Store Manager")) {
+					EntityHolder.setTable(2);
+					StoreManager storeManager = new StoreManager((String)msgArray.get(3),
+																 (String)msgArray.get(4),
+																 (String)msgArray.get(5),
+																 (String)msgArray.get(6));
+					int id = (int)msgArray.get(7);
+					EntityHolder.setStoreM(storeManager);
+					EntityHolder.setID(id);
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(4);
+				}
+				else if(msgArray.get(2).equals("Chain Manager")) {
+					EntityHolder.setTable(3);
+					ChainManager chainManager = new ChainManager((String)msgArray.get(3),
+																 (String)msgArray.get(4),
+																 (String)msgArray.get(5));
+					int id = (int)msgArray.get(6);
+					EntityHolder.setChainM(chainManager);
+					EntityHolder.setID(id);
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(5);
 				}
 			}
 			else {
-				LoginController loginController = new LoginController();
-				loginController.nextStep(2);
+				LoginBoundaryController loginController = new LoginBoundaryController();
+				loginController.showMessage();
 			}
 		}
 	}
@@ -105,3 +134,22 @@ public class SimpleClient extends AbstractClient {
 		}
 	}
 }
+
+/*
+@Override
+	protected void handleMessageFromServer(Object msg) {
+		ArrayList<Flower> arr = new ArrayList<>();
+
+		ArrayList<Object> msgarray=new ArrayList<>();
+
+		msgarray=(ArrayList<Object>) msg;
+
+
+		if(msgarray.get(0).equals("#getcatalog")) {
+			CatalogBoundary.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
+			CatalogEmployee.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
+		}
+
+	}
+
+ */

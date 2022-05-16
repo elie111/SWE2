@@ -1,9 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
-import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.entities.Order;
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,10 +18,6 @@ public class App {
 	private static SimpleServer server;
     private static Session session;
     private static SessionFactory sessionFactory;
-//    private static FlowerController flowerController;
-//    private static CatalogController catalogController;
-//    private static OrderController orderController;
-//    private static UserController userController;
     static Scanner sc = new Scanner(System.in);
 
     public static SessionFactory getSession() {
@@ -35,8 +28,12 @@ public class App {
         Configuration configuration = new Configuration();
         // Add ALL of your entities here. You can also try adding a whole package.
         configuration.addAnnotatedClass(Catalog.class);
+        configuration.addAnnotatedClass(ChainManager.class);
+        configuration.addAnnotatedClass(Complaint.class);
+        configuration.addAnnotatedClass(Employee.class);
         configuration.addAnnotatedClass(Flower.class);
         configuration.addAnnotatedClass(Order.class);
+        configuration.addAnnotatedClass(StoreManager.class);
         configuration.addAnnotatedClass(User.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -50,86 +47,53 @@ public class App {
         System.out.println("please enter the port number: ");
         server = new SimpleServer(sc.nextInt());
         server.listen();
+
         try {
             sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            FlowerController flowerController = new FlowerController(session);
-            CatalogController catalogController = new CatalogController(session);
-            OrderController orderController = new OrderController(session);
-            UserController userController = new UserController(session);
 
-            List<Flower> flowerslst = new ArrayList<Flower>();
+            List<Flower> flowersList = new ArrayList<Flower>();
             Catalog catalog = new Catalog();
+            ConstantStrings1 c = new ConstantStrings1();
 
-            Order or = new Order() ;
-            session.save(or);
+            // flowers
+            for(int i = 0; i < c.flowersNames.length; i++) {
+                Flower flowerItem = new Flower(c.flowersNames[i], c.flowersDescriptions[i],
+                                               c.flowersTypes[i], c.flowersImages[i],
+                                               c.flowersColors[i], c.flowersPrices[i]);
+                flowerItem.setCatalog(catalog);
+                flowersList.add(flowerItem);
+                session.save(flowerItem);
+            }
+            // users
+            for(int i = 0; i < c.userNames.length; i++) {
+                User userItem = new User(c.userNames[i], c.userIdentificationNumbers[i],
+                                         c.userEmails[i], c.userPhoneNumbers[i],
+                                         c.userCreditNumbers[i], c.userMonthAndYears[i],
+                                         c.userCVVNumbers[i], c.userPasswords[i],
+                                         c.userAccounts[i], c.userStores[i], 0);
+                session.save(userItem);
+            }
+            // employees
+            for(int i = 0; i < c.employeesNames.length; i++) {
+                Employee employeeItem = new Employee(c.employeesNames[i], c.employeesEmails[i], c.employeesPasswords[i]);
+                session.save(employeeItem);
+            }
+            // store managers
+            for(int i = 0; i < c.storeMNames.length; i++) {
+                StoreManager storeMItem = new StoreManager(c.storeMNames[i], c.storeMEmails[i],
+                                                           c.storeMPasswords[i], c.storeMUniqueStore[i]);
+                session.save(storeMItem);
+            }
+            // a single chain manager
+            ChainManager chainMItem = new ChainManager("Ramesses The Second", "riri@gmail.com", "ahsng55555");
+            session.save(chainMItem);
 
-            Flower floweritem = new Flower("Infinite Happiness","Lile",120);
-            floweritem.setImageurl("Images/lile.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Rosy Smile","Rose",350);
-            floweritem.setImageurl("Images/smileyroses.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Inmarcesible Passion","Red Rose",198);
-            floweritem.setImageurl("Images/inmarcible.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Beaming Blush","roses, lilies and matthiola ",45);
-            floweritem.setImageurl("Images/beamingblush.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Wild Cherry","Rose",150);
-            floweritem.setImageurl("Images/wildcherry.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Velvety Burgundy","Rose",60);
-            floweritem.setImageurl("Images/velvet.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Soulful Yellow","yellow flowers and roses",65);
-            floweritem.setImageurl("Images/yellow.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Roseate Charm","combination of hydrangeas, chrysanthemums, amaryllis, and roses",160);
-            floweritem.setImageurl("Images/roseat.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Ignited Passion","fiery roses",120);
-            floweritem.setImageurl("Images/ignited.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            floweritem = new Flower("Dreamy Pink","pink hyacinths",95);
-            floweritem.setImageurl("Images/dreamypink.jpg");
-            floweritem.setCatalog(catalog);
-            flowerslst.add(floweritem);
-            session.save(floweritem);
-
-            catalog.setFlowers(flowerslst);
+            catalog.setFlowers(flowersList);
             session.save(catalog);
 
             session.flush();
-
             session.getTransaction().commit();
         } catch (Exception exception) {
             if (session != null) {

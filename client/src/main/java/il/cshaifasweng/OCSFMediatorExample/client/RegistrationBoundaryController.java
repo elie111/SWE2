@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class RegistrationController implements Initializable {
+public class RegistrationBoundaryController implements Initializable {
     @FXML private Text Registration;
 
     @FXML private Label LableName;
@@ -40,9 +40,9 @@ public class RegistrationController implements Initializable {
     @FXML private Button backBtn;
     @FXML private Button signBtn;
 
-    @FXML private Text labelSubscription;
+    @FXML private Label labelSubscription;
     @FXML private ComboBox<String> chooseMembership;
-    @FXML private Text labelStore;
+    @FXML private Label labelStore;
     @FXML private ComboBox<String> chooseStore;
 
     @FXML private TextArea error;
@@ -53,7 +53,6 @@ public class RegistrationController implements Initializable {
         chooseStore.setVisible(false);
         error.setEditable(false);
         error.setText("please fill all fields\ncorrectly");
-        error.setStyle("-fx-font-weight: bold");
         error.setVisible(false);
         signBtn.disableProperty().bind(
                 Bindings.isEmpty(textName.textProperty())
@@ -68,9 +67,9 @@ public class RegistrationController implements Initializable {
                         .or(chooseMembership.valueProperty().isNull()));
 
         chooseMonth.getItems().addAll("01", "02", "03", "04", "05", "06",
-                                "07", "08", "09", "10", "11", "12");
+                                           "07", "08", "09", "10", "11", "12");
         chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
-                                "28", "29", "30", "31", "32", "33");
+                                          "28", "29", "30", "31", "32", "33");
         chooseMembership.getItems().addAll("Store Account", "Chain Account", "Yearly Chain Account");
         // in the future, take shop list from database
         chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
@@ -89,7 +88,7 @@ public class RegistrationController implements Initializable {
 
     @FXML
     public void backButton(ActionEvent event) throws IOException {
-        App.setRoot("loginOrsignupBoundary");
+        App.setRoot("LoginOrSignupBoundary");
     }
 
     @FXML
@@ -140,7 +139,6 @@ public class RegistrationController implements Initializable {
         }
         else {
             // adding data to database
-            // pay attention that store could be null if it's not store account
             addNewUser(firstName, ID, email, phoneN, creditCard, vMonth, vYear, cvv, password, account, store);
             error.setVisible(false);
         }
@@ -357,12 +355,21 @@ public class RegistrationController implements Initializable {
         else {
             arr.add(storeOrNull);
         }
+        double refund = 0;
+        arr.add(refund);
 
         App.getClient().sendToServer(arr);
-        moveForward();
+    }
+
+    public void nextStep() {
+        try {
+            moveForward();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void moveForward() throws IOException {
-        App.setRoot("catalogboundary");
+        App.setRoot("CatalogBoundary");
     }
 }

@@ -16,10 +16,6 @@ public class OrderController {
         this.session = session;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
     public <T> List<T> getAllData(Class<T> c) throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
@@ -49,6 +45,4 @@ public class OrderController {
         session.delete(order);
         session.flush();
     }
-
-    public OrderController() {}
 }

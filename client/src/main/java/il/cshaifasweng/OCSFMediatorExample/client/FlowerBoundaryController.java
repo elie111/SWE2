@@ -3,70 +3,45 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class FlowerBoundaryController {
-    @FXML private AnchorPane Item;
-    @FXML private Button editbtn;
+public class FlowerBoundaryController implements Initializable {
     @FXML private ImageView flowerImg;
-
-    private String imageUrl;
-
-    @FXML private Button returnbtn;
-    @FXML private Button addtocartbtn;
-
     @FXML private TextField txt;
-    @FXML private Label descriptiontxt;
-    @FXML private TextField pricetxt;
+    @FXML private TextField priceLabel;
+    @FXML private TextField priceTxt;
+    @FXML private TextField dollarLabel;
+    @FXML private TextField descriptionTxt;
+    @FXML private Button addToCartBtn;
+    @FXML private Button returnBtn;
+
     Flower flower = new Flower();
 
-    @FXML
-    void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         flower = CatalogBoundaryController.getCurrentFlower();
         txt.setText(flower.getName());
-        descriptiontxt.setText(flower.getType());
-        pricetxt.setText((flower.getPrice()) + "");
+        descriptionTxt.setText(flower.getDescription());
+        priceTxt.setText((flower.getPrice()) + "");
         txt.setEditable(false);
-        descriptiontxt.setWrapText(true);
+        descriptionTxt.setEditable(false);
 
-        pricetxt.setEditable(false);
+        priceTxt.setEditable(false);
         flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
-    }
-
-    @FXML
-    void edit(ActionEvent event) throws IOException {
-        if(editbtn.getText().equals("Update")) {
-            pricetxt.setEditable(true);
-            editbtn.setText("done");
-            pricetxt.setStyle("-fx-background-color: white;");
-        }
-        else {
-            pricetxt.setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
-            pricetxt.setEditable(false);
-            editbtn.setText("Update");
-            flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
-            ArrayList<Object> arr = new ArrayList<>();
-            arr.add("#updateflower");
-            arr.add(flower.getId());
-            arr.add(flower.getPrice());
-            arr.add(flower.getDiscount());
-
-            App.getClient().sendToServer(arr);
-        }
     }
 
     @FXML
     void returnBtn(ActionEvent event) throws IOException {
         try {
-            App.setRoot("catalogboundary");
+            App.setRoot("CatalogBoundary");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,9 +51,11 @@ public class FlowerBoundaryController {
     void addBtn(ActionEvent event) throws IOException {
         try {
             CatalogBoundaryController.addToCart(flower);
-            App.setRoot("catalogboundary");
+            App.setRoot("CatalogBoundary");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -1,17 +1,19 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
 
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String account;
     private String credit;
     private String cvv;
+    private double refund;
     private String email;
     private String identificationNumber;
     private String monthAndYear;
@@ -21,7 +23,9 @@ public class User {
     private String userName;
 
     public User(String name, String identificationNumber, String email, String phone, String credit,
-                String monthAndYear, String cvv, String password, String account, String storeOrNull) {
+                String monthAndYear, String cvv, String password, String account, String storeOrNull,
+                double refund) {
+        super();
         this.userName = name;
         this.identificationNumber = identificationNumber;
         this.email = email;
@@ -32,9 +36,12 @@ public class User {
         this.password = password;
         this.account = account;
         this.storeOrNull = storeOrNull;
+        this.refund = refund;
     }
 
-    public User() {}
+    public User() {
+        super();
+    }
 
     public String getName() {
         return userName;
@@ -118,5 +125,13 @@ public class User {
 
     public int getID() {
         return id;
+    }
+
+    public double getRefund() {
+        return refund;
+    }
+
+    public void setRefund(double refund) {
+        this.refund = refund;
     }
 }

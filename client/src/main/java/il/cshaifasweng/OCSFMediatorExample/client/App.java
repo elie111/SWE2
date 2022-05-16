@@ -37,7 +37,7 @@ public class App extends Application {
         arr.add("#getcatalog");
         client.sendToServer(arr);
 
-        scene = new Scene(loadFXML("loginOrsignupBoundary"), 600, 400);
+        scene = new Scene(loadFXML("LoginOrSignupBoundary"), 600, 400);
         stage.setScene(scene);
         stage.show();
     }
