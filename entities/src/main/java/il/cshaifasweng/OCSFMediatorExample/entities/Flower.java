@@ -18,24 +18,29 @@ public class Flower implements Serializable {
     private double price;
     private String color;
     private Boolean sale;
+    private String description;
+
     @ManyToOne
     private Catalog catalog;
     @ManyToMany
     private List<Order> order;
 
-    public List<Order> getOrder() {
-        return order;
-    }
-
-    public void setOrder(List<Order> order) {
-        this.order = order;
-    }
-
     public Flower() {
-        this.imageurl = "Images/lile.jpg" ;//defualt image
+        super();
         this.sale = false;
-        this.color = "red";
-        order=new ArrayList<>();
+        this.discount = 0;
+    }
+
+    public Flower(String name, String description, String type, String image, String color, double price) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.imageurl = image;
+        this.color = color;
+        this.price = price;
+        this.sale = false;
+        this.discount = 0;
     }
 
     public String getImageurl() {
@@ -46,6 +51,42 @@ public class Flower implements Serializable {
         return catalog;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public Boolean getSale() {
+        return sale;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
     public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
     }
@@ -54,70 +95,39 @@ public class Flower implements Serializable {
         this.imageurl = imageurl;
     }
 
-    public Flower(String name, String type, double price) {
-        super();
-        this.name = name;
-        this.type = type;
-
-        this.price = price;
-        this.imageurl = "Images/lile.jpg" ;//defualt image
-        this.sale = false;
-        this.color = "red";
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setType(String type) {
         this.type = type;
-    }
-
-    public int getDiscount() {
-        return discount;
     }
 
     public void setDiscount(int discount) {
         this.discount = discount;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public String getColor() {
-        return color;
     }
 
     public void setColor(String color) {
         this.color = color;
     }
 
-    public Boolean getSale() {
-        return sale;
-    }
-
     public void setSale(Boolean sale) {
         this.sale = sale;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
     }
 }

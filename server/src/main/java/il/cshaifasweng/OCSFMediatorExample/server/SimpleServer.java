@@ -1,13 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
-import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.entities.Order;
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,15 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Flow;
 
 public class SimpleServer extends AbstractServer {
 	private static Session session;
-	private static SessionFactory sessionFactory;
-//	private static FlowerController flowerController;
-//	private static CatalogController catalogController;
-//	private static OrderController orderController;
-//	private static UserController userController;
 	static Scanner sc = new Scanner(System.in);
 
 	public SimpleServer(int port) {
@@ -36,22 +26,94 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException,Exception {
 		ArrayList<Object> arr = new ArrayList<>();
 		try {
-			//sessionFactory = getSessionFactory();
-		 	session = App.getSession().openSession();
+			session = App.getSession().openSession();
 		 	session.beginTransaction();
-			FlowerController flowerController = new FlowerController(session);
 			CatalogController catalogController = new CatalogController(session);
+			ChainManagerController chainManagerController = new ChainManagerController(session);
+			ComplaintController complaintController = new ComplaintController(session);
+			EmployeeController employeeController = new EmployeeController(session);
+			FlowerController flowerController = new FlowerController(session);
 			OrderController orderController=new OrderController(session);
+			StoreManagerController storeManagerController = new StoreManagerController(session);
 			UserController userController = new UserController(session);
-//			flowerController.setSession(session);
-//			catalogController.setSession(session);
-//			orderController.setSession(session);
-//			userController.setSession(session);
 
 			arr = (ArrayList<Object>) msg;
-            if ("#addorder".equals(arr.get(0))){
-            	orderController.addOrder((Order)arr.get(1));
+			ArrayList<Object> answers = new ArrayList<>();
+			if((arr.get(0)).equals("#getcatalog")) {
+				ArrayList<Flower> list = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
+				// ArrayList<Object> answers = new ArrayList<>();
+				answers.add("#getcatalog");
+				answers.add(list);
+				sendToAllClients(answers);
 			}
+
+			if((arr.get(0)).equals("#register")) {
+				// registration process
+				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
+									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
+									 (String)arr.get(10), (double)arr.get(11));
+				userController.addUser(user);
+				session.getTransaction().commit();
+
+				// login
+				List<User> list = userController.getAllData(User.class);
+				// ArrayList<Object> answers = new ArrayList<>();
+				String eMail = "", password = "";
+				String myMail = (String)arr.get(3);
+				String myPassword = (String)arr.get(8);
+
+				for(int i = list.size() - 1; i >= 0; i++) {
+					eMail = list.get(i).getEmail();
+					if(eMail.equals(myMail)) {
+						password = list.get(i).getPassword();
+						if(password.equals(myPassword)) {
+							answers.add("#connectUserAfterRegistration");
+							answers.add(list.get(i).getName());
+							answers.add(list.get(i).getId());
+							answers.add(list.get(i).getEmail());
+							answers.add(list.get(i).getPhone());
+							answers.add(list.get(i).getCredit());
+							answers.add(list.get(i).getMonthAndYear());
+							answers.add(list.get(i).getCvv());
+							answers.add(list.get(i).getPassword());
+							answers.add(list.get(i).getAccount());
+							answers.add(list.get(i).getStoreOrNull());
+							answers.add(list.get(i).getRefund());
+							answers.add(list.get(i).getID());
+							client.sendToClient(answers);
+						}
+					}
+					break;
+				}
+			}
+
+			if((arr.get(0)).equals("#loginUser")) {
+				if((arr.get(1)).equals("User")) {
+					List<User> list = userController.getAllData(User.class);
+					loginUser(arr, list, answers);
+				}
+				else if((arr.get(1)).equals("Employee")) {
+					List<Employee> list = employeeController.getAllData(Employee.class);
+					loginEmployee(arr, list, answers);
+				}
+				else if((arr.get(1)).equals("Store Manager")) {
+					List<StoreManager> list = storeManagerController.getAllData(StoreManager.class);
+					loginStoreM(arr, list, answers);
+				}
+				else if((arr.get(1)).equals("Chain Manager")) {
+					List<ChainManager> list = chainManagerController.getAllData(ChainManager.class);
+					loginChainM(arr, list, answers);
+				}
+				client.sendToClient(answers);
+			}
+
+
+
+			if ("#addorder".equals(arr.get(0))){
+				orderController.addOrder((Order)arr.get(1));
+			}
+
 			if ("#addflower".equals(arr.get(0))) {
 				//1 is name 2 is type 3 is price
 				Flower flower = new Flower();
@@ -59,65 +121,15 @@ public class SimpleServer extends AbstractServer {
 				flowerController.addFlower(flower);
 				session.getTransaction().commit();
 			}
-			if("#deleteflower".equals(arr.get(0))){
 
-				flowerController.deleteFlower((Flower)arr.get(1));
+			if("#deleteflower".equals(arr.get(0))) {
+				flowerController.deleteFlower((Flower) arr.get(1));
 			}
 
 			if ((arr.get(0)).equals("#updateflower")) {
 				// 1 is id 2 is price 3 is discount
 				flowerController.updateData((Flower)arr.get(1));
 				session.getTransaction().commit();
-			}
-
-			if((arr.get(0)).equals("#getcatalog")) {
-
-				ArrayList<Flower> lst = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
-				ArrayList<Object> answers = new ArrayList<>();
-				answers.add("#getcatalog");
-				answers.add(lst);
-
-
-				sendToAllClients(answers);
-			}
-
-			if((arr.get(0)).equals("#register")) {
-				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
-									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
-									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
-									 (String)arr.get(10));
-				userController.addUser(user);
-				session.getTransaction().commit();
-			}
-
-			if((arr.get(0)).equals("#loginUser")) {
-				List<User> lst = userController.getAllData(User.class);
-				ArrayList<Object> answers = new ArrayList<>();
-				ArrayList<ArrayList<Object>> newarr = new ArrayList<>();
-
-				String eMail = "", password = "";
-				String myMail = (String)arr.get(1);
-				String myPassword = (String)arr.get(2);
-
-				for(int i = 0; i < lst.size(); i++) {
-					eMail = lst.get(i).getEmail();
-					if(eMail.equals(myMail)) {
-						password = lst.get(i).getPassword();
-						if(password.equals(myPassword)) {
-							answers.add("#connectUser");
-							answers.add(true);
-							answers.add(lst.get(i));
-							newarr.add(answers);
-						}
-					}
-					else {
-						answers.add("#connectUser");
-						answers.add(false);
-						newarr.add(answers);
-					}
-				}
-
-				client.sendToClient(newarr);
 			}
 		}
 		catch (Exception exception) {
@@ -130,6 +142,119 @@ public class SimpleServer extends AbstractServer {
 		finally {
 			session.close();
 		}
+	}
+
+	public void loginUser(ArrayList<Object> arr, List<User> list, ArrayList<Object> answers) {
+		String eMail = "", password = "";
+		String myMail = (String)arr.get(2);
+		String myPassword = (String)arr.get(3);
+
+		for(int i = 0; i < list.size(); i++) {
+			eMail = list.get(i).getEmail();
+			if(eMail.equals(myMail)) {
+				password = list.get(i).getPassword();
+				if(password.equals(myPassword)) {
+					answers.add("#connectEntity");
+					answers.add(true);
+					answers.add(arr.get(1));
+					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getId());
+					answers.add(list.get(i).getEmail());
+					answers.add(list.get(i).getPhone());
+					answers.add(list.get(i).getCredit());
+					answers.add(list.get(i).getMonthAndYear());
+					answers.add(list.get(i).getCvv());
+					answers.add(list.get(i).getPassword());
+					answers.add(list.get(i).getAccount());
+					answers.add(list.get(i).getStoreOrNull());
+					answers.add(list.get(i).getRefund());
+					answers.add(list.get(i).getID());
+					return;
+				}
+			}
+		}
+		answers.add("#connectEntity");
+		answers.add(false);
+		return;
+	}
+
+	public void loginEmployee(ArrayList<Object> arr, List<Employee> list, ArrayList<Object> answers) {
+		String eMail = "", password = "";
+		String myMail = (String)arr.get(2);
+		String myPassword = (String)arr.get(3);
+
+		for(int i = 0; i < list.size(); i++) {
+			eMail = list.get(i).getEmail();
+			if(eMail.equals(myMail)) {
+				password = list.get(i).getPassword();
+				if(password.equals(myPassword)) {
+					answers.add("#connectEntity");
+					answers.add(true);
+					answers.add(arr.get(1));
+					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getEmail());
+					answers.add(list.get(i).getPassword());
+					answers.add(list.get(i).getId());
+					return;
+				}
+			}
+		}
+		answers.add("#connectEntity");
+		answers.add(false);
+		return;
+	}
+
+	public void loginStoreM(ArrayList<Object> arr, List<StoreManager> list, ArrayList<Object> answers) {
+		String eMail = "", password = "";
+		String myMail = (String)arr.get(2);
+		String myPassword = (String)arr.get(3);
+
+		for(int i = 0; i < list.size(); i++) {
+			eMail = list.get(i).getEmail();
+			if(eMail.equals(myMail)) {
+				password = list.get(i).getPassword();
+				if(password.equals(myPassword)) {
+					answers.add("#connectEntity");
+					answers.add(true);
+					answers.add(arr.get(1));
+					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getEmail());
+					answers.add(list.get(i).getPassword());
+					answers.add(list.get(i).getStoreName());
+					answers.add(list.get(i).getId());
+					return;
+				}
+			}
+		}
+		answers.add("#connectEntity");
+		answers.add(false);
+		return;
+	}
+
+	public void loginChainM(ArrayList<Object> arr, List<ChainManager> list, ArrayList<Object> answers) {
+		String eMail = "", password = "";
+		String myMail = (String)arr.get(2);
+		String myPassword = (String)arr.get(3);
+
+		for(int i = 0; i < list.size(); i++) {
+			eMail = list.get(i).getEmail();
+			if(eMail.equals(myMail)) {
+				password = list.get(i).getPassword();
+				if(password.equals(myPassword)) {
+					answers.add("#connectEntity");
+					answers.add(true);
+					answers.add(arr.get(1));
+					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getEmail());
+					answers.add(list.get(i).getPassword());
+					answers.add(list.get(i).getId());
+					return;
+				}
+			}
+		}
+		answers.add("#connectEntity");
+		answers.add(false);
+		return;
 	}
 
 	@Override

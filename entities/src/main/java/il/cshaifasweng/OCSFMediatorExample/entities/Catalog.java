@@ -19,7 +19,9 @@ public class Catalog implements Serializable {
         this.flowers = new ArrayList<Flower>();
     }
 
-    public Catalog() {}
+    public Catalog() {
+        super();
+    }
 
     public List<Flower> getFlowers() {
         return flowers;

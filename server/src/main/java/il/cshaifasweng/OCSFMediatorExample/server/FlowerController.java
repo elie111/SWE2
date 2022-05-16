@@ -1,12 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
 import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
-import il.cshaifasweng.OCSFMediatorExample.entities.Order;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,10 +13,6 @@ public class FlowerController {
     private Session session;
 
     public FlowerController(Session session) {
-        this.session = session;
-    }
-
-    public void setSession(Session session) {
         this.session = session;
     }
 
@@ -51,12 +43,8 @@ public class FlowerController {
         Root<Flower> rootEntry = criteriaQuery.from(Flower.class);
         CriteriaQuery<Flower> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<Flower> allQuery = session.createQuery(allCriteriaQuery);
-//        allQuery.getResultList().get(id-1).setPrice(price);
-//        allQuery.getResultList().get(id-1).setDiscount(sale);
 
-
-        session.update( flower);
-
+        session.update(flower);
         session.flush();
     }
 
@@ -66,12 +54,7 @@ public class FlowerController {
     }
 
     public void deleteFlower(Flower flower) throws Exception {
-
         session.delete(flower);
         session.flush();
-
-
     }
-
-    public FlowerController() {}
 }

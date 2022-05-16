@@ -4,10 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -17,103 +14,107 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class RegistrationController implements Initializable {
-    @FXML Label LFname;
-    @FXML Label Lid;
-    @FXML Label Lemail;
-    @FXML Label Lphone;
-    @FXML Label Lcredit;
-    @FXML Label Lvalid;
-    @FXML Label Lcvv;
-    @FXML Label Lpassword;
+public class RegistrationBoundaryController implements Initializable {
+    @FXML private Text Registration;
 
-    @FXML TextField TFname;
-    @FXML TextField Tid;
-    @FXML TextField Temail;
-    @FXML TextField Tphone;
-    @FXML TextField Tcredit;
-    @FXML ComboBox<String> month;
-    @FXML ComboBox<String> year;
-    @FXML TextField Tcvv;
-    @FXML TextField Tpassword;
+    @FXML private Label LableName;
+    @FXML private Label labelID;
+    @FXML private Label labelEmail;
+    @FXML private Label labelPhone;
+    @FXML private Label labelCredit;
+    @FXML private Label labelValid;
+    @FXML private Label labelCVV;
+    @FXML private Label labelPassword;
 
-    @FXML Button backBtn;
-    @FXML Button signBtn;
+    @FXML private TextField textName;
+    @FXML private TextField textID;
+    @FXML private TextField textEmail;
+    @FXML private TextField textPhone;
+    @FXML private TextField textCredit;
+    @FXML private ComboBox<String> chooseMonth;
+    @FXML private Label slash;
+    @FXML private ComboBox<String> chooseYear;
+    @FXML private TextField textCVV;
+    @FXML private TextField textPassword;
 
-    @FXML Text Registration;
+    @FXML private Button backBtn;
+    @FXML private Button signBtn;
 
-    @FXML Text Lsubsctiption;
-    @FXML ComboBox<String> Cmembership;
-    @FXML Text Lstore;
-    @FXML ComboBox<String> Cstore;
+    @FXML private Label labelSubscription;
+    @FXML private ComboBox<String> chooseMembership;
+    @FXML private Label labelStore;
+    @FXML private ComboBox<String> chooseStore;
 
-    @FXML TextField error;
+    @FXML private TextArea error;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Lstore.setVisible(false);
-        Cstore.setVisible(false);
-        error.setText("please fill all fields correctly");
-        error.setStyle("-fx-font-weight: bold");
+        labelStore.setVisible(false);
+        chooseStore.setVisible(false);
+        error.setEditable(false);
+        error.setText("please fill all fields\ncorrectly");
         error.setVisible(false);
         signBtn.disableProperty().bind(
-                Bindings.isEmpty(TFname.textProperty())
-                        .or(Bindings.isEmpty(Tid.textProperty()))
-                        .or(Bindings.isEmpty(Temail.textProperty()))
-                        .or(Bindings.isEmpty(Tphone.textProperty()))
-                        .or(Bindings.isEmpty(Tcredit.textProperty()))
-                        .or(Bindings.isEmpty(Tcvv.textProperty()))
-                        .or(Bindings.isEmpty(Tpassword.textProperty()))
-                        .or(month.valueProperty().isNull())
-                        .or(year.valueProperty().isNull())
-                        .or(Cmembership.valueProperty().isNull()));
+                Bindings.isEmpty(textName.textProperty())
+                        .or(Bindings.isEmpty(textID.textProperty()))
+                        .or(Bindings.isEmpty(textEmail.textProperty()))
+                        .or(Bindings.isEmpty(textPhone.textProperty()))
+                        .or(Bindings.isEmpty(textCredit.textProperty()))
+                        .or(Bindings.isEmpty(textCVV.textProperty()))
+                        .or(Bindings.isEmpty(textPassword.textProperty()))
+                        .or(chooseMonth.valueProperty().isNull())
+                        .or(chooseYear.valueProperty().isNull())
+                        .or(chooseMembership.valueProperty().isNull()));
 
-        month.getItems().addAll("", "01", "02", "03", "04", "05", "06",
-                                "07", "08", "09", "10", "11", "12");
-        year.getItems().addAll("", "22", "23", "24", "25", "26", "27",
-                                "28", "29", "30", "31", "32", "33");
-        Cmembership.getItems().addAll("", "Store Account", "Chain Account", "Yearly Chain Account");
+        chooseMonth.getItems().addAll("01", "02", "03", "04", "05", "06",
+                                           "07", "08", "09", "10", "11", "12");
+        chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
+                                          "28", "29", "30", "31", "32", "33");
+        chooseMembership.getItems().addAll("Store Account", "Chain Account", "Yearly Chain Account");
         // in the future, take shop list from database
-        Cstore.getItems().addAll("", "Haifa", "Tel Aviv", "New york", "Eilat", "London");
+        chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
 
-        Cmembership.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
+        chooseMembership.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
             if(newV.equals("Store Account")) {
-                Lstore.setVisible(true);
-                Cstore.setVisible(true);
+                labelStore.setVisible(true);
+                chooseStore.setVisible(true);
             }
             else {
-                Lstore.setVisible(false);
-                Cstore.setVisible(false);
+                labelStore.setVisible(false);
+                chooseStore.setVisible(false);
             }
         });
     }
 
     @FXML
     public void backButton(ActionEvent event) throws IOException {
-        App.setRoot("loginOrsignupBoundary");
+        App.setRoot("LoginOrSignupBoundary");
     }
 
     @FXML
     public void signButton(ActionEvent event) throws IOException {
-        String firstName = TFname.getText();
-        String ID = Tid.getText();
-        String email = Temail.getText();
-        String phoneN = Tphone.getText();
-        String creditCard = Tcredit.getText();
-        String cvv = Tcvv.getText();
-        String password = Tpassword.getText();
-        String vMonth = month.getSelectionModel().getSelectedItem();
-        String vYear = year.getSelectionModel().getSelectedItem();
-        String account = Cmembership.getSelectionModel().getSelectedItem();
-        String store = Cstore.getSelectionModel().getSelectedItem();
+        String firstName = textName.getText();
+        String ID = textID.getText();
+        String email = textEmail.getText();
+        String phoneN = textPhone.getText();
+        String creditCard = textCredit.getText();
+        String cvv = textCVV.getText();
+        String password = textPassword.getText();
+        String vMonth = chooseMonth.getSelectionModel().getSelectedItem();
+        String vYear = chooseYear.getSelectionModel().getSelectedItem();
+        String account = chooseMembership.getSelectionModel().getSelectedItem();
+        String store = chooseStore.getSelectionModel().getSelectedItem();
+
+        int flag = 0;
         if(account.equals("Store Account")) {
             if(store == null) {
                 error.setVisible(true);
-                store = Cstore.getSelectionModel().getSelectedItem();
+                flag = 1;
             }
         }
         else {
             store = null;
+            flag = 0;
         }
 
         // 0 = name, 1 = ID, 2 = email, 3 = phone, 4 = credit, 5 = cvv, 6 = password, 7 = month and year
@@ -133,12 +134,11 @@ public class RegistrationController implements Initializable {
                 counter++;
             }
         }
-        if(counter != 0) {
+        if(counter != 0 || flag == 1) {
             error.setVisible(true);
         }
         else {
             // adding data to database
-            // pay attention that store could be null if it's not store account
             addNewUser(firstName, ID, email, phoneN, creditCard, vMonth, vYear, cvv, password, account, store);
             error.setVisible(false);
         }
@@ -355,7 +355,21 @@ public class RegistrationController implements Initializable {
         else {
             arr.add(storeOrNull);
         }
+        double refund = 0;
+        arr.add(refund);
 
         App.getClient().sendToServer(arr);
+    }
+
+    public void nextStep() {
+        try {
+            moveForward();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void moveForward() throws IOException {
+        App.setRoot("CatalogBoundary");
     }
 }

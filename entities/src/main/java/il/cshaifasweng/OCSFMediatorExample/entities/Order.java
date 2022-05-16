@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,51 +15,60 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String address;
     private String card;
-    private int userId;
-    private String formOfOrder;
-    private  int orderID;
+    private String credit;
+    private String cvv;
+    private LocalDateTime dateTime;
     private double finalPrice;
-    private String paymentMethod;
-    private Date date;
-    private String pickup;
-    private String status;
-    private int shopId;
+    private String formOfSupplying;
+    private String monthAndYear;
+    private String receiverName;
+    private String receiverPhone;
+    private String storeName;
+    private int userID;
+
     @ManyToMany
     private List<Flower> flowers;
 
-public Order(String card, int userId, String formOfOrder, double finalPrice, String paymentMethod, Date date, String pickup, String status, int shopId, ArrayList<Flower> flowers) {
-    super();
-    this.card = card;
-    this.userId = userId;
-    this.formOfOrder = formOfOrder;
-    this.finalPrice = finalPrice;
-    this.paymentMethod = paymentMethod;
-    this.date = date;
-    this.pickup = pickup;
-    this.status = status;
-    this.shopId = shopId;
-
-}
-
-    public Order(double finalPrice,ArrayList<Flower> flowers) {
+    public Order(int userID, List<Flower> flowers, String card, String formOfSupplying,
+                 String storeName, String address, String receiverName, String receiverPhone,
+                 LocalDateTime dateTime, double finalPrice, String credit, String cvv,
+                 String monthAndYear) {
+        super();
+        this.address = address;
+        this.card = card;
+        this.credit = credit;
+        this.cvv = cvv;
+        this.dateTime = dateTime;
         this.finalPrice = finalPrice;
+        this.formOfSupplying = formOfSupplying;
+        this.monthAndYear = monthAndYear;
+        this.receiverName = receiverName;
+        this.receiverPhone = receiverPhone;
+        this.storeName = storeName;
+        this.userID = userID;
         this.flowers = new ArrayList<>(flowers);
-
     }
 
     public Order() {
         super();
-        this.card = "card";
-        this.pickup = "pickup";
-
     }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCard() {
@@ -68,20 +79,28 @@ public Order(String card, int userId, String formOfOrder, double finalPrice, Str
         this.card = card;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getCredit() {
+        return credit;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setCredit(String credit) {
+        this.credit = credit;
     }
 
-    public String getFormOfOrder() {
-        return formOfOrder;
+    public String getCvv() {
+        return cvv;
     }
 
-    public void setFormOfOrder(String formOfOrder) {
-        this.formOfOrder = formOfOrder;
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public double getFinalPrice() {
@@ -92,46 +111,59 @@ public Order(String card, int userId, String formOfOrder, double finalPrice, Str
         this.finalPrice = finalPrice;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public String getFormOfSupplying() {
+        return formOfSupplying;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setFormOfSupplying(String formOfSupplying) {
+        this.formOfSupplying = formOfSupplying;
     }
 
-    public Date getDate() {
-        return date;
+    public String getMonthAndYear() {
+        return monthAndYear;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMonthAndYear(String monthAndYear) {
+        this.monthAndYear = monthAndYear;
     }
 
-    public String getPickup() {
-        return pickup;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setPickup(String pickup) {
-        this.pickup = pickup;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
-    public String getStatus() {
-        return status;
+    public String getReceiverPhone() {
+        return receiverPhone;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 
-    public int getShopId() {
-        return shopId;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
+    public int getUserID() {
+        return userID;
+    }
 
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 
+    public List<Flower> getFlowers() {
+        return flowers;
+    }
+
+    public void setFlowers(List<Flower> flowers) {
+        this.flowers = flowers;
+    }
 }
