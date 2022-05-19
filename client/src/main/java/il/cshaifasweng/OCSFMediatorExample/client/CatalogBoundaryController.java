@@ -153,7 +153,7 @@ public class CatalogBoundaryController implements Initializable {
         clearBtn.disableProperty().bind(Bindings.isEmpty(myCart.getItems()));
         orderBtn.disableProperty().bind(Bindings.isEmpty(myCart.getItems()));
         if(userName.getText().equals("Register / Login")) {
-            myOrders.setDisable(true);
+//            myOrders.setDisable(true);
         }
     }
 
@@ -181,7 +181,9 @@ public class CatalogBoundaryController implements Initializable {
 
     @FXML
     public void myOrders(ActionEvent event) throws IOException {
-        App.setRoot("MyOrdersBoundary");
+//        App.setRoot("MyOrdersBoundary"); I am using this button to view orders list employee, change it back
+//        App.setRoot("OrderListEmployee");
+        App.setRoot("ComplaintListEmployee");
     }
 
     public void getCartItems() {

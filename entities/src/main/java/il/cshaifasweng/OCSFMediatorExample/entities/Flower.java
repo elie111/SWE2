@@ -43,6 +43,12 @@ public class Flower implements Serializable {
         this.discount = 0;
     }
 
+    public Flower(String name, String type, double price) {
+        this.name=name;
+        this.type=type;
+        this.price=price;
+    }
+
     public String getImageurl() {
         return imageurl;
     }

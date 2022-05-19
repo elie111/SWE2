@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComplaintListEmployeeController"
-            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ComplaintListEmployeeController">
+   <children>
+      <TableView id="complaintTable" fx:id="complaintTable" layoutX="182.0" layoutY="84.0" onMouseClicked="#clickItem" prefHeight="291.0" prefWidth="234.0">
+         <columns>
+            <TableColumn id="nameCol" fx:id="nameCol" prefWidth="85.60003662109375" text="Name" />
+            <TableColumn id="contentCol" fx:id="contentCol" minWidth="0.0" prefWidth="71.199951171875" text="Content" />
+            <TableColumn id="dateCol" fx:id="dateCol" prefWidth="75.0" text="Date" />
+         </columns>
+      </TableView>
+      <Text fx:id="ordersText" fill="#b91b1b" layoutX="195.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="complaints" textAlignment="CENTER" />
+      <Button fx:id="returnBtn" layoutX="30.0" layoutY="33.0" mnemonicParsing="false" onAction="#returnFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="return" />
+   </children>
 </AnchorPane>

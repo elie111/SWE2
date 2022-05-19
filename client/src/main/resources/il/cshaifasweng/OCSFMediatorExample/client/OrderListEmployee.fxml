@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderListEmployeeController"
-            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderListEmployeeController">
+   <children>
+      <Text fx:id="ordersText" fill="#b91b1b" layoutX="237.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient linear-gradient; -fx-font-style: oblique; -fx-font-size: 40px; -fx-font-weight: bold;" text="Orders" textAlignment="CENTER" />
+      <Button fx:id="returnBtn" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="return" />
+      <TableView id="orderList" fx:id="orderList" layoutX="175.0" layoutY="88.0" prefHeight="302.0" prefWidth="345.0">
+        <columns>
+          <TableColumn id="nameCol" fx:id="nameCol" prefWidth="85.0" text="Name" />
+          <TableColumn id="storeCol" fx:id="storeCol" minWidth="0.0" prefWidth="85.0" text="Store" />
+            <TableColumn id="priceCol" fx:id="priceCol" prefWidth="85.0" text="Price" />
+            <TableColumn id="flowersCol" fx:id="flowersCol" prefWidth="85.0" text="Flowers" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
