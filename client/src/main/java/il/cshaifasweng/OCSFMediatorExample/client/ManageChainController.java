@@ -57,6 +57,8 @@ public class ManageChainController implements Initializable {
                 EntityHolder.setStoreM(null);
                 EntityHolder.setChainM(null);
                 EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
             }
         }
     }

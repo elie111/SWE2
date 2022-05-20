@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;

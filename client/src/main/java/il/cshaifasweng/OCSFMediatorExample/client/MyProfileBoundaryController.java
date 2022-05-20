@@ -1,37 +1,31 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MyOrdersBoundaryController implements Initializable {
-    @FXML private Text myOrdersL;
+public class MyProfileBoundaryController implements Initializable {
+    @FXML private Text profileL;
+
     @FXML private Button userName;
-
-    @FXML private TableView<OrderHolder> tableView;
-    @FXML private TableColumn<OrderHolder, String> orderN;
-    @FXML private TableColumn<OrderHolder, String> orderDate;
-    @FXML private TableColumn<OrderHolder, String> orderP;
-    @FXML private TableColumn<OrderHolder, String> orderD;
-    @FXML private TableColumn<OrderHolder, String> orderS;
-
+    @FXML private Button personalD;
+    @FXML private Button myOrdersB;
+    @FXML private Button cancelBtn;
+    @FXML private Button complaintBtn;
     @FXML private Button returnBtn;
 
-    private static ObservableList<OrderHolder> list;
-
-    public static void setMyOrders(ObservableList<OrderHolder> orders) {
-        MyOrdersBoundaryController.list = FXCollections.observableList(orders);
-    }
+    private ObservableList<OrderHolder> orders;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,13 +46,6 @@ public class MyOrdersBoundaryController implements Initializable {
                 userName.setText(EntityHolder.getChainM().getName());
             }
         }
-
-        orderN.setCellValueFactory(new PropertyValueFactory<>("orderID"));
-        orderDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-        orderP.setCellValueFactory(new PropertyValueFactory<>("finalPrice"));
-        orderD.setCellValueFactory(new PropertyValueFactory<>("flowers"));
-        orderS.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tableView.setItems(FXCollections.observableList(list)); //put values in the rows for each order
     }
 
     @FXML
@@ -86,7 +73,42 @@ public class MyOrdersBoundaryController implements Initializable {
     }
 
     @FXML
-    public void backBtn(ActionEvent event) throws IOException {
-        App.setRoot("MyProfileBoundary");
+    public void personalDetails(ActionEvent event) throws IOException {
+        App.setRoot("PersonalDetailsBoundary");
+    }
+
+    @FXML
+    public void myOrders(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#getmyorders");
+        arr.add(EntityHolder.getID());
+        App.getClient().sendToServer(arr);
+    }
+
+    public void nextStep() {
+        try {
+            moveForward();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void moveForward() throws IOException {
+        App.setRoot("MyOrdersBoundary");
+    }
+
+    @FXML
+    public void cancelOrder(ActionEvent event) throws IOException {
+        App.setRoot("CancelOrdersBoundary");
+    }
+
+    @FXML
+    public void fileComplaints(ActionEvent event) throws IOException {
+        App.setRoot("FileComplaintBoundary");
+    }
+
+    @FXML
+    public void returnToCatalog(ActionEvent event) throws IOException {
+        App.setRoot("CatalogBoundary");
     }
 }

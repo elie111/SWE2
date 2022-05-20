@@ -29,4 +29,27 @@ public class UserController {
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
     }
+
+    public void updateData(int id, User user) throws Exception {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> rootEntry = criteriaQuery.from(User.class);
+        CriteriaQuery<User> allCriteriaQuery = criteriaQuery.select(rootEntry);
+        TypedQuery<User> allQuery = session.createQuery(allCriteriaQuery);
+
+        allQuery.getResultList().get(id - 1).setAccount(user.getAccount());
+        allQuery.getResultList().get(id - 1).setCredit(user.getCredit());
+        allQuery.getResultList().get(id - 1).setCvv(user.getCvv());
+        allQuery.getResultList().get(id - 1).setEmail(user.getEmail());
+        allQuery.getResultList().get(id - 1).setId(user.getId());
+        allQuery.getResultList().get(id - 1).setMonthAndYear(user.getMonthAndYear());
+        allQuery.getResultList().get(id - 1).setPassword(user.getPassword());
+        allQuery.getResultList().get(id - 1).setPhone(user.getPhone());
+        allQuery.getResultList().get(id - 1).setRefund(user.getRefund());
+        allQuery.getResultList().get(id - 1).setStoreOrNull(user.getStoreOrNull());
+        allQuery.getResultList().get(id - 1).setName(user.getName());
+
+        session.update(allQuery.getResultList().get(id - 1));
+        session.flush();
+    }
 }

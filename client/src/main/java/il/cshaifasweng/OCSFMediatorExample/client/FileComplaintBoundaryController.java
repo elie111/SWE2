@@ -1,71 +1,173 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class FileComplaintBoundaryController implements Initializable {
-    @FXML private Label complaintLable;
-    @FXML private TextField complaintTF;
-    @FXML private Button sendBtn;
-    @FXML private Button cancleBtn;
-    @FXML private Label orderNumberLable;
-    @FXML private TextField orderNumberTF;
-    @FXML private Label orderNumEmpty;
-    @FXML private Label invalidInputOrNum;
-    @FXML private Label compEmpty;
+    @FXML private Text contactL;
+    @FXML private Button userName;
 
-//    Complaint complaint = new Complaint(); //create complaint in db
+    @FXML private Label orderNL;
+    @FXML private TextField orderNumberTF;
+    @FXML private Label messageL;
+    @FXML private TextArea complaintTF;
+    @FXML private Button sendBtn;
+    @FXML private Button cancelBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if(EntityHolder.getTable() == -1) {
+            userName.setText("Register / Login");
+        }
+        else {
+            if(EntityHolder.getTable() == 0) {
+                userName.setText(EntityHolder.getUser().getName());
+            }
+            else if(EntityHolder.getTable() == 1) {
+                userName.setText(EntityHolder.getEmployee().getName());
+            }
+            else if(EntityHolder.getTable() == 2) {
+                userName.setText(EntityHolder.getStoreM().getName());
+            }
+            else if(EntityHolder.getTable() == 3) {
+                userName.setText(EntityHolder.getChainM().getName());
+            }
+        }
 
+        sendBtn.disableProperty().bind(
+                Bindings.isEmpty(orderNumberTF.textProperty())
+                        .or(Bindings.isEmpty(complaintTF.textProperty())));
+    }
+
+    @FXML
+    public void getDetails(ActionEvent event) throws IOException {
+        if(userName.getText().equals("Register / Login")) {
+            App.setRoot("LoginOrSignupBoundary");
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Do you wish to disconnect?");
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setRoot("LoginOrSignupBoundary");
+                EntityHolder.setTable(-1);
+                EntityHolder.setUser(null);
+                EntityHolder.setEmployee(null);
+                EntityHolder.setStoreM(null);
+                EntityHolder.setChainM(null);
+                EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
+            }
+        }
     }
 
     @FXML
     public void onCLickCancel(ActionEvent event) throws IOException {
-        App.setRoot("CatalogBoundary");
+        App.setRoot("MyProfileBoundary");
+    }
+
+    @FXML
+    public void onCLickSend(ActionEvent event) throws IOException {
+        // user put order number and message that are not null or spaces only
+        String orderNumber = orderNumberTF.getText();
+        String content = complaintTF.getText();
+        String today = "";
+
+        if(orderNumber.trim().isEmpty() || content.trim().isEmpty()) {
+            showMessage(1);
+        }
+        else if(!isValidOrderNum(orderNumber)) {
+            showMessage(2);
+        }
+        else {
+            today = getDate(LocalDateTime.now());
+            // write to database
+            ArrayList<Object> arr = new ArrayList<>();
+            arr.add("#newComplaint");
+            // user id
+            arr.add(EntityHolder.getID());
+            // order number
+            int newON = Integer.parseInt(orderNumber);
+            arr.add(newON);
+            // content of complaint
+            arr.add(content);
+            // the date of the complaint
+            arr.add(today);
+            // status
+            arr.add(1);
+            App.getClient().sendToServer(arr);
+        }
+    }
+
+    public void showMessage(int i) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+
+        if(i == 1) {
+            a.setHeaderText("Fields cannot be empty or only with spaces");
+            a.showAndWait();
+        }
+        else if(i == 2) {
+            a.setHeaderText("Order number must only include numbers");
+            a.showAndWait();
+        }
     }
 
     // check that order number only has numbers
-    private boolean isValidOrderNum (TextField fieldA) {
-        for (int i = 0; i<fieldA.getText().length() ; i++){
-            char temp = fieldA.getText().charAt(i);
-            if(!((temp >= '0') && (temp <= '9'))){
+    private boolean isValidOrderNum(String fieldA) {
+        if(fieldA == null) {
+            return false;
+        }
+
+        for(int i = 0; i < fieldA.length(); i++) {
+            char temp = fieldA.charAt(i);
+            if(!(temp >= '0' && temp <= '9')) {
                 return false;
             }
         }
+
         return true;
     }
 
-    //check that relevant fields are not empty
-    private boolean inputCheck (){
-        boolean retVal = true;
+    public String getDate(LocalDateTime now) {
+        int[] getData = new int[5];
+        getData[0] = now.getYear();
+        getData[1] = now.getMonthValue();
+        getData[2] = now.getDayOfMonth();
+        getData[3] = now.getHour();
+        getData[4] = now.getMinute();
 
-        if (complaintTF.getText().isEmpty())
-        {
-            compEmpty.setVisible(true);
-            retVal = false;
+        String[] newData = new String[5];
+        for(int i = 0; i < 5; i++) {
+            if(getData[i] < 10) {
+                newData[i] = "0" + Integer.toString(getData[i]);
+            }
+            else {
+                newData[i] = Integer.toString(getData[i]);
+            }
         }
-        return retVal;
-    }
 
-    //if field is empty or invalid show massage - called when sendComplaint is called
-    private void restVisible() {
-        orderNumEmpty.setVisible(false);
-        compEmpty.setVisible(false);
-        invalidInputOrNum.setVisible(false);
-    }
+        String t = newData[0] + "-" + newData[1] + "-" + newData[2] + "-" + newData[3] + "-" + newData[4];
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+        LocalDateTime now1 = LocalDateTime.parse(t, formatter2);
+        String now2 = now1.toString().replace("T", "-");
+        now2 = now2.replace(":", "-");
 
-
+<<<<<<< Updated upstream
     @FXML
     public void onCLickSend(ActionEvent event) throws IOException {
         // user put username and password that are not only spaces or null
@@ -100,7 +202,20 @@ public class FileComplaintBoundaryController implements Initializable {
             //App.setRoot("profileScreen");
         });
 
+=======
+        return now2;
+>>>>>>> Stashed changes
     }
 
+    public void nextStep() {
+        try {
+            moveForward();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void moveForward() throws IOException {
+        App.setRoot("MyProfileBoundary");
+    }
 }

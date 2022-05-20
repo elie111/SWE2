@@ -22,8 +22,6 @@ public class Flower implements Serializable {
 
     @ManyToOne
     private Catalog catalog;
-    @ManyToMany
-    private List<Order> order;
 
     public Flower() {
         super();
@@ -83,10 +81,6 @@ public class Flower implements Serializable {
         return description;
     }
 
-    public List<Order> getOrder() {
-        return order;
-    }
-
     public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
     }
@@ -125,9 +119,5 @@ public class Flower implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setOrder(List<Order> order) {
-        this.order = order;
     }
 }

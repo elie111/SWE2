@@ -13,12 +13,12 @@ public class User implements Serializable {
     private String account;
     private String credit;
     private String cvv;
-    private double refund;
     private String email;
     private String identificationNumber;
     private String monthAndYear;
     private String password;
     private String phone;
+    private double refund;
     private String storeOrNull;
     private String userName;
 

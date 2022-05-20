@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,10 +11,13 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class RegistrationBoundaryController implements Initializable {
-    @FXML private Text Registration;
+public class PersonalDetailsBoundaryController implements Initializable {
+    @FXML private Text detailsL;
+
+    @FXML private Button userName;
 
     @FXML private Label LableName;
     @FXML private Label labelID;
@@ -38,7 +40,8 @@ public class RegistrationBoundaryController implements Initializable {
     @FXML private TextField textPassword;
 
     @FXML private Button backBtn;
-    @FXML private Button signBtn;
+    @FXML private Button updateBtn;
+    @FXML private Button cancelBtn;
 
     @FXML private Label labelSubscription;
     @FXML private ComboBox<String> chooseMembership;
@@ -47,27 +50,32 @@ public class RegistrationBoundaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        labelStore.setVisible(false);
-        chooseStore.setVisible(false);
-        signBtn.disableProperty().bind(
-                Bindings.isEmpty(textName.textProperty())
-                        .or(Bindings.isEmpty(textID.textProperty()))
-                        .or(Bindings.isEmpty(textEmail.textProperty()))
-                        .or(Bindings.isEmpty(textPhone.textProperty()))
-                        .or(Bindings.isEmpty(textCredit.textProperty()))
-                        .or(Bindings.isEmpty(textCVV.textProperty()))
-                        .or(Bindings.isEmpty(textPassword.textProperty()))
-                        .or(chooseMonth.valueProperty().isNull())
-                        .or(chooseYear.valueProperty().isNull())
-                        .or(chooseMembership.valueProperty().isNull()));
+        if(EntityHolder.getTable() == -1) {
+            userName.setText("Register / Login");
+        }
+        else {
+            if(EntityHolder.getTable() == 0) {
+                userName.setText(EntityHolder.getUser().getName());
+            }
+            else if(EntityHolder.getTable() == 1) {
+                userName.setText(EntityHolder.getEmployee().getName());
+            }
+            else if(EntityHolder.getTable() == 2) {
+                userName.setText(EntityHolder.getStoreM().getName());
+            }
+            else if(EntityHolder.getTable() == 3) {
+                userName.setText(EntityHolder.getChainM().getName());
+            }
+        }
 
         chooseMonth.getItems().addAll("01", "02", "03", "04", "05", "06",
                                            "07", "08", "09", "10", "11", "12");
         chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
                                           "28", "29", "30", "31", "32", "33");
         chooseMembership.getItems().addAll("Store Account", "Chain Account", "Yearly Chain Account");
-        // in the future, take shop list from database
         chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
+
+        firstSettings();
 
         chooseMembership.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
             if(newV.equals("Store Account")) {
@@ -81,13 +89,110 @@ public class RegistrationBoundaryController implements Initializable {
         });
     }
 
-    @FXML
-    public void backButton(ActionEvent event) throws IOException {
-        App.setRoot("LoginOrSignupBoundary");
+    public void firstSettings() {
+        textName.setText(EntityHolder.getUser().getName());
+        textID.setText(EntityHolder.getUser().getId());
+        textEmail.setText(EntityHolder.getUser().getEmail());
+        textPhone.setText(EntityHolder.getUser().getPhone());
+        textCredit.setText(EntityHolder.getUser().getCredit());
+
+        String monthAndYear = EntityHolder.getUser().getMonthAndYear();
+        int index = monthAndYear.indexOf("/");
+        String month = monthAndYear.substring(0, index);
+        String year = monthAndYear.substring(index + 1, monthAndYear.length());
+        chooseMonth.setValue(month);
+        chooseYear.setValue(year);
+
+        textCVV.setText(EntityHolder.getUser().getCvv());
+        textPassword.setText(EntityHolder.getUser().getPassword());
+
+        updateBtn.setText("Update");
+        cancelBtn.setDisable(true);
+
+        String account = EntityHolder.getUser().getAccount();
+        chooseMembership.setValue(account);
+        if(account.equals("Store Account")) {
+            labelStore.setVisible(true);
+            chooseStore.setVisible(true);
+            String store = EntityHolder.getUser().getStoreOrNull();
+            chooseStore.setValue(store);
+        }
+        else {
+            labelStore.setVisible(false);
+            chooseStore.setVisible(false);
+        }
+
+        textName.setEditable(false);
+        textID.setEditable(false);
+        textEmail.setEditable(false);
+        textPhone.setEditable(false);
+        textCredit.setEditable(false);
+        chooseMonth.setDisable(true);
+        chooseYear.setDisable(true);
+        textCVV.setEditable(false);
+        textPassword.setEditable(false);
+        chooseMembership.setDisable(true);
+        chooseStore.setDisable(true);
     }
 
     @FXML
-    public void signButton(ActionEvent event) throws IOException {
+    public void getDetails(ActionEvent event) throws IOException {
+        if(userName.getText().equals("Register / Login")) {
+            App.setRoot("LoginOrSignupBoundary");
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Do you wish to disconnect?");
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setRoot("LoginOrSignupBoundary");
+                EntityHolder.setTable(-1);
+                EntityHolder.setUser(null);
+                EntityHolder.setEmployee(null);
+                EntityHolder.setStoreM(null);
+                EntityHolder.setChainM(null);
+                EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
+            }
+        }
+    }
+
+    @FXML
+    public void backButton(ActionEvent event) throws IOException {
+        App.setRoot("MyProfileBoundary");
+    }
+
+    @FXML
+    public void cancelBtn(ActionEvent event) {
+        firstSettings();
+    }
+
+    @FXML
+    public void addDetails(ActionEvent event) throws IOException {
+        if(updateBtn.getText().equals("Update")) {
+            updateBtn.setText("Done");
+            cancelBtn.setDisable(false);
+
+            textName.setEditable(true);
+            textID.setEditable(true);
+            textEmail.setEditable(true);
+            textPhone.setEditable(true);
+            textCredit.setEditable(true);
+            chooseMonth.setDisable(false);
+            chooseYear.setDisable(false);
+            textCVV.setEditable(true);
+            textPassword.setEditable(true);
+            chooseMembership.setDisable(false);
+            chooseStore.setDisable(false);
+        }
+        else if(updateBtn.getText().equals("Done")) {
+            updateD();
+        }
+    }
+
+    public void updateD() throws IOException {
         String firstName = textName.getText();
         String ID = textID.getText();
         String email = textEmail.getText();
@@ -132,8 +237,21 @@ public class RegistrationBoundaryController implements Initializable {
             errorM(answers, flag);
         }
         else {
-            // adding data to database
-            addNewUser(firstName, ID, email, phoneN, creditCard, vMonth, vYear, cvv, password, account, store);
+            updateBtn.setText("Update");
+            cancelBtn.setDisable(true);
+            textName.setEditable(false);
+            textID.setEditable(false);
+            textEmail.setEditable(false);
+            textPhone.setEditable(false);
+            textCredit.setEditable(false);
+            chooseMonth.setDisable(true);
+            chooseYear.setDisable(true);
+            textCVV.setEditable(false);
+            textPassword.setEditable(false);
+            chooseMembership.setDisable(true);
+            chooseStore.setDisable(true);
+            updateCurrentUser(firstName, ID, email, phoneN, creditCard, vMonth,
+                              vYear, cvv, password, account, store);
         }
     }
 
@@ -328,11 +446,11 @@ public class RegistrationBoundaryController implements Initializable {
         }
     }
 
-    public void addNewUser(String name, String id, String email, String phone, String credit, String month,
-                           String year, String cvv, String password, String account, String storeOrNull) throws IOException {
+    public void updateCurrentUser(String name, String id, String email, String phone, String credit, String month,
+                                  String year, String cvv, String password, String account, String storeOrNull) throws IOException {
         String monthAndYear = month + "/" + year;
         ArrayList<Object> arr = new ArrayList<>();
-        arr.add("#register");
+        arr.add("#updateDetails");
         arr.add(name);
         arr.add(id);
         arr.add(email);
@@ -342,14 +460,29 @@ public class RegistrationBoundaryController implements Initializable {
         arr.add(cvv);
         arr.add(password);
         arr.add(account);
+        String s = "";
         if(storeOrNull == null) {
-            arr.add("");
+            s = "";
+            arr.add(s);
         }
         else {
-            arr.add(storeOrNull);
+            s = storeOrNull;
+            arr.add(s);
         }
-        double refund = 0;
-        arr.add(refund);
+        arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getID());
+        arr.add("updateP");
+
+        EntityHolder.getUser().setName(name);
+        EntityHolder.getUser().setId(id);
+        EntityHolder.getUser().setEmail(email);
+        EntityHolder.getUser().setPhone(phone);
+        EntityHolder.getUser().setCredit(credit);
+        EntityHolder.getUser().setMonthAndYear(monthAndYear);
+        EntityHolder.getUser().setCvv(cvv);
+        EntityHolder.getUser().setPassword(password);
+        EntityHolder.getUser().setAccount(account);
+        EntityHolder.getUser().setStoreOrNull(s);
 
         App.getClient().sendToServer(arr);
     }
@@ -363,7 +496,7 @@ public class RegistrationBoundaryController implements Initializable {
     }
 
     public void moveForward() throws IOException {
-        App.setRoot("CatalogBoundary");
+        App.setRoot("MyProfileBoundary");
     }
 
     public void errorM(boolean[] answers, int flag) {

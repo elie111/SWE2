@@ -252,6 +252,22 @@ public class ConstantStrings1 {
             ""
     };
 
+    public static final double[] userRefund = {
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+    };
+
     public static final String[] employeesNames = {
             "Melinda French Gates",
             "MacKenzie Scott",

@@ -23,7 +23,7 @@ public class CatalogBoundaryController implements Initializable {
     @FXML private Text catalogL;
 
     @FXML private Button userName;
-    @FXML private Button myOrders;
+    @FXML private Button profileBtn;
 
     @FXML private Label cartLabel;
     @FXML private ListView<String> myCart;
@@ -91,6 +91,7 @@ public class CatalogBoundaryController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
+
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
@@ -153,7 +154,7 @@ public class CatalogBoundaryController implements Initializable {
         clearBtn.disableProperty().bind(Bindings.isEmpty(myCart.getItems()));
         orderBtn.disableProperty().bind(Bindings.isEmpty(myCart.getItems()));
         if(userName.getText().equals("Register / Login")) {
-            myOrders.setDisable(true);
+            profileBtn.setDisable(true);
         }
     }
 
@@ -175,13 +176,14 @@ public class CatalogBoundaryController implements Initializable {
                 EntityHolder.setStoreM(null);
                 EntityHolder.setChainM(null);
                 EntityHolder.setID(-1);
+                refreshAfterDisconnect();
             }
         }
     }
 
     @FXML
-    public void myOrders(ActionEvent event) throws IOException {
-        App.setRoot("MyOrdersBoundary");
+    public void myProfile(ActionEvent event) throws IOException {
+        App.setRoot("MyProfileBoundary");
     }
 
     public void getCartItems() {
@@ -194,7 +196,6 @@ public class CatalogBoundaryController implements Initializable {
     public static void addToCart(Flower flower) {
         int counter;
         if(cartMap.get(flower) == null) {
-            System.out.println("here");
             cartMap.put(flower, 1);
         }
         else {
@@ -361,16 +362,20 @@ public class CatalogBoundaryController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Question");
             alert.setHeaderText("Choose delivery or pick up your order yourself");
-            ButtonType deliveryBtn = new ButtonType("Deliver", ButtonBar.ButtonData.OK_DONE);
+            ButtonType deliveryBtn = new ButtonType("Delivery", ButtonBar.ButtonData.OK_DONE);
             ButtonType pickUpBtn = new ButtonType("Pick Up", ButtonBar.ButtonData.CANCEL_CLOSE);
             alert.getButtonTypes().setAll(deliveryBtn, pickUpBtn);
             Optional<ButtonType> result = alert.showAndWait();
+
             if (result.get() == deliveryBtn) {
                 App.setRoot("OrderDeliveryBoundary");
             }
             else if(result.get() == pickUpBtn) {
                 App.setRoot("OrderPickUpBoundary");
             }
+            alert.setOnCloseRequest(e -> {
+                alert.close();
+            });
         }
     }
 
@@ -414,12 +419,18 @@ public class CatalogBoundaryController implements Initializable {
     }
 
     @FXML
-    void refresh(ActionEvent event) {
+    public void refresh(ActionEvent event) {
         myListView.getItems().clear();
         listStr.clear();
         cartNames.clear();
         myCart.getItems().clear();
         getCatalogItems();
         getCartItems();
+    }
+
+    public void refreshAfterDisconnect() {
+        cartMap.clear();
+        cartNames.clear();
+        myCart.getItems().clear();
     }
 }

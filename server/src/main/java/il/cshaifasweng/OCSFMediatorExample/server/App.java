@@ -72,7 +72,7 @@ public class App {
                                          c.userEmails[i], c.userPhoneNumbers[i],
                                          c.userCreditNumbers[i], c.userMonthAndYears[i],
                                          c.userCVVNumbers[i], c.userPasswords[i],
-                                         c.userAccounts[i], c.userStores[i], 0);
+                                         c.userAccounts[i], c.userStores[i], c.userRefund[i]);
                 session.save(userItem);
             }
             // employees
