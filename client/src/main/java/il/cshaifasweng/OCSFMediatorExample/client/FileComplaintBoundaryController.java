@@ -167,44 +167,7 @@ public class FileComplaintBoundaryController implements Initializable {
         String now2 = now1.toString().replace("T", "-");
         now2 = now2.replace(":", "-");
 
-<<<<<<< Updated upstream
-    @FXML
-    public void onCLickSend(ActionEvent event) throws IOException {
-        // user put username and password that are not only spaces or null
-        String orderNumber = orderNumberTF.getText();
-        String content = complaintTF.getText();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
-        
-        // write to database
-        ArrayList<Object> arr = new ArrayList<>();
-        arr.add("#newComplaint");
-        arr.add(EntityHolder.getUser().getID()); //user id
-        arr.add(orderNumber); //order number
-        arr.add(content); //content of complaint
-        arr.add(today); //the date of the complaint
-        arr.add(0); //status
-        App.getClient().sendToServer(arr);
-
-        //alert box that says complaint was filed
-        //come back to general screen
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Complaint Filed");
-        alert.setHeaderText("Your complaint has been submitted \nPlaese wait a response! ");
-        ButtonType moveOnBtn = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        ButtonBar.ButtonData.CANCEL_CLOSE;
-        alert.getButtonTypes().setAll(moveOnBtn);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == moveOnBtn) {
-            //App.setRoot("profileScreen");
-        }
-        alert.setOnCloseRequest(e -> {
-            //App.setRoot("profileScreen");
-        });
-
-=======
         return now2;
->>>>>>> Stashed changes
     }
 
     public void nextStep() {

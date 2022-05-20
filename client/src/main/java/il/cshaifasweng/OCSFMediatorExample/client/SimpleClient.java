@@ -154,16 +154,11 @@ public class SimpleClient extends AbstractClient {
 				f.nextStep();
 			}
 		}
-<<<<<<< Updated upstream
-
-		//yael - my orders - like get catalog
-=======
 		// add flower - employee
 
 		// delete flower - employee
 
 		// update flower - employee
->>>>>>> Stashed changes
 	}
 
 	@Override
