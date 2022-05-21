@@ -13,7 +13,7 @@
 <AnchorPane fx:id="Item" prefHeight="400" prefWidth="600" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrderPickUpBoundaryController">
     <children>
         <Text fx:id="orderL" fill="#b91b1b" layoutX="234.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Order" />
-        <Button fx:id="userName" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" />
+        <Button fx:id="userName" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#getDetails" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" />
         <Label fx:id="addCardL" layoutX="10.0" layoutY="70.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Add Card: (Optional)" />
         <TextArea fx:id="txt" layoutX="10.0" layoutY="95.0" prefHeight="120.0" prefWidth="159.0" promptText="card" />
       <Label fx:id="timeL" layoutX="10.0" layoutY="225.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Choose:" />
@@ -21,9 +21,9 @@
         <Label fx:id="pickupDateL" layoutX="10.0" layoutY="285.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Pickup Date:" />
         <DatePicker fx:id="datePick" layoutX="10.0" layoutY="305.0" />
         <Label fx:id="pickupTimeL" layoutX="10.0" layoutY="340.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Pickup Hour &amp; Minutes:" />
-        <ComboBox fx:id="hour" layoutX="10.0" layoutY="360.0" prefHeight="26.0" prefWidth="46.0" />
-        <Label fx:id="seperator" alignment="CENTER" layoutX="60.0" layoutY="355.0" prefHeight="25.0" prefWidth="16.0" style="-fx-font-weight: bold; -fx-font-size: 20px;" text=":" />
-        <ComboBox fx:id="minutes" layoutX="80.0" layoutY="360.0" prefHeight="26.0" prefWidth="46.0" />
+        <ComboBox fx:id="hour" layoutX="10.0" layoutY="360.0" prefHeight="26.0" prefWidth="60.0" />
+        <Label fx:id="seperator" alignment="CENTER" layoutX="80.0" layoutY="355.0" prefHeight="25.0" prefWidth="16.0" style="-fx-font-weight: bold; -fx-font-size: 20px;" text=":" />
+        <ComboBox fx:id="minutes" layoutX="100.0" layoutY="360.0" prefHeight="26.0" prefWidth="60.0" />
       <Button fx:id="applyR" layoutX="200.0" layoutY="70.0" mnemonicParsing="false" onAction="#applyR" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="Apply Refund" />
       <Button fx:id="cancelR" layoutX="303.0" layoutY="70.0" mnemonicParsing="false" onAction="#cancelR" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12px;" text="Cancel Refund" />
       <Label fx:id="chooseStoreL" layoutX="200.0" layoutY="110.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Choose A Store:" />

@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,15 +40,12 @@ public class SimpleClient extends AbstractClient {
 		ArrayList<Object> msgArray = new ArrayList<>();
 		msgArray = (ArrayList<Object>) msg;
 
+		// get catalog for everyone
 		if(msgArray.get(0).equals("#getcatalog")) {
 			CatalogBoundaryController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
 			CatalogEmployeeController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
 		}
-		if(msgArray.get(0).equals("#getorders")) {
-			OrderListEmployeeController.setOrders((ArrayList<Order>)(msgArray.get(1)));
-//			CatalogEmployeeController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
-		}
-
+		// sign up a new user
 		if(msgArray.get(0).equals("#connectUserAfterRegistration")) {
 			EntityHolder.setTable(0);
 			User user = new User((String)msgArray.get(1), (String)msgArray.get(2),
@@ -61,7 +60,7 @@ public class SimpleClient extends AbstractClient {
 			RegistrationBoundaryController r = new RegistrationBoundaryController();
 			r.nextStep();
 		}
-
+		// login for users, employees, store Managers, Chain manager
 		if(msgArray.get(0).equals("#connectEntity")) {
 			if((boolean)msgArray.get(1) == true) {
 				if(msgArray.get(2).equals("User")) {
@@ -113,11 +112,53 @@ public class SimpleClient extends AbstractClient {
 					loginController.nextStep(5);
 				}
 			}
-			else {
-				LoginBoundaryController loginController = new LoginBoundaryController();
-				loginController.showMessage();
+		}
+		// add order (pick up + delivery)
+		if(msgArray.get(0).equals("#addOrder")) {
+			OrderPickUpBoundaryController o = new OrderPickUpBoundaryController();
+			o.nextStep();
+		}
+		// update personal details
+		if(msgArray.get(0).equals("detailsAreUpdated")) {
+			PersonalDetailsBoundaryController p = new PersonalDetailsBoundaryController();
+			p.nextStep();
+		}
+		// get my orders
+		if(msgArray.get(0).equals("#getmyorders")) {
+			int myUserId = (int)msgArray.get(1);
+			ArrayList<Order> list = (ArrayList<Order>)msgArray.get(2);
+			int generalUserId = 0;
+			ObservableList<OrderHolder> newList = FXCollections.observableArrayList();
+
+			for(int i = 0; i < list.size(); i++) {
+				generalUserId = list.get(i).getUserID();
+				if(generalUserId == myUserId) {
+					OrderHolder o = new OrderHolder(list.get(i).getOrderID(), list.get(i).getDateTime(),
+													list.get(i).getFinalPrice(), list.get(i).getFlowers(),
+													list.get(i).getStatus());
+					newList.add(o);
+				}
+			}
+
+			MyOrdersBoundaryController.setMyOrders(newList);
+			MyProfileBoundaryController m = new MyProfileBoundaryController();
+			m.nextStep();
+		}
+		// cancel an order
+
+		// file complaints
+		if(msgArray.get(0).equals("#complaintAdded")) {
+			FileComplaintBoundaryController f = new FileComplaintBoundaryController();
+			boolean a = (boolean)msgArray.get(1);
+			if(a == true) {
+				f.nextStep();
 			}
 		}
+		// add flower - employee
+
+		// delete flower - employee
+
+		// update flower - employee
 	}
 
 	@Override
@@ -138,22 +179,3 @@ public class SimpleClient extends AbstractClient {
 		}
 	}
 }
-
-/*
-@Override
-	protected void handleMessageFromServer(Object msg) {
-		ArrayList<Flower> arr = new ArrayList<>();
-
-		ArrayList<Object> msgarray=new ArrayList<>();
-
-		msgarray=(ArrayList<Object>) msg;
-
-
-		if(msgarray.get(0).equals("#getcatalog")) {
-			CatalogBoundary.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
-			CatalogEmployee.setFlowers((ArrayList<Flower>)( msgarray.get(1)));
-		}
-
-	}
-
- */

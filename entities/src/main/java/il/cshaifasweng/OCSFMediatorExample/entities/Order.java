@@ -2,11 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -19,22 +14,25 @@ public class Order implements Serializable {
     private String card;
     private String credit;
     private String cvv;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private double finalPrice;
     private String formOfSupplying;
     private String monthAndYear;
+    private int orderID;
     private String receiverName;
     private String receiverPhone;
+    private double refund;
+    // status: 1 = active, 2 = supplied already, 3 = canceled
+    private int status;
     private String storeName;
     private int userID;
 
-    @ManyToMany
-    private List<Flower> flowers;
+    private String flowers;
 
-    public Order(int userID, List<Flower> flowers, String card, String formOfSupplying,
+    public Order(int userID, String flowers, String card, String formOfSupplying,
                  String storeName, String address, String receiverName, String receiverPhone,
-                 LocalDateTime dateTime, double finalPrice, String credit, String cvv,
-                 String monthAndYear) {
+                 String dateTime, double finalPrice, String credit, String cvv,
+                 String monthAndYear, int status, int orderID, double refund) {
         super();
         this.address = address;
         this.card = card;
@@ -44,11 +42,14 @@ public class Order implements Serializable {
         this.finalPrice = finalPrice;
         this.formOfSupplying = formOfSupplying;
         this.monthAndYear = monthAndYear;
+        this.orderID = orderID;
         this.receiverName = receiverName;
         this.receiverPhone = receiverPhone;
+        this.refund = refund;
+        this.status = status;
         this.storeName = storeName;
         this.userID = userID;
-        this.flowers = new ArrayList<>(flowers);
+        this.flowers = flowers;
     }
 
     public Order() {
@@ -95,11 +96,11 @@ public class Order implements Serializable {
         this.cvv = cvv;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -159,11 +160,35 @@ public class Order implements Serializable {
         this.userID = userID;
     }
 
-    public List<Flower> getFlowers() {
+    public String getFlowers() {
         return flowers;
     }
 
-    public void setFlowers(List<Flower> flowers) {
+    public void setFlowers(String flowers) {
         this.flowers = flowers;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public double getRefund() {
+        return refund;
+    }
+
+    public void setRefund(double refund) {
+        this.refund = refund;
     }
 }

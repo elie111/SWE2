@@ -10,11 +10,23 @@ public class Complaint implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String answer;
     private String content;
-    private String date;
-    private String orderId;
-    private boolean status;
+    // date of complaint
+    private String dateTime;
+    // order number
+    private int orderId;
+    // status of complaint: 1 = submitted, 2 = in process, 3 = closed
+    private int status;
+    private int userId;
+
+    public Complaint(int userId, int orderId, String content, String dateTime, int status) {
+        super();
+        this.userId = userId;
+        this.orderId = orderId;
+        this.content = content;
+        this.dateTime = dateTime;
+        this.status = status;
+    }
 
     public Complaint() {
         super();
@@ -24,11 +36,23 @@ public class Complaint implements Serializable {
         return id;
     }
 
-    public String getOrderId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
@@ -40,35 +64,19 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public boolean getStatus() {
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Complaint(String orderId, String content, boolean status, String date, String answer) {
-        this.orderId = orderId;
-        this.content = content;
-        this.status = status;
-        this.date = date;
-        this.answer = answer;
     }
 }

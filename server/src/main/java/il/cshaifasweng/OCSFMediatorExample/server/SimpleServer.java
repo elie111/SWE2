@@ -39,23 +39,16 @@ public class SimpleServer extends AbstractServer {
 
 			arr = (ArrayList<Object>) msg;
 			ArrayList<Object> answers = new ArrayList<>();
+
+			// get catalog for everyone
 			if((arr.get(0)).equals("#getcatalog")) {
 				ArrayList<Flower> list = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
-				// ArrayList<Object> answers = new ArrayList<>();
 				answers.add("#getcatalog");
 				answers.add(list);
 				sendToAllClients(answers);
 			}
-			if((arr.get(0)).equals("#getorders")) {
-				ArrayList<Order> list = (ArrayList<Order>)orderController.getAllData(Order.class);
-				// ArrayList<Object> answers = new ArrayList<>();
-				answers.add("#getorders");
-				answers.add(list);
-				sendToAllClients(answers);
-			}
-
+			// sign up a new user
 			if((arr.get(0)).equals("#register")) {
-				// registration process
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
 									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
 									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
@@ -63,9 +56,7 @@ public class SimpleServer extends AbstractServer {
 				userController.addUser(user);
 				session.getTransaction().commit();
 
-				// login
 				List<User> list = userController.getAllData(User.class);
-				// ArrayList<Object> answers = new ArrayList<>();
 				String eMail = "", password = "";
 				String myMail = (String)arr.get(3);
 				String myPassword = (String)arr.get(8);
@@ -94,7 +85,7 @@ public class SimpleServer extends AbstractServer {
 					break;
 				}
 			}
-
+			// login for users, employees, store Managers, Chain manager
 			if((arr.get(0)).equals("#loginUser")) {
 				if((arr.get(1)).equals("User")) {
 					List<User> list = userController.getAllData(User.class);
@@ -114,12 +105,76 @@ public class SimpleServer extends AbstractServer {
 				}
 				client.sendToClient(answers);
 			}
+			// add order (pick up + delivery)
+			if((arr.get(0)).equals("#addOrder")) {
+				Order item = new Order((int)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+										(String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
+										(String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
+										(double)arr.get(10), (String)arr.get(11), (String)arr.get(12),
+										(String)arr.get(13), (int)arr.get(14), (int)arr.get(15),
+										(double)arr.get(16));
+				orderController.addOrder(item);
+				session.getTransaction().commit();
 
-
-
-			if ("#addorder".equals(arr.get(0))){
-				orderController.addOrder((Order)arr.get(1));
+				answers.add("#addOrder");
+				client.sendToClient(answers);
 			}
+			// update personal details
+			if((arr.get(0)).equals("#updateDetails")) {
+				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
+									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
+									 (String)arr.get(10), (double)arr.get(11));
+				int currentID = (int)arr.get(12);
+				userController.updateData(currentID, user);
+				session.getTransaction().commit();
+
+				String finish = (String)arr.get(13);
+				if(finish.equals("updateP")) {
+					answers.add("detailsAreUpdated");
+					client.sendToClient(answers);
+				}
+			}
+			// get my orders
+			if((arr.get(0)).equals("#getmyorders")) {
+				ArrayList<Order> list = (ArrayList<Order>)orderController.getAllData(Order.class);
+				answers.add("#getmyorders");
+				answers.add((int)arr.get(1));
+				answers.add(list);
+				client.sendToClient(answers);
+			}
+			// cancel an order
+
+			// file complaints
+			if((arr.get(0)).equals("#newComplaint")) {
+				List<Order> list = orderController.getAllData(Order.class);
+				int myUserId = (int)arr.get(1);
+				int myOrderId = (int)arr.get(2);
+
+				for(int i = 0; i < list.size(); i++) {
+					if(myOrderId == list.get(i).getOrderID()) {
+						if(myUserId == list.get(i).getUserID()) {
+							Complaint complaint = new Complaint((int)arr.get(1), (int)arr.get(2),
+																(String)arr.get(3), (String)arr.get(4),
+																(int) arr.get(5));
+							complaintController.addComplaint(complaint);
+							session.getTransaction().commit();
+							answers.add("#complaintAdded");
+							answers.add(true);
+							client.sendToClient(answers);
+						}
+					}
+				}
+				answers.add("#complaintAdded");
+				answers.add(false);
+				client.sendToClient(answers);
+			}
+			// add flower - employee
+
+			// delete flower - employee
+
+			// update flower - employee
+
 
 			if ("#addflower".equals(arr.get(0))) {
 				//1 is name 2 is type 3 is price
@@ -135,7 +190,7 @@ public class SimpleServer extends AbstractServer {
 
 			if ((arr.get(0)).equals("#updateflower")) {
 				// 1 is id 2 is price 3 is discount
-				flowerController.updateData((Flower)arr.get(1));
+				// flowerController.updateData((Flower)arr.get(1));
 				session.getTransaction().commit();
 			}
 		}

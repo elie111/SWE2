@@ -25,24 +25,36 @@ public class OrderController {
         return allQuery.getResultList();
     }
 
-    public void updateData(int id, double price, int sale) throws Exception {
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Order> criteriaQuery = builder.createQuery(Order.class);
-        Root<Order> rootEntry = criteriaQuery.from(Order.class);
-        CriteriaQuery<Order> allCriteriaQuery = criteriaQuery.select(rootEntry);
-        TypedQuery<Order> allQuery = session.createQuery(allCriteriaQuery);
-        
-        session.update(allQuery.getResultList().get(id - 1));
-        session.flush();
-    }
-
     public void addOrder(Order order) throws Exception {
         session.save(order);
         session.flush();
     }
 
-    public void deleteOrder(Order order) throws Exception {
-        session.delete(order);
+    public void updateData(int id, Order order) throws Exception {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Order> criteriaQuery = builder.createQuery(Order.class);
+        Root<Order> rootEntry = criteriaQuery.from(Order.class);
+        CriteriaQuery<Order> allCriteriaQuery = criteriaQuery.select(rootEntry);
+        TypedQuery<Order> allQuery = session.createQuery(allCriteriaQuery);
+        // id - 1 ==> id
+        allQuery.getResultList().get(id - 1).setAddress(order.getAddress());
+        allQuery.getResultList().get(id - 1).setCard(order.getCard());
+        allQuery.getResultList().get(id - 1).setCredit(order.getCredit());
+        allQuery.getResultList().get(id - 1).setCvv(order.getCvv());
+        allQuery.getResultList().get(id - 1).setDateTime(order.getDateTime());
+        allQuery.getResultList().get(id - 1).setFinalPrice(order.getFinalPrice());
+        allQuery.getResultList().get(id - 1).setFormOfSupplying(order.getFormOfSupplying());
+        allQuery.getResultList().get(id - 1).setMonthAndYear(order.getMonthAndYear());
+        allQuery.getResultList().get(id - 1).setOrderID(order.getOrderID());
+        allQuery.getResultList().get(id - 1).setReceiverName(order.getReceiverName());
+        allQuery.getResultList().get(id - 1).setReceiverPhone(order.getReceiverPhone());
+        allQuery.getResultList().get(id - 1).setRefund(order.getRefund());
+        allQuery.getResultList().get(id - 1).setStatus(order.getStatus());
+        allQuery.getResultList().get(id - 1).setStoreName(order.getStoreName());
+        allQuery.getResultList().get(id - 1).setUserID(order.getUserID());
+        allQuery.getResultList().get(id - 1).setFlowers(order.getFlowers());
+
+        session.update(allQuery.getResultList().get(id - 1));
         session.flush();
     }
 }

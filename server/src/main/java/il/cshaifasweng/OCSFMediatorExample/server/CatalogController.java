@@ -1,7 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Catalog;
-import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
@@ -25,11 +23,4 @@ public class CatalogController {
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
     }
-
-    public List<Flower> getFlowers(int id) throws Exception {
-        // if we added more than one catalog we should look for the catalog with id = id
-        List<Flower> flowers = (getAllData(Catalog.class)).get(0).getFlowers();
-        return  flowers;
-    }
-
 }

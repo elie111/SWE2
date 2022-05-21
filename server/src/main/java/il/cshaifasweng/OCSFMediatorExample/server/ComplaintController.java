@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
@@ -22,5 +23,10 @@ public class ComplaintController {
         CriteriaQuery<T> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
+    }
+
+    public void addComplaint(Complaint complaint) throws Exception {
+        session.save(complaint);
+        session.flush();
     }
 }

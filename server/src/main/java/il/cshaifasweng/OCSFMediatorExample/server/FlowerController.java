@@ -25,26 +25,23 @@ public class FlowerController {
         return allQuery.getResultList();
     }
 
-    public Flower getDetails(int id) throws Exception {
-        List<Flower> flowers = getAllData(Flower.class);
-        Flower flower = null;
-        for (int i = 0; i < flowers.size(); i++) {
-            if (flowers.get(i).getId() == id) {
-                flower = flowers.get(i);
-                break;
-            }
-        }
-        return flower;
-    }
-
-    public void updateData(Flower flower) throws Exception {
+    public void updateData(int id, Flower flower) throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Flower> criteriaQuery = builder.createQuery(Flower.class);
         Root<Flower> rootEntry = criteriaQuery.from(Flower.class);
         CriteriaQuery<Flower> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<Flower> allQuery = session.createQuery(allCriteriaQuery);
 
-        session.update(flower);
+        allQuery.getResultList().get(id - 1).setName(flower.getName());
+        allQuery.getResultList().get(id - 1).setType(flower.getType());
+        allQuery.getResultList().get(id - 1).setDiscount(flower.getDiscount());
+        allQuery.getResultList().get(id - 1).setImageurl(flower.getImageurl());
+        allQuery.getResultList().get(id - 1).setPrice(flower.getPrice());
+        allQuery.getResultList().get(id - 1).setColor(flower.getColor());
+        allQuery.getResultList().get(id - 1).setSale(flower.getSale());
+        allQuery.getResultList().get(id - 1).setDescription(flower.getDescription());
+
+        session.update(allQuery.getResultList().get(id - 1));
         session.flush();
     }
 

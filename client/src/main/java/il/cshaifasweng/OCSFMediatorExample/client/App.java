@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class App extends Application {
     private static Scene scene;
     private static SimpleClient client;
+    private static int orderID = 3548;
 
     public static SimpleClient getClient() {
         return client;
@@ -74,5 +75,13 @@ public class App extends Application {
 
 	public static void main(String[] args) {
         launch();
+    }
+
+    public static void setOrderID(int newOrderID) {
+        orderID = newOrderID;
+    }
+
+    public static int getOrderID() {
+        return orderID;
     }
 }
