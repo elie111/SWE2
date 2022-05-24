@@ -38,7 +38,7 @@ public class ComplaintController implements Initializable {
         responseTF.setEditable(true);
         complaintTF.setText(currentComplaint.getContent());
         customerNameTF.setText(Integer.toString(currentComplaint.getId()));
-        orderNumberTF.setText(currentComplaint.getOrderId());
+        //orderNumberTF.setText(currentComplaint.getOrderId());
     }
     @FXML
     public void returnFunc(ActionEvent event) throws IOException {

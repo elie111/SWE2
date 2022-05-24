@@ -49,7 +49,7 @@ public class OrderListEmployeeController implements Initializable {
         Flower flower2=new Flower("name2","type2",2);
         flowers.add(flower);
         flowers.add(flower2);
-        order.setFlowers(flowers);
+        //order.setFlowers(flowers);
         orderList.getItems().add(order);
 
 
