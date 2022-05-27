@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="Item" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddFlowerEmployeeController">
-    <children>
-        <ImageView id="flowerImg" fx:id="flowerImg" fitHeight="120.0" fitWidth="120.0" layoutX="141.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@Images/beamingblush.jpg" />
-            </image></ImageView>
-        <Button id="editbtn" fx:id="editbtn" layoutX="141.0" layoutY="333.0" mnemonicParsing="false" onAction="#edit" prefHeight="35.0" prefWidth="103.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Update" />
-        <TextField id="txt" fx:id="txt" layoutX="286.0" layoutY="99.0" prefHeight="28.0" prefWidth="174.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="flower name" />
-        <Button id="returnbtn" fx:id="returnbtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnBtn" prefHeight="35.0" prefWidth="86.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="return " />
-        <TextField id="pricetxt" fx:id="pricetxt" layoutX="348.0" layoutY="170.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="price" />
-        <TextField editable="false" layoutX="387.0" layoutY="170.0" prefHeight="26.0" prefWidth="25.0" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-font-style: italic;" text="\$" />
-        <TextField id="descriptiontxt" fx:id="descriptiontxt" layoutX="150.0" layoutY="220.0" prefHeight="100.0" prefWidth="314.0" style="-fx-background-color: cornsilk; -fx-font-size: 16px; -fx-border-color: transparent; -fx-background-insets: 0, 1; -fx-background-radius: 3, 2; -fx-font-weight: bold; -fx-font-style: italic;" />
-        <TextField editable="false" layoutX="286.0" layoutY="170.0" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: transparent; -fx-font-size: 14px; -fx-font-weight: bold; -fx-font-style: italic;" text="price: " />
-
-    </children>
+<AnchorPane fx:id="Item" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddFlowerEmployeeController">
+   <children>
+      <Text fx:id="addFlowerL" fill="#b91b1b" layoutX="194.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Add Flower" />
+      <Button fx:id="userName" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#getDetails" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" />
+      <Label fx:id="LableName" layoutX="50.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Name:" />
+      <TextField fx:id="textName" layoutX="140.0" layoutY="100.0" />
+      <Label fx:id="labelDescription" layoutX="50.0" layoutY="150.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Description:" />
+      <TextField fx:id="textDescription" layoutX="140.0" layoutY="150.0" />
+      <Label fx:id="labelType" layoutX="50.0" layoutY="200.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Type:" />
+      <ComboBox fx:id="chooseType" layoutX="140.0" layoutY="200.0" prefWidth="150.0" />
+      <Label fx:id="labelImage" layoutX="50.0" layoutY="250.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Image:" />
+      <ComboBox fx:id="chooseImage" layoutX="140.0" layoutY="250.0" prefWidth="150.0" />
+      <Label fx:id="labelColor" layoutX="330.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Color:" />
+      <ComboBox fx:id="chooseColor" layoutX="400.0" layoutY="100.0" prefWidth="150.0" />
+      <Label fx:id="labelPrice" layoutX="330.0" layoutY="150.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Price:" />
+      <TextField fx:id="textPrice" layoutX="400.0" layoutY="150.0" />
+      <Label fx:id="labelSale" layoutX="330.0" layoutY="200.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Sale:" />
+      <ComboBox fx:id="ChooseSale" layoutX="400.0" layoutY="200.0" prefWidth="150.0" />
+      <Label fx:id="labelDiscount" layoutX="330.0" layoutY="250.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Discount:" />
+      <TextField fx:id="textDiscount" layoutX="400.0" layoutY="250.0" />
+      <Button fx:id="backBtn" layoutX="237.0" layoutY="300.0" mnemonicParsing="false" onAction="#backButton" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Back" />
+      <Button fx:id="signBtn" layoutX="314.0" layoutY="300.0" mnemonicParsing="false" onAction="#signButton" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Add" />
+   </children>
 </AnchorPane>

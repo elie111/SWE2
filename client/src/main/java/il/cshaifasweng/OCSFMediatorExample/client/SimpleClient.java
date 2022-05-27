@@ -113,16 +113,6 @@ public class SimpleClient extends AbstractClient {
 				}
 			}
 		}
-		// add order (pick up + delivery)
-		if(msgArray.get(0).equals("#addOrder")) {
-			OrderPickUpBoundaryController o = new OrderPickUpBoundaryController();
-			o.nextStep();
-		}
-		// update personal details
-		if(msgArray.get(0).equals("detailsAreUpdated")) {
-			PersonalDetailsBoundaryController p = new PersonalDetailsBoundaryController();
-			p.nextStep();
-		}
 		// get my orders
 		if(msgArray.get(0).equals("#getmyorders")) {
 			int myUserId = (int)msgArray.get(1);
@@ -145,14 +135,35 @@ public class SimpleClient extends AbstractClient {
 			m.nextStep();
 		}
 		// cancel an order
-
+		if(msgArray.get(0).equals("#cancelOrder")) {
+			double r = (double)msgArray.get(1);
+			EntityHolder.getUser().setRefund(r);
+			CancelOrdersBoundaryController c = new CancelOrdersBoundaryController();
+			c.nextStep();
+		}
 		// file complaints
 		if(msgArray.get(0).equals("#complaintAdded")) {
 			FileComplaintBoundaryController f = new FileComplaintBoundaryController();
-			boolean a = (boolean)msgArray.get(1);
-			if(a == true) {
-				f.nextStep();
+			f.nextStep();
+		}
+		// get refund history
+		if(msgArray.get(0).equals("#getmyrefunds")) {
+			int myUserId = (int)msgArray.get(1);
+			ArrayList<Refund> list = (ArrayList<Refund>)msgArray.get(2);
+			int generalUserId = 0;
+			ObservableList<RefundHolder> newList = FXCollections.observableArrayList();
+
+			for(int i = 0; i < list.size(); i++) {
+				generalUserId = list.get(i).getUserId();
+				if(generalUserId == myUserId) {
+					RefundHolder r = new RefundHolder(list.get(i).getOrderId(), list.get(i).getRefund());
+					newList.add(r);
+				}
 			}
+
+			RefundHistoryBoundaryController.setMyRefunds(newList);
+			MyProfileBoundaryController m = new MyProfileBoundaryController();
+			m.nextStep1();
 		}
 		// add flower - employee
 

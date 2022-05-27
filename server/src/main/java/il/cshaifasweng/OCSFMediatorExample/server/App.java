@@ -19,6 +19,7 @@ public class App {
     private static Session session;
     private static SessionFactory sessionFactory;
     static Scanner sc = new Scanner(System.in);
+    private static int flowerSerialNumber = 1002345;
 
     public static SessionFactory getSession() {
         return sessionFactory;
@@ -33,6 +34,7 @@ public class App {
         configuration.addAnnotatedClass(Employee.class);
         configuration.addAnnotatedClass(Flower.class);
         configuration.addAnnotatedClass(Order.class);
+        configuration.addAnnotatedClass(Refund.class);
         configuration.addAnnotatedClass(StoreManager.class);
         configuration.addAnnotatedClass(User.class);
 
@@ -61,7 +63,9 @@ public class App {
             for(int i = 0; i < c.flowersNames.length; i++) {
                 Flower flowerItem = new Flower(c.flowersNames[i], c.flowersDescriptions[i],
                                                c.flowersTypes[i], c.flowersImages[i],
-                                               c.flowersColors[i], c.flowersPrices[i]);
+                                               c.flowersColors[i], c.flowersPrices[i],
+                                               getFlowerSerialNumber());
+                setFlowerSerialNumber(flowerSerialNumber + 1);
                 flowerItem.setCatalog(catalog);
                 flowersList.add(flowerItem);
                 session.save(flowerItem);
@@ -104,6 +108,14 @@ public class App {
         } finally {
             session.close();
         }
+    }
+
+    public static int getFlowerSerialNumber() {
+        return flowerSerialNumber;
+    }
+
+    public static void setFlowerSerialNumber(int newFlowerSerialNumber) {
+        flowerSerialNumber = newFlowerSerialNumber;
     }
 }
 

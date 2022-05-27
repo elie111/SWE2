@@ -71,8 +71,14 @@ public class CatalogBoundaryController implements Initializable {
     private ArrayList<String> listStr = new ArrayList<String>();
     private ArrayList<String> cartNames = new ArrayList<String>();
 
-    public static void setFlowers(ArrayList<Flower> flowers) {
-        CatalogBoundaryController.flowers = flowers;
+    public static void setFlowers(ArrayList<Flower> newFlowers) {
+        for(int i = 0; i < newFlowers.size(); i++) {
+            if(newFlowers.get(i).getStatus() == 1) {
+                CatalogBoundaryController.flowers.add(newFlowers.get(i));
+            }
+        }
+
+        // CatalogBoundaryController.flowers = flowers;
     }
 
     public static Flower getCurrentFlower() {
@@ -430,7 +436,5 @@ public class CatalogBoundaryController implements Initializable {
 
     public void refreshAfterDisconnect() {
         cartMap.clear();
-        cartNames.clear();
-        myCart.getItems().clear();
     }
 }

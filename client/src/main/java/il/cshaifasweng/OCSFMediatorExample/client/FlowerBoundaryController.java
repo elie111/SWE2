@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 public class FlowerBoundaryController implements Initializable {
     @FXML private ImageView flowerImg;
     @FXML private TextField txt;
+    @FXML private TextField txt1;
+    @FXML private TextField txt2;
+    @FXML private TextField txt3;
     @FXML private TextField priceLabel;
     @FXML private TextField priceTxt;
     @FXML private TextField dollarLabel;
@@ -28,7 +31,21 @@ public class FlowerBoundaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         flower = CatalogBoundaryController.getCurrentFlower();
+
         txt.setText(flower.getName());
+        String sn = "Serial Number: " + flower.getSerialNumber();
+        txt1.setText(sn);
+        txt2.setText(flower.getType());
+        String d = "Discount: " + flower.getDiscount() + "%";
+        txt3.setText(d);
+
+        if(flower.getSale() == true) {
+            txt3.setVisible(true);
+        }
+        else {
+            txt3.setVisible(false);
+        }
+
         descriptionTxt.setText(flower.getDescription());
         priceTxt.setText((flower.getPrice()) + "");
         txt.setEditable(false);
@@ -56,6 +73,4 @@ public class FlowerBoundaryController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 }

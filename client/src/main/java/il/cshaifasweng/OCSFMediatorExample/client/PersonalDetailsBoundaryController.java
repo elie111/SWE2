@@ -48,6 +48,9 @@ public class PersonalDetailsBoundaryController implements Initializable {
     @FXML private Label labelStore;
     @FXML private ComboBox<String> chooseStore;
 
+    @FXML private Label refundLabel1;
+    @FXML private Label refundLabel2;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(EntityHolder.getTable() == -1) {
@@ -121,6 +124,9 @@ public class PersonalDetailsBoundaryController implements Initializable {
             labelStore.setVisible(false);
             chooseStore.setVisible(false);
         }
+
+        String pricetxt = EntityHolder.getUser().getRefund() + " $";
+        refundLabel2.setText(pricetxt);
 
         textName.setEditable(false);
         textID.setEditable(false);
@@ -471,7 +477,6 @@ public class PersonalDetailsBoundaryController implements Initializable {
         }
         arr.add(EntityHolder.getUser().getRefund());
         arr.add(EntityHolder.getID());
-        arr.add("updateP");
 
         EntityHolder.getUser().setName(name);
         EntityHolder.getUser().setId(id);
@@ -485,17 +490,14 @@ public class PersonalDetailsBoundaryController implements Initializable {
         EntityHolder.getUser().setStoreOrNull(s);
 
         App.getClient().sendToServer(arr);
-    }
-
-    public void nextStep() {
-        try {
-            moveForward();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        moveForward();
     }
 
     public void moveForward() throws IOException {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Your personal details have been updated");
+        a.showAndWait();
         App.setRoot("MyProfileBoundary");
     }
 

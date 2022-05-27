@@ -41,6 +41,6 @@
       <CheckBox fx:id="bridalB" layoutX="449.0" layoutY="305.0" mnemonicParsing="false" style="-fx-text-fill: black; -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Bridal Bouquet" />
       <CheckBox fx:id="potOfFlowers" layoutX="449.0" layoutY="330.0" mnemonicParsing="false" style="-fx-text-fill: black; -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Flower Pot" />
         <Button fx:id="resetBtn" layoutX="540.0" layoutY="367.0" mnemonicParsing="false" onAction="#resetFilter" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Reset" />
-        <Button fx:id="searchBtn" layoutX="428.0" layoutY="367.0" mnemonicParsing="false" onAction="#updateFilter" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Update List" />
+        <Button fx:id="searchBtn" layoutX="449.0" layoutY="367.0" mnemonicParsing="false" onAction="#updateFilter" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Filter List" />
     </children>
 </AnchorPane>

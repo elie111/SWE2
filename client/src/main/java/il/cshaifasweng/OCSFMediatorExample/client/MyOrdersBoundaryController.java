@@ -58,7 +58,7 @@ public class MyOrdersBoundaryController implements Initializable {
         orderP.setCellValueFactory(new PropertyValueFactory<>("finalPrice"));
         orderD.setCellValueFactory(new PropertyValueFactory<>("flowers"));
         orderS.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tableView.setItems(FXCollections.observableList(list)); //put values in the rows for each order
+        tableView.setItems(FXCollections.observableList(list)); // put values in the rows for each order
     }
 
     @FXML

@@ -10,6 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +36,8 @@ public class SimpleServer extends AbstractServer {
 			ComplaintController complaintController = new ComplaintController(session);
 			EmployeeController employeeController = new EmployeeController(session);
 			FlowerController flowerController = new FlowerController(session);
-			OrderController orderController=new OrderController(session);
+			OrderController orderController = new OrderController(session);
+			RefundController refundController = new RefundController(session);
 			StoreManagerController storeManagerController = new StoreManagerController(session);
 			UserController userController = new UserController(session);
 
@@ -115,9 +119,6 @@ public class SimpleServer extends AbstractServer {
 										(double)arr.get(16));
 				orderController.addOrder(item);
 				session.getTransaction().commit();
-
-				answers.add("#addOrder");
-				client.sendToClient(answers);
 			}
 			// update personal details
 			if((arr.get(0)).equals("#updateDetails")) {
@@ -128,12 +129,6 @@ public class SimpleServer extends AbstractServer {
 				int currentID = (int)arr.get(12);
 				userController.updateData(currentID, user);
 				session.getTransaction().commit();
-
-				String finish = (String)arr.get(13);
-				if(finish.equals("updateP")) {
-					answers.add("detailsAreUpdated");
-					client.sendToClient(answers);
-				}
 			}
 			// get my orders
 			if((arr.get(0)).equals("#getmyorders")) {
@@ -144,7 +139,43 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(answers);
 			}
 			// cancel an order
+			if((arr.get(0)).equals("#cancelorder")) {
+				List<Order> orderList = orderController.getAllData(Order.class);
+				List<User> userList = userController.getAllData(User.class);
 
+				int myUserId = (int)arr.get(1);
+				int myOrderId = (int)arr.get(2);
+				String cancellationTime = (String)arr.get(3);
+				int status = (int)arr.get(4);
+				double refundNow = (double)arr.get(5);
+				double sum = 0, percentageRefund, userRefund;
+
+				for(int i = 0; i < orderList.size(); i++) {
+					if(myOrderId == orderList.get(i).getOrderID()) {
+						if(myUserId == orderList.get(i).getUserID()) {
+							// order update:
+							int realOrderID = orderList.get(i).getId();
+							orderList.get(i).setStatus(status);
+							orderController.updateData(realOrderID, orderList.get(i));
+							// user update:
+							String supplyTime = orderList.get(i).getDateTime();
+							sum = orderList.get(i).getFinalPrice() + orderList.get(i).getRefund();
+							percentageRefund = calculateNewRefund(cancellationTime, supplyTime, sum);
+							userRefund = refundNow + percentageRefund;
+							userList.get(myUserId - 1).setRefund(userRefund);
+							userController.updateData(myUserId, userList.get(myUserId - 1));
+							// create refund in database
+							Refund r = new Refund(myOrderId, percentageRefund, myUserId);
+							refundController.addRefund(r);
+							session.getTransaction().commit();
+
+							answers.add("#cancelOrder");
+							answers.add(userRefund);
+							client.sendToClient(answers);
+						}
+					}
+				}
+			}
 			// file complaints
 			if((arr.get(0)).equals("#newComplaint")) {
 				List<Order> list = orderController.getAllData(Order.class);
@@ -160,13 +191,17 @@ public class SimpleServer extends AbstractServer {
 							complaintController.addComplaint(complaint);
 							session.getTransaction().commit();
 							answers.add("#complaintAdded");
-							answers.add(true);
 							client.sendToClient(answers);
 						}
 					}
 				}
-				answers.add("#complaintAdded");
-				answers.add(false);
+			}
+			// get refund history
+			if((arr.get(0)).equals("#getmyrefunds")) {
+				ArrayList<Refund> list = (ArrayList<Refund>)refundController.getAllData(Refund.class);
+				answers.add("#getmyrefunds");
+				answers.add((int)arr.get(1));
+				answers.add(list);
 				client.sendToClient(answers);
 			}
 			// add flower - employee
@@ -317,6 +352,28 @@ public class SimpleServer extends AbstractServer {
 		answers.add("#connectEntity");
 		answers.add(false);
 		return;
+	}
+
+	public double calculateNewRefund(String cancellationTime, String supplyTime, double refund) throws ParseException {
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+		long date1 = formatter.parse(cancellationTime).getTime();
+		long date2 = formatter.parse(supplyTime).getTime();
+
+		// Get msec from each, and subtract.
+		long diff = date2 - date1;
+		// Difference In minutes:
+		double percentage = (diff / (1000 * 60));
+
+		// 1 - if 100% refund, 0.5 for 50%, 0- no refund
+		if (refund > 180) {
+			return 1 * refund;
+		}
+		else if (refund < 60) {
+			return 0 * refund;
+		}
+		else {
+			return 0.5 * refund;
+		}
 	}
 
 	@Override

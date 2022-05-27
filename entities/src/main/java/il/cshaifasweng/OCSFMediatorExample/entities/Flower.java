@@ -2,8 +2,6 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "flowers")
@@ -19,6 +17,9 @@ public class Flower implements Serializable {
     private String color;
     private Boolean sale;
     private String description;
+    private int serialNumber;
+    // status: 1 = active, 2 = not active
+    private int status;
 
     @ManyToOne
     private Catalog catalog;
@@ -27,9 +28,11 @@ public class Flower implements Serializable {
         super();
         this.sale = false;
         this.discount = 0;
+        status = 1;
     }
 
-    public Flower(String name, String description, String type, String image, String color, double price) {
+    public Flower(String name, String description, String type, String image,
+                  String color, double price, int serialNumber) {
         super();
         this.name = name;
         this.description = description;
@@ -37,8 +40,25 @@ public class Flower implements Serializable {
         this.imageurl = image;
         this.color = color;
         this.price = price;
+        this.serialNumber = serialNumber;
         this.sale = false;
         this.discount = 0;
+        this.status = 1;
+    }
+
+    public Flower(String name, String description, String type, String image,
+                  String color, double price, int serialNumber, boolean sale, int discount) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.imageurl = image;
+        this.color = color;
+        this.price = price;
+        this.serialNumber = serialNumber;
+        this.sale = sale;
+        this.discount = discount;
+        this.status = 1;
     }
 
     public String getImageurl() {
@@ -119,5 +139,21 @@ public class Flower implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -1,122 +1,124 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
+import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddFlowerEmployeeController implements Initializable {
-    @FXML
-    private AnchorPane Item;
+    @FXML private Text addFlowerL;
+    @FXML private Button userName;
+    @FXML private Label LableName;
+    @FXML private TextField textName;
+    @FXML private Label labelDescription;
+    @FXML private TextField textDescription;
+    @FXML private Label labelType;
+    @FXML private ComboBox<String> chooseType;
+    @FXML private Label labelImage;
+    @FXML private ComboBox<String> chooseImage;
+    @FXML private Label labelColor;
+    @FXML private ComboBox<String> chooseColor;
+    @FXML private Label labelPrice;
+    @FXML private TextField textPrice;
+    @FXML private Label labelSale;
+    @FXML private ComboBox<String> ChooseSale;
+    @FXML private Label labelDiscount;
+    @FXML private TextField textDiscount;
+    @FXML private Button backBtn;
+    @FXML private Button signBtn;
 
-    @FXML
-    private TextField descriptiontxt;
-
-    @FXML
-    private Button editbtn;
-
-    @FXML
-    private ImageView flowerImg;
-
-    @FXML
-    private TextField pricetxt;
-
-    @FXML
-    private Button returnbtn;
-
-    @FXML
-    private TextField txt;
-    private Flower flower = new Flower();
-    private String imageUrl;
-    private static boolean addnew;
-
-    public static boolean isAddnew() {
-        return addnew;
-    }
-
-    public static void setAddnew(boolean addnew) {
-        AddFlowerEmployeeController.addnew = addnew;
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(addnew==true){
-            flower=new Flower("name","description", "type", "image", "color",0);
-            pricetxt.setEditable(true);
-            txt.setEditable(true);
-            descriptiontxt.setEditable(true);
-            editbtn.setText("done");
-            pricetxt.setStyle("-fx-background-color: white;");
+        if(EntityHolder.getTable() == -1) {
+            userName.setText("Register / Login");
         }
         else {
-            flower = CatalogEmployeeController.getCurrentFlower();
-            txt.setEditable(false);
-            descriptiontxt.setEditable(false);
-            pricetxt.setEditable(false);
-        }
-        txt.setText(flower.getName());
-        descriptiontxt.setText(flower.getType());
-        pricetxt.setText((flower.getPrice()) + "");
-
-        //descriptiontxt.setWrapText(true);
-
-
-        flowerImg.setImage(new Image(getClass().getResourceAsStream(flower.getImageurl())));
-    }
-    @FXML
-    void edit(ActionEvent event) throws IOException {
-        if(editbtn.getText().equals("Update")) {
-            pricetxt.setEditable(true);
-            txt.setEditable(true);
-            descriptiontxt.setEditable(true);
-            editbtn.setText("done");
-            pricetxt.setStyle("-fx-background-color: white;");
-        }
-        else {
-            pricetxt.setStyle("-fx-background-color: transparent;-fx-font-size:  14px;-fx-font-weight: bold;-fx-font-style: italic");
-            pricetxt.setEditable(false);
-            txt.setEditable(false);
-            descriptiontxt.setEditable(false);
-            editbtn.setText("Update");
-            if(addnew==false) {
-
-                flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
-                flower.setName(txt.getText());
-                flower.setType(descriptiontxt.getText());
-                ArrayList<Object> arr = new ArrayList<>();
-                arr.add("#updateflower");
-//            arr.add(flower.getId());
-//            arr.add(flower.getPrice());
-//            arr.add(flower.getDiscount());
-                arr.add(flower);
-
-                App.getClient().sendToServer(arr);
+            if(EntityHolder.getTable() == 0) {
+                userName.setText(EntityHolder.getUser().getName());
             }
-            if(addnew==true){
-                addnew=false;
-                flower.setPrice(Double.parseDouble(pricetxt.getText().toString()));
-                flower.setName(txt.getText());
-                flower.setType(descriptiontxt.getText());
-                ArrayList<Object> arr = new ArrayList<>();
-                arr.add("#addflower");
-                arr.add(flower);
-                App.getClient().sendToServer(arr);
-
+            else if(EntityHolder.getTable() == 1) {
+                userName.setText(EntityHolder.getEmployee().getName());
+            }
+            else if(EntityHolder.getTable() == 2) {
+                userName.setText(EntityHolder.getStoreM().getName());
+            }
+            else if(EntityHolder.getTable() == 3) {
+                userName.setText(EntityHolder.getChainM().getName());
             }
         }
+
+        chooseType.getItems().addAll("Flower Pot", "Bridal Bouquet", "Flower Arrangement");
+        String path = "C:\\Users\\inbar lev tov\\Desktop\\software 2022\\project\\SWE2\\client\\src\\main\\resources\\il\\cshaifasweng\\OCSFMediatorExample\\client\\Images";
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        for (File f: listOfFiles) {
+            chooseImage.getItems().add(f.getName());
+        }
+        chooseColor.getItems().addAll("pink", "red", "yellow", "blue");
+        ChooseSale.getItems().addAll("True", "False");
+
+        labelDiscount.setVisible(false);
+        textDiscount.setVisible(false);
+        ChooseSale.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
+            if(newV.equals("True")) {
+                labelDiscount.setVisible(true);
+                textDiscount.setVisible(true);
+            }
+            else {
+                labelDiscount.setVisible(false);
+                textDiscount.setVisible(false);
+            }
+        });
+
+        signBtn.disableProperty().bind(
+                Bindings.isEmpty(textName.textProperty())
+                        .or(Bindings.isEmpty(textDescription.textProperty()))
+                        .or(chooseType.valueProperty().isNull())
+                        .or(chooseImage.valueProperty().isNull())
+                        .or(chooseColor.valueProperty().isNull())
+                        .or(Bindings.isEmpty(textPrice.textProperty()))
+                        .or(ChooseSale.valueProperty().isNull()));
     }
 
     @FXML
-    void returnBtn(ActionEvent event) throws IOException {
+    public void getDetails(ActionEvent event) throws IOException {
+        if(userName.getText().equals("Register / Login")) {
+            App.setRoot("LoginOrSignupBoundary");
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Do you wish to disconnect?");
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setRoot("LoginOrSignupBoundary");
+                EntityHolder.setTable(-1);
+                EntityHolder.setUser(null);
+                EntityHolder.setEmployee(null);
+                EntityHolder.setStoreM(null);
+                EntityHolder.setChainM(null);
+                EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
+            }
+        }
+    }
+
+    @FXML
+    public void backButton(ActionEvent event) throws IOException {
         App.setRoot("CatalogEmployee");
+    }
+
+    @FXML
+    public void signButton(ActionEvent event) throws IOException {
+
     }
 }

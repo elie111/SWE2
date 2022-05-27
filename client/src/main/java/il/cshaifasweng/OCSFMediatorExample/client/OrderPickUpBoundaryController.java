@@ -250,7 +250,7 @@ public class OrderPickUpBoundaryController implements Initializable {
     }
 
     @FXML
-    public void removeFunc(ActionEvent event) {
+    public void removeFunc(ActionEvent event) throws IOException {
         String item = list.getSelectionModel().getSelectedItem();
         String item2;
 
@@ -290,6 +290,10 @@ public class OrderPickUpBoundaryController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {}
         });
+
+        if(list.getItems().isEmpty()) {
+            App.setRoot("CatalogBoundary");
+        }
     }
 
     public void moneyAfterRemove() {
@@ -604,6 +608,11 @@ public class OrderPickUpBoundaryController implements Initializable {
     }
 
     public void updateRefund() throws IOException {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Your refund has been updated");
+        a.showAndWait();
+
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
         arr.add(EntityHolder.getUser().getName());
@@ -618,12 +627,16 @@ public class OrderPickUpBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
         arr.add(EntityHolder.getID());
-        arr.add("updateR");
 
         App.getClient().sendToServer(arr);
     }
 
     public void updateCreditCardFunction(String credit, String cvv, String monthAndYear) throws IOException {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Your credit card has been updated");
+        a.showAndWait();
+
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
         arr.add(EntityHolder.getUser().getName());
@@ -638,7 +651,6 @@ public class OrderPickUpBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
         arr.add(EntityHolder.getID());
-        arr.add("updateC");
 
         App.getClient().sendToServer(arr);
     }
@@ -672,19 +684,16 @@ public class OrderPickUpBoundaryController implements Initializable {
         }
 
         App.getClient().sendToServer(arr);
+        moveOn();
     }
 
-    public void nextStep() {
-        try {
-            moveOne();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void moveOne() throws IOException {
-        App.setRoot("MyProfileBoundary");
+    public void moveOn() throws IOException {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Your order has been complete");
+        a.showAndWait();
         CatalogBoundaryController c = new CatalogBoundaryController();
         c.refreshAfterDisconnect();
+        App.setRoot("MyProfileBoundary");
     }
 }
