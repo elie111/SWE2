@@ -54,6 +54,8 @@ public class App {
             session.beginTransaction();
 
             List<Flower> flowersList = new ArrayList<Flower>();
+            List<Order> orderList = new ArrayList<Order>();
+
             Catalog catalog = new Catalog();
             ConstantStrings1 c = new ConstantStrings1();
 
@@ -65,6 +67,14 @@ public class App {
                 flowerItem.setCatalog(catalog);
                 flowersList.add(flowerItem);
                 session.save(flowerItem);
+            }
+            //orders
+            for(int i = 0; i < c.flowersNames.length; i++) {
+                Order orderItem = new Order();
+                orderItem.setFinalPrice(i);
+                orderItem.setStoreName("new york");
+                orderList.add(orderItem);
+                session.save(orderItem);
             }
             // users
             for(int i = 0; i < c.userNames.length; i++) {

@@ -47,6 +47,13 @@ public class SimpleServer extends AbstractServer {
 				answers.add(list);
 				sendToAllClients(answers);
 			}
+			if((arr.get(0)).equals("#getorders")) {
+				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
+				System.out.println("server lst");
+				answers.add("#getorders");
+				answers.add(list);
+				sendToAllClients(answers);
+			}
 			// sign up a new user
 			if((arr.get(0)).equals("#register")) {
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),

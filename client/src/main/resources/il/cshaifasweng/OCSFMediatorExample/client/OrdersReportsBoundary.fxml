@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.IncomeReportsController">
+<AnchorPane id="orderslayout" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OrdersReportsController">
    <children>
-      <BarChart id="incomeChart" fx:id="incomeChart" layoutY="151.0" prefHeight="225.0" prefWidth="585.0">
+      <BarChart id="ordersChart" fx:id="ordersChart" layoutY="151.0" prefHeight="225.0" prefWidth="585.0">
          <xAxis>
             <CategoryAxis id="monthAxis" fx:id="monthAxis" animated="false" side="BOTTOM" />
          </xAxis>

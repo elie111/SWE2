@@ -37,8 +37,9 @@ public class App extends Application {
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#getcatalog");
         client.sendToServer(arr);
-        arr.add("#getorders");
-        client.sendToServer(arr);
+        ArrayList<Object> arr2 = new ArrayList<>();
+        arr2.add("#getorders");
+        client.sendToServer(arr2);
 
         scene = new Scene(loadFXML("LoginOrSignupBoundary"), 600, 400);
         stage.setScene(scene);

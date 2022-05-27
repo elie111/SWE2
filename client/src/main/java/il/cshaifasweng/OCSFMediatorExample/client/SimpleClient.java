@@ -45,6 +45,11 @@ public class SimpleClient extends AbstractClient {
 			CatalogBoundaryController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
 			CatalogEmployeeController.setFlowers((ArrayList<Flower>)(msgArray.get(1)));
 		}
+		if(msgArray.get(0).equals("#getorders")) {
+			System.out.println("orders in client"+msgArray.get(1));
+			IncomeReportsController.setOrders((ArrayList<Order>)(msgArray.get(1)));
+			OrdersReportsController.setOrders((ArrayList<Order>)(msgArray.get(1)));
+		}
 		// sign up a new user
 		if(msgArray.get(0).equals("#connectUserAfterRegistration")) {
 			EntityHolder.setTable(0);

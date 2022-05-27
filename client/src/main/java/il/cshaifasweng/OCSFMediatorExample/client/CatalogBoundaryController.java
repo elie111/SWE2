@@ -162,7 +162,8 @@ public class CatalogBoundaryController implements Initializable {
     public void getDetails(ActionEvent event) throws IOException {
         if(userName.getText().equals("Register / Login")) {
 //            App.setRoot("LoginOrSignupBoundary");
-            App.setRoot("IncomeReportsBoundary");
+//            App.setRoot("OrdersReportsBoundary");
+              App.setRoot("IncomeReportsBoundary");
 
         }
         else {
