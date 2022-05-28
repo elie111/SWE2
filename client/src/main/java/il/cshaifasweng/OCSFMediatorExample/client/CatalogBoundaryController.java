@@ -141,12 +141,7 @@ public class CatalogBoundaryController implements Initializable {
 
         getCatalogItems();
         getCartItems();
-        p = 0;
-
-        for (Flower key : cartMap.keySet()) {
-            p += key.getPrice() * cartMap.get(key);
-        }
-
+        setRealPrice();
         priceTxt = "final price: " + p + " $";
         priceLabel.setText(priceTxt);
 
@@ -161,6 +156,21 @@ public class CatalogBoundaryController implements Initializable {
         orderBtn.disableProperty().bind(Bindings.isEmpty(myCart.getItems()));
         if(userName.getText().equals("Register / Login")) {
             profileBtn.setDisable(true);
+        }
+    }
+
+    public void setRealPrice() {
+        p = 0;
+
+        for (Flower key : cartMap.keySet()) {
+            if(key.getSale() == true) {
+                double dis = key.getDiscount() / 100.0;
+                double finalD = 1 - dis;
+                p += key.getPrice() * finalD * cartMap.get(key);
+            }
+            else {
+                p += key.getPrice() * cartMap.get(key);
+            }
         }
     }
 
@@ -364,8 +374,19 @@ public class CatalogBoundaryController implements Initializable {
             a.setHeaderText("You must be logged in to your account");
             a.showAndWait();
         }
-        else{
+        else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            if(EntityHolder.getUser().getAccount().equals("Yearly Chain Account")) {
+                if(p > 50) {
+                    double finalP = p * 0.9;
+                    String m = "Yearly Chain Account gets additional 10% discount\nYour new price is " + finalP;
+                    alert.setTitle("Message");
+                    alert.setHeaderText(m);
+                    alert.showAndWait();
+                }
+            }
+
             alert.setTitle("Question");
             alert.setHeaderText("Choose delivery or pick up your order yourself");
             ButtonType deliveryBtn = new ButtonType("Delivery", ButtonBar.ButtonData.OK_DONE);
@@ -411,11 +432,7 @@ public class CatalogBoundaryController implements Initializable {
             }
         }
 
-        p = 0;
-        for (Flower key : cartMap.keySet()) {
-            p += key.getPrice() * cartMap.get(key);
-        }
-
+        setRealPrice();
         priceTxt = "final price: " + p + " $";
         priceLabel.setText(priceTxt);
         myCart.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {

@@ -45,6 +45,8 @@ public class CancelOrdersBoundaryController implements Initializable {
                 userName.setText(EntityHolder.getChainM().getName());
             }
         }
+
+        message.setEditable(false);
     }
 
     @FXML

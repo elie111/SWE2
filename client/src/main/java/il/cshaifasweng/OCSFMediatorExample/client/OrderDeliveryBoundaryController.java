@@ -201,10 +201,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         list.setPlaceholder(placeHolderCart);
 
         String priceTxt;
-        for (Flower key : map.keySet()) {
-            globalP += key.getPrice() * map.get(key);
-            p += key.getPrice() * map.get(key);
-        }
+        setRealPrice();
         priceTxt = p + " $";
         finalPrice.setText(priceTxt);
 
@@ -214,6 +211,31 @@ public class OrderDeliveryBoundaryController implements Initializable {
                 .or(chooseName.valueProperty().isNull())
                 .or(choosePhone.valueProperty().isNull())
                 .or(str.valueProperty().isNull()));
+    }
+
+    public void setRealPrice() {
+        p = 0;
+        globalP = 0;
+
+        for (Flower key : map.keySet()) {
+            if(key.getSale() == true) {
+                double dis = key.getDiscount() / 100.0;
+                double finalD = 1 - dis;
+                p += key.getPrice() * finalD * map.get(key);
+                globalP += key.getPrice() * finalD * map.get(key);
+            }
+            else {
+                p += key.getPrice() * map.get(key);
+                globalP += key.getPrice() * map.get(key);
+            }
+        }
+
+        if(EntityHolder.getUser().getAccount().equals("Yearly Chain Account")) {
+            if(p > 50) {
+                p *= 0.9;
+                globalP *= 0.9;
+            }
+        }
     }
 
     @FXML
@@ -306,12 +328,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
             }
         }
 
-        globalP = 0;
-        p = 0;
-        for (Flower key : map.keySet()) {
-            globalP += key.getPrice() * map.get(key);
-            p += key.getPrice() * map.get(key);
-        }
+        setRealPrice();
         if(refund > 0) {
             moneyAfterRemove();
         }

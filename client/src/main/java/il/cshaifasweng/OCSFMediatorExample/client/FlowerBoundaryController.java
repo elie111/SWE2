@@ -4,6 +4,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Flower;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -68,6 +69,12 @@ public class FlowerBoundaryController implements Initializable {
     void addBtn(ActionEvent event) throws IOException {
         try {
             CatalogBoundaryController.addToCart(flower);
+            if(flower.getSale() == true) {
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                a.setTitle("Message");
+                a.setHeaderText("Discount has been applied");
+                a.showAndWait();
+            }
             App.setRoot("CatalogBoundary");
         } catch (IOException e) {
             e.printStackTrace();

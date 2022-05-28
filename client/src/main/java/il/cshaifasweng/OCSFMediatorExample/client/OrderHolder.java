@@ -21,7 +21,7 @@ public class OrderHolder {
             this.status = "Supplied";
         }
         else if(status == 3) {
-            this.status = "Canceled";
+            this.status = "Cancelled";
         }
     }
 

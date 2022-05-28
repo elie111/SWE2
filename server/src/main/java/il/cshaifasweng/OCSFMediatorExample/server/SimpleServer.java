@@ -365,10 +365,10 @@ public class SimpleServer extends AbstractServer {
 		double percentage = (diff / (1000 * 60));
 
 		// 1 - if 100% refund, 0.5 for 50%, 0- no refund
-		if (refund > 180) {
+		if (percentage > 180) {
 			return 1 * refund;
 		}
-		else if (refund < 60) {
+		else if (percentage < 60) {
 			return 0 * refund;
 		}
 		else {

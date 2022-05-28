@@ -78,6 +78,12 @@ public class RegistrationBoundaryController implements Initializable {
                 labelStore.setVisible(false);
                 chooseStore.setVisible(false);
             }
+            if(newV.equals("Yearly Chain Account")) {
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                a.setTitle("Message");
+                a.setHeaderText("A 100$ would be charged on your credit card due to yearly chain account!");
+                a.showAndWait();
+            }
         });
     }
 
