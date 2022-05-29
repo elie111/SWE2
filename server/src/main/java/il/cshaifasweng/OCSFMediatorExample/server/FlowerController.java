@@ -40,6 +40,8 @@ public class FlowerController {
         allQuery.getResultList().get(id - 1).setColor(flower.getColor());
         allQuery.getResultList().get(id - 1).setSale(flower.getSale());
         allQuery.getResultList().get(id - 1).setDescription(flower.getDescription());
+        allQuery.getResultList().get(id - 1).setSerialNumber(flower.getSerialNumber());
+        allQuery.getResultList().get(id - 1).setStatus(flower.getStatus());
 
         session.update(allQuery.getResultList().get(id - 1));
         session.flush();

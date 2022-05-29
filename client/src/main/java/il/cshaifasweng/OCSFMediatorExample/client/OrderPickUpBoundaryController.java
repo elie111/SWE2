@@ -332,7 +332,7 @@ public class OrderPickUpBoundaryController implements Initializable {
         String card = checkCard();
         String formOfS = "Pick Up";
         String address = "";
-        String receiverN = "";
+        String receiverN = EntityHolder.getUser().getName();
         String receiverP = "";
         double finalP = p;
         int status = 1;

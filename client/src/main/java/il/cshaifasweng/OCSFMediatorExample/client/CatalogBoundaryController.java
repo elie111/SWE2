@@ -72,13 +72,16 @@ public class CatalogBoundaryController implements Initializable {
     private ArrayList<String> cartNames = new ArrayList<String>();
 
     public static void setFlowers(ArrayList<Flower> newFlowers) {
+        if(CatalogBoundaryController.flowers.isEmpty()) {}
+        else {
+            CatalogBoundaryController.flowers.clear();
+        }
+
         for(int i = 0; i < newFlowers.size(); i++) {
             if(newFlowers.get(i).getStatus() == 1) {
                 CatalogBoundaryController.flowers.add(newFlowers.get(i));
             }
         }
-
-        // CatalogBoundaryController.flowers = flowers;
     }
 
     public static Flower getCurrentFlower() {
@@ -439,16 +442,6 @@ public class CatalogBoundaryController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {}
         });
-    }
-
-    @FXML
-    public void refresh(ActionEvent event) {
-        myListView.getItems().clear();
-        listStr.clear();
-        cartNames.clear();
-        myCart.getItems().clear();
-        getCatalogItems();
-        getCartItems();
     }
 
     public void refreshAfterDisconnect() {

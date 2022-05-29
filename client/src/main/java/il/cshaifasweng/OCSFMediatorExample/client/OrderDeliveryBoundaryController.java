@@ -40,9 +40,9 @@ public class OrderDeliveryBoundaryController implements Initializable {
     @FXML private Label receiverNameL;
     @FXML private ComboBox<String> chooseName;
     @FXML private TextField receiverNameTF;
-    @FXML private Label receiverPhoneL;
-    @FXML private ComboBox<String> choosePhone;
-    @FXML private TextField receiverPhoneTF;
+    @FXML private Label receiverEmail;
+    @FXML private ComboBox<String> chooseEmail;
+    @FXML private TextField receiverEmailTF;
     @FXML private Label paymentL;
     @FXML private ComboBox<String> str;
     @FXML private Label creditL;
@@ -140,9 +140,9 @@ public class OrderDeliveryBoundaryController implements Initializable {
         });
 
         chooseName.getItems().addAll("My Name", "New Name");
-        choosePhone.getItems().setAll("My Phone Number", "New Phone Number");
+        chooseEmail.getItems().setAll("My Email", "New Email");
         receiverNameTF.setVisible(false);
-        receiverPhoneTF.setVisible(false);
+        receiverEmailTF.setVisible(false);
         chooseName.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
             if(newV.equals("New Name")) {
                 receiverNameTF.setVisible(true);
@@ -151,12 +151,12 @@ public class OrderDeliveryBoundaryController implements Initializable {
                 receiverNameTF.setVisible(false);
             }
         });
-        choosePhone.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
-            if(newV.equals("New Phone Number")) {
-                receiverPhoneTF.setVisible(true);
+        chooseEmail.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
+            if(newV.equals("New Email")) {
+                receiverEmailTF.setVisible(true);
             }
             else {
-                receiverPhoneTF.setVisible(false);
+                receiverEmailTF.setVisible(false);
             }
         });
 
@@ -209,7 +209,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         confirm.disableProperty().bind(timeChoose.valueProperty().isNull()
                 .or(Bindings.isEmpty(addressTF.textProperty()))
                 .or(chooseName.valueProperty().isNull())
-                .or(choosePhone.valueProperty().isNull())
+                .or(chooseEmail.valueProperty().isNull())
                 .or(str.valueProperty().isNull()));
     }
 
@@ -387,16 +387,16 @@ public class OrderDeliveryBoundaryController implements Initializable {
             }
         }
 
-        String receiverP = "";
-        String choice2 = choosePhone.getSelectionModel().getSelectedItem();
-        if(choice2.equals("My Phone Number")) {
-            receiverP = EntityHolder.getUser().getPhone();
+        String receiverE = "";
+        String choice2 = chooseEmail.getSelectionModel().getSelectedItem();
+        if(choice2.equals("My Email")) {
+            receiverE = EntityHolder.getUser().getEmail();
             answers[2] = true;
         }
         else {
-            answers[2] = checkPhoneNumber(receiverPhoneTF.getText());
+            answers[2] = checkEmail(receiverEmailTF.getText());
             if(answers[2] == true) {
-                receiverP = receiverPhoneTF.getText();
+                receiverE = receiverEmailTF.getText();
             }
         }
 
@@ -472,7 +472,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
                 EntityHolder.getUser().setMonthAndYear(monthAndYear);
                 updateCreditCardFunction(credit, cvv, monthAndYear);
             }
-            addNewOrder(userId, flowers, card, formOfS, storeN, address, receiverN, receiverP,
+            addNewOrder(userId, flowers, card, formOfS, storeN, address, receiverN, receiverE,
                     localDateTime, finalP, credit, cvv, monthAndYear, status, orderID);
         }
     }
@@ -530,22 +530,41 @@ public class OrderDeliveryBoundaryController implements Initializable {
         return true;
     }
 
-    public boolean checkPhoneNumber(String phoneNumber) {
-        if(phoneNumber == null) {
+    public boolean checkEmail(String Email) {
+        if(Email == null) {
             return false;
         }
 
-        int length = phoneNumber.length();
-        int c = 0;
-        if(length != 10) {
+        char a = '@';
+        String begin = "";
+        String end = "";
+
+        int index = Email.indexOf(a);
+        if(index == -1) {
             return false;
         }
         else {
-            for(int i = 0; i < length; i++) {
-                c = phoneNumber.charAt(i) - 48;
-                if(c < 0 || c > 9) {
-                    return false;
-                }
+            begin = Email.substring(0, index);
+            if(begin  == null || begin.trim().isEmpty()) {
+                return false;
+            }
+            end = Email.substring(index + 1, Email.length());
+            if(end == null) {
+                return false;
+            }
+        }
+
+        if(!end.equals("gmail.com")) {
+            return false;
+        }
+
+        for(int i = 0; i < begin.length(); i++) {
+            a = begin.charAt(i);
+            if (Character.isLetter(a) || (a >= '0' && a <= '9')) {
+                continue;
+            }
+            else {
+                return false;
             }
         }
 
@@ -686,7 +705,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
             a.showAndWait();
         }
         else if(answers[2] != true) {
-            a.setHeaderText("Phone numbers only contains 10 digits");
+            a.setHeaderText("Email is incorrect\nForm of (letters, digits@gmail.com)");
             a.showAndWait();
         }
         else if(answers[3] != true) {
@@ -770,7 +789,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
     }
 
     public void addNewOrder(int userID, String flowers, String card, String formOfSupplying,
-                            String storeName, String address, String receiverName, String receiverPhone,
+                            String storeName, String address, String receiverName, String receiverEmail,
                             String dateTime, double finalPrice, String credit, String cvv,
                             String monthAndYear, int status, int orderID) throws IOException {
         ArrayList<Object> arr = new ArrayList<>();
@@ -782,7 +801,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         arr.add(storeName);
         arr.add(address);
         arr.add(receiverName);
-        arr.add(receiverPhone);
+        arr.add(receiverEmail);
         arr.add(dateTime);
         arr.add(finalPrice);
         arr.add(credit);

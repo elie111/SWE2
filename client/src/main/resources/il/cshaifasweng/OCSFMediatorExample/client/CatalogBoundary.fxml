@@ -21,7 +21,6 @@
         <Button fx:id="clearBtn" layoutX="110.0" layoutY="330.0" mnemonicParsing="false" onAction="#clear" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Clear List" />
         <Button fx:id="orderBtn" layoutX="81.0" layoutY="367.0" mnemonicParsing="false" onAction="#goToOrder" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Order" />
         <ListView fx:id="myListView" layoutX="193.0" layoutY="69.0" prefHeight="285.0" prefWidth="213.0" style="-fx-background-radius: 20; -fx-border-radius: 30; -fx-background-color: transparent;" />
-        <Button fx:id="refreshBtn" layoutX="530.0" layoutY="13.0" mnemonicParsing="false" onAction="#refresh" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 12px;" text="Refresh" />
         <Label fx:id="filterLabel" layoutX="470.0" layoutY="60.0" prefHeight="27.0" prefWidth="47.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 18px;" text="Filter" />
         <VBox fx:id="vb" layoutX="450.0" layoutY="96.0" prefHeight="65.0" prefWidth="110.0">
             <children>

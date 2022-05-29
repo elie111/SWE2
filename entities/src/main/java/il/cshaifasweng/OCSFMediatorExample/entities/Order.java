@@ -20,7 +20,7 @@ public class Order implements Serializable {
     private String monthAndYear;
     private int orderID;
     private String receiverName;
-    private String receiverPhone;
+    private String receiverEmail;
     private double refund;
     // status: 1 = active, 2 = supplied already, 3 = canceled
     private int status;
@@ -30,7 +30,7 @@ public class Order implements Serializable {
     private String flowers;
 
     public Order(int userID, String flowers, String card, String formOfSupplying,
-                 String storeName, String address, String receiverName, String receiverPhone,
+                 String storeName, String address, String receiverName, String receiverEmail,
                  String dateTime, double finalPrice, String credit, String cvv,
                  String monthAndYear, int status, int orderID, double refund) {
         super();
@@ -44,7 +44,7 @@ public class Order implements Serializable {
         this.monthAndYear = monthAndYear;
         this.orderID = orderID;
         this.receiverName = receiverName;
-        this.receiverPhone = receiverPhone;
+        this.receiverEmail = receiverEmail;
         this.refund = refund;
         this.status = status;
         this.storeName = storeName;
@@ -137,11 +137,11 @@ public class Order implements Serializable {
     }
 
     public String getReceiverPhone() {
-        return receiverPhone;
+        return receiverEmail;
     }
 
     public void setReceiverPhone(String receiverPhone) {
-        this.receiverPhone = receiverPhone;
+        this.receiverEmail = receiverPhone;
     }
 
     public String getStoreName() {

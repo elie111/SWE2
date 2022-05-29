@@ -165,10 +165,18 @@ public class SimpleClient extends AbstractClient {
 			MyProfileBoundaryController m = new MyProfileBoundaryController();
 			m.nextStep1();
 		}
-		// add flower - employee
-
-		// delete flower - employee
-
+		// before update flower - employee
+		if(msgArray.get(0).equals("#beforeUpdate")) {
+			Flower f = new Flower((String)msgArray.get(1), (String)msgArray.get(2), (String)msgArray.get(3),
+								  (String)msgArray.get(4), (String)msgArray.get(5), (double)msgArray.get(6),
+								  (int)msgArray.get(7), (boolean)msgArray.get(8), (double)msgArray.get(9),
+								  (int)msgArray.get(10));
+			int id = (int)msgArray.get(11);
+			FlowerHolder.setFlower(f);
+			FlowerHolder.setId(id);
+			CatalogEmployeeController c = new CatalogEmployeeController();
+			c.nextStep(1);
+		}
 		// update flower - employee
 	}
 

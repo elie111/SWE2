@@ -105,7 +105,6 @@ public class CancelOrdersBoundaryController implements Initializable {
             arr.add(3);
             arr.add(refundWeHaveNow);
             App.getClient().sendToServer(arr);
-            // moveOn();
         }
     }
 

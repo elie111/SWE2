@@ -31,9 +31,9 @@
       <Label fx:id="receiverNameL" layoutX="230.0" layoutY="100.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Choose Receiver:" />
         <ComboBox fx:id="chooseName" layoutX="230.0" layoutY="120.0" prefWidth="150.0" />
       <TextField fx:id="receiverNameTF" layoutX="230.0" layoutY="150.0" />
-      <Label fx:id="receiverPhoneL" layoutX="230.0" layoutY="180.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Receiver Phone:" />
-      <ComboBox fx:id="choosePhone" layoutX="230.0" layoutY="200.0" prefWidth="150.0" />
-      <TextField fx:id="receiverPhoneTF" layoutX="230.0" layoutY="230.0" />
+      <Label fx:id="receiverEmail" layoutX="230.0" layoutY="180.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Receiver Email:" />
+      <ComboBox fx:id="chooseEmail" layoutX="230.0" layoutY="200.0" prefWidth="150.0" />
+      <TextField fx:id="receiverEmailTF" layoutX="230.0" layoutY="230.0" />
         <Label fx:id="paymentL" layoutX="230.0" layoutY="260.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Payment Method" />
         <ComboBox fx:id="str" layoutX="230.0" layoutY="280.0" prefWidth="150.0" />
         <Label fx:id="creditL" layoutX="230.0" layoutY="310.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="Credit Card Number" />

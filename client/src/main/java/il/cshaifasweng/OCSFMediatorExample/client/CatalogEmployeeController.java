@@ -25,17 +25,17 @@ public class CatalogEmployeeController implements Initializable {
 
     @FXML private Label catalogL;
     @FXML private ListView<String> myListView;
+
     private static ArrayList<Flower> flowers = new ArrayList<Flower>();
     private static Label placeHolderList = new Label("No flowers in catalog");
     private ArrayList<String> listStr = new ArrayList<String>();
-    private static Flower currentFlower;
 
     public static void setFlowers(ArrayList<Flower> flowers) {
+        if(CatalogEmployeeController.flowers.isEmpty()) {}
+        else {
+            CatalogEmployeeController.flowers.clear();
+        }
         CatalogEmployeeController.flowers = flowers;
-    }
-
-    public static Flower getCurrentFlower() {
-        return currentFlower;
     }
 
     @Override
@@ -104,23 +104,55 @@ public class CatalogEmployeeController implements Initializable {
 
     @FXML
     public void removeFlower(ActionEvent event) throws IOException {
-        // elie said he could do it better
-//        int index=myListView.getSelectionModel().getSelectedIndex();
-//        if(myListView.getSelectionModel().getSelectedItem()!=null) {
-//            ArrayList<Object> msg = new ArrayList<>();
-//            msg.add("#deleteflower");
-//            msg.add(flowers.get(index));
-//            myListView.getItems().remove(index);
-//            liststr.remove(index);
-//            flowers.remove(index);
-//            myListView.refresh();
-//
-//            App.getClient().sendToServer(msg);
-//        }
+        int index = myListView.getSelectionModel().getSelectedIndex();
+
+        if(index > -1) {
+            ArrayList<Object> msg = new ArrayList<>();
+            msg.add("#deleteflower");
+            msg.add(index);
+
+            App.getClient().sendToServer(msg);
+            firstSettings();
+            message();
+        }
+    }
+
+    public void firstSettings() throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#getcatalog");
+        App.getClient().sendToServer(arr);
+    }
+
+    public void message() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Flower has been removed from user's catalog");
+        a.showAndWait();
     }
 
     @FXML
     public void updateFlower(ActionEvent event) throws IOException {
+        int index = myListView.getSelectionModel().getSelectedIndex();
+
+        if(index > -1) {
+            ArrayList<Object> arr = new ArrayList<>();
+            arr.add("#beforeUpdate");
+            arr.add(index);
+            App.getClient().sendToServer(arr);
+        }
+    }
+
+    public void nextStep(int i) {
+        if(i == 1) {
+            try {
+                moveToUpdate();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void moveToUpdate() throws IOException {
         App.setRoot("UpdateFlowerEmployee");
     }
 

@@ -20,6 +20,7 @@ public class App {
     private static SessionFactory sessionFactory;
     static Scanner sc = new Scanner(System.in);
     private static int flowerSerialNumber = 1002345;
+    private static Catalog catalog = new Catalog();
 
     public static SessionFactory getSession() {
         return sessionFactory;
@@ -56,7 +57,6 @@ public class App {
             session.beginTransaction();
 
             List<Flower> flowersList = new ArrayList<Flower>();
-            Catalog catalog = new Catalog();
             ConstantStrings1 c = new ConstantStrings1();
 
             // flowers
@@ -116,6 +116,10 @@ public class App {
 
     public static void setFlowerSerialNumber(int newFlowerSerialNumber) {
         flowerSerialNumber = newFlowerSerialNumber;
+    }
+
+    public static Catalog getCatalog() {
+        return catalog;
     }
 }
 

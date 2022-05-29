@@ -205,29 +205,59 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(answers);
 			}
 			// add flower - employee
-
+			if((arr.get(0)).equals("#addFlower")) {
+				int serialN = App.getFlowerSerialNumber();
+				App.setFlowerSerialNumber(serialN + 1);
+				Catalog c = App.getCatalog();
+				Flower f = new Flower((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+									  (String)arr.get(4), (String)arr.get(5), (double)arr.get(6),
+									  serialN, (boolean)arr.get(7), (double)arr.get(8));
+				f.setCatalog(c);
+				flowerController.addFlower(f);
+				session.getTransaction().commit();
+			}
 			// delete flower - employee
+			if((arr.get(0)).equals("#deleteflower")) {
+				List<Flower> list = flowerController.getAllData(Flower.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
+				list.get(newID).setStatus(2);
+				flowerController.updateData(newID1, list.get(newID));
+				session.getTransaction().commit();
+			}
+			// before update flower - employee
+			if((arr.get(0)).equals("#beforeUpdate")) {
+				List<Flower> list = flowerController.getAllData(Flower.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
 
+				answers.add("#beforeUpdate");
+				answers.add(list.get(newID).getName());
+				answers.add(list.get(newID).getDescription());
+				answers.add(list.get(newID).getType());
+				answers.add(list.get(newID).getImageurl());
+				answers.add(list.get(newID).getColor());
+				answers.add(list.get(newID).getPrice());
+				answers.add(list.get(newID).getSerialNumber());
+				answers.add(list.get(newID).getSale());
+				answers.add(list.get(newID).getDiscount());
+				answers.add(list.get(newID).getStatus());
+				answers.add(newID1);
+				client.sendToClient(answers);
+			}
 			// update flower - employee
-
-
-			if ("#addflower".equals(arr.get(0))) {
-				//1 is name 2 is type 3 is price
-				Flower flower = new Flower();
-				flower=(Flower)arr.get(1);
-				flowerController.addFlower(flower);
+			if((arr.get(0)).equals("#updateFlower")) {
+				Flower f = new Flower((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
+									  (String)arr.get(4), (String)arr.get(5), (double)arr.get(6),
+									  (int)arr.get(7), (boolean)arr.get(8), (double)arr.get(9),
+									  (int)arr.get(10));
+				int id = (int)arr.get(11);
+				flowerController.updateData(id, f);
 				session.getTransaction().commit();
 			}
 
-			if("#deleteflower".equals(arr.get(0))) {
-				flowerController.deleteFlower((Flower) arr.get(1));
-			}
 
-			if ((arr.get(0)).equals("#updateflower")) {
-				// 1 is id 2 is price 3 is discount
-				// flowerController.updateData((Flower)arr.get(1));
-				session.getTransaction().commit();
-			}
+
 		}
 		catch (Exception exception) {
 			if (session != null) {

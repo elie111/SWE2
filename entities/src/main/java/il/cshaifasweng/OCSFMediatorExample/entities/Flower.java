@@ -11,7 +11,7 @@ public class Flower implements Serializable {
     private int id;
     private String name;
     private String type;
-    private int discount;
+    private double discount;
     private String imageurl;
     private double price;
     private String color;
@@ -47,7 +47,7 @@ public class Flower implements Serializable {
     }
 
     public Flower(String name, String description, String type, String image,
-                  String color, double price, int serialNumber, boolean sale, int discount) {
+                  String color, double price, int serialNumber, boolean sale, double discount) {
         super();
         this.name = name;
         this.description = description;
@@ -59,6 +59,21 @@ public class Flower implements Serializable {
         this.sale = sale;
         this.discount = discount;
         this.status = 1;
+    }
+
+    public Flower(String name, String description, String type, String image, String color,
+                  double price, int serialNumber, boolean sale, double discount, int status) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.imageurl = image;
+        this.color = color;
+        this.price = price;
+        this.serialNumber = serialNumber;
+        this.sale = sale;
+        this.discount = discount;
+        this.status = status;
     }
 
     public String getImageurl() {
@@ -81,7 +96,7 @@ public class Flower implements Serializable {
         return type;
     }
 
-    public int getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
@@ -121,7 +136,7 @@ public class Flower implements Serializable {
         this.type = type;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 

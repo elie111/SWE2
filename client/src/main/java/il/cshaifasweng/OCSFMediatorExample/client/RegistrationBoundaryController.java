@@ -66,7 +66,6 @@ public class RegistrationBoundaryController implements Initializable {
         chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
                                           "28", "29", "30", "31", "32", "33");
         chooseMembership.getItems().addAll("Store Account", "Chain Account", "Yearly Chain Account");
-        // in the future, take shop list from database
         chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
 
         chooseMembership.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
@@ -139,7 +138,8 @@ public class RegistrationBoundaryController implements Initializable {
         }
         else {
             // adding data to database
-            addNewUser(firstName, ID, email, phoneN, creditCard, vMonth, vYear, cvv, password, account, store);
+            addNewUser(firstName, ID, email, phoneN, creditCard,
+                        vMonth, vYear, cvv, password, account, store);
         }
     }
 
@@ -376,6 +376,7 @@ public class RegistrationBoundaryController implements Initializable {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("Message");
 
+        // 0 = name, 1 = ID, 2 = email, 3 = phone, 4 = credit, 5 = cvv, 6 = password, 7 = month and year
         if(answers[0] != true) {
             a.setHeaderText("Name is incorrect (only letters and space)");
             a.showAndWait();
