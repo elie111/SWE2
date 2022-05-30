@@ -4,11 +4,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManageStoreController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManageStoreController">
    <children>
       <Text fx:id="storeML" fill="#b91b1b" layoutX="163.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Store Manager" textAlignment="CENTER" />
       <Button fx:id="userName" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#getDetails" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" />
-      <Button fx:id="reportBtn" layoutX="213.0" layoutY="110.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Commission A Report" />
+      <Button id="incomeBtn" fx:id="incomeBtn" layoutX="213.0" layoutY="110.0" mnemonicParsing="false" onAction="#incomeFunc" prefWidth="154.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Income Report" />
+      <Button id="ordersBtn" fx:id="ordersBtn" layoutX="213.0" layoutY="185.0" mnemonicParsing="false" onAction="#ordersFunc" prefWidth="154.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Orders Report" />
+      <Button id="complaintsBtn" fx:id="complaintsBtn" layoutX="213.0" layoutY="260.0" mnemonicParsing="false" onAction="#compFunc" prefWidth="154.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Complaints Report" />
    </children>
 </AnchorPane>

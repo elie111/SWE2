@@ -317,4 +317,71 @@ public class ConstantStrings1 {
             "Eilat",
             "London"
     };
+
+    public static final String[] orderStore = {
+            "Haifa",
+            "Tel Aviv",
+            "New York",
+            "Eilat",
+            "London",
+            "New York",
+            "New York",
+            "Haifa",
+            "Haifa",
+            "Eilat"
+    };
+
+    public static final String[] orderDate = {
+            "02/05/2021",
+            "23/05/2020",
+            "11/05/2022",
+            "04/05/2019",
+            "30/04/2022",
+            "15/05/2022",
+            "26/01/2018",
+            "03/05/2018",
+            "01/07/2020",
+            "02/10/2021"
+    };
+
+    public static final double[] orderPrice = {
+            20,
+            12,
+            100,
+            23,
+            65,
+            245,
+            98,
+            12,
+            6,
+            70
+    };
+
+    public static final String[] orderType = {
+            "Haifa",
+            "Tel Aviv",
+            "New york",
+            "Eilat",
+            "London"
+    };
+
+    public static final String[] complaintDate = {
+            "02/05/2021",
+            "23/05/2020",
+            "11/05/2022",
+            "04/05/2019",
+            "30/04/2022",
+            "15/05/2022",
+            "26/01/2018",
+            "03/05/2018",
+            "01/07/2020",
+            "02/10/2021",
+            "29/05/2022",
+            "28/05/2022",
+            "27/05/2022",
+            "26/05/2022",
+            "25/05/2022"
+            //15 dates
+    };
+
 }

@@ -49,8 +49,13 @@ public class SimpleServer extends AbstractServer {
 			}
 			if((arr.get(0)).equals("#getorders")) {
 				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
-				System.out.println("server lst");
 				answers.add("#getorders");
+				answers.add(list);
+				sendToAllClients(answers);
+			}
+			if((arr.get(0)).equals("#getcomplaints")) {
+				ArrayList<Complaint> list = (ArrayList<Complaint>) complaintController.getAllData(Complaint.class);
+				answers.add("#getcomplaints");
 				answers.add(list);
 				sendToAllClients(answers);
 			}

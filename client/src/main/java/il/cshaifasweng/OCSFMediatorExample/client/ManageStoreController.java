@@ -62,4 +62,23 @@ public class ManageStoreController implements Initializable {
             }
         }
     }
+    @FXML
+    void compFunc(ActionEvent event) throws IOException {
+        App.setRoot("ComplaintsReportsBoundary");
+    }
+
+
+    @FXML
+    void incomeFunc(ActionEvent event) throws IOException {
+        App.setRoot("IncomeReportsBoundary");
+
+
+    }
+
+    @FXML
+    void ordersFunc(ActionEvent event) throws IOException {
+        App.setRoot("OrdersReportsBoundary");
+
+
+    }
 }

@@ -18,7 +18,10 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -41,9 +44,9 @@ public class OrdersReportsController implements Initializable {
 
     @FXML private ComboBox<String> yearCB;
     private static ArrayList<Order> orderslst=new ArrayList<>();
-    private String currentYear="all";
+    private String currentYear="2022";
     private String currentStore="all";
-    private int finalprice=0;
+    private int numOrders=0;
 
 
     public static void setOrders(ArrayList<Order> orders) {
@@ -57,7 +60,8 @@ public class OrdersReportsController implements Initializable {
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("CatalogEmployee");
+        App.setRoot("ManageStoreController");
+//        App.setRoot("ManageChainController"); // if the manager is a chain manager
 
     }
 
@@ -67,12 +71,11 @@ public class OrdersReportsController implements Initializable {
             { "2022", "2021", "2020",
                     "2019", "2018" };
     private String stores[] =
-            { "all","haifa", "tel aviv", "eilat",
-                    "london", "new york" };
+            { "all","Haifa", "Tel Aviv", "Eilat",
+                    "London", "New York" };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("orderlst is: "+orderslst);
         yearCB.setItems(FXCollections.observableArrayList(years));
         storeCB.setItems(FXCollections.observableArrayList(stores));
         EventHandler<ActionEvent> event =
@@ -83,7 +86,11 @@ public class OrdersReportsController implements Initializable {
 //                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
                         yearrandom+=1000;
                         currentYear=yearCB.getSelectionModel().getSelectedItem();
-                        initchart();
+                        try {
+                            initchart();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
                     }
                 };
         EventHandler<ActionEvent> event2 =
@@ -94,7 +101,11 @@ public class OrdersReportsController implements Initializable {
 //                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
                         yearrandom+=1000;
                         currentStore=storeCB.getSelectionModel().getSelectedItem();
-                        initchart();
+                        try {
+                            initchart();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
                     }
                 };
 
@@ -104,71 +115,76 @@ public class OrdersReportsController implements Initializable {
         storeCB.getSelectionModel().selectFirst();
         storeCB.setOnAction(event2);
         yearrandom=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
-        initchart();
+        try {
+            initchart();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
-    public void initchart(){
+    public void initchart() throws ParseException {
+        numOrders=0;
         ordersChart.setAnimated(false);
         ordersChart.getData().clear();
         ordersChart.layout();
         XYChart.Series dataSeries1 = new XYChart.Series();
         XYChart.Series dataSeries2 = new XYChart.Series();
         XYChart.Series dataSeries3 = new XYChart.Series();
-        dataSeries1.setName("Arrangement");
-        double [] incomePerMonth=new double[12];
+        dataSeries1.setName("Pot");
+        int [] numPerMonth=new int[12];
+
         for(int i=0;i<orderslst.size();i++){
-            //we must also check if the order year is equal to currentYear
-            // and check if the order store is equal to currentStore
-            if(orderslst.get(i).getStoreName()==currentStore||currentStore=="all") {
-                incomePerMonth[0] += orderslst.get(i).getFinalPrice();
-                finalprice+=orderslst.get(i).getFinalPrice();
+            String sDate1=orderslst.get(i).getDateTime();
+            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            if((orderslst.get(i).getStoreName().equals(currentStore)||currentStore.equals("all"))
+                    &&((date1.getYear()+1900)==Integer.parseInt(currentYear))) {
+                numPerMonth[date1.getMonth()] += 1;
+                numOrders+=1;
             }
         }
-        yearIncome.setText(Integer.toString(finalprice));
+        yearIncome.setText(Integer.toString(numOrders));
         Random rand = new Random();
 
-        dataSeries1.getData().add(new XYChart.Data("Jan", rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("Feb"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("mar"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("apr"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("may"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("jun"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("jul"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("aug"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("sep"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("oct"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("nov"  ,  rand.nextInt(yearrandom)));
-        dataSeries1.getData().add(new XYChart.Data("dec"  ,  rand.nextInt(yearrandom)));
+        dataSeries1.getData().add(new XYChart.Data("Jan", numPerMonth[0]));
+        dataSeries1.getData().add(new XYChart.Data("Feb"  , numPerMonth[1]));
+        dataSeries1.getData().add(new XYChart.Data("mar"  , numPerMonth[2]));
+        dataSeries1.getData().add(new XYChart.Data("apr"  , numPerMonth[3]));
+        dataSeries1.getData().add(new XYChart.Data("may"  , numPerMonth[4]));
+        dataSeries1.getData().add(new XYChart.Data("jun"  , numPerMonth[5]));
+        dataSeries1.getData().add(new XYChart.Data("jul"  , numPerMonth[6]));
+        dataSeries1.getData().add(new XYChart.Data("aug"  , numPerMonth[7]));
+        dataSeries1.getData().add(new XYChart.Data("sep"  , numPerMonth[8]));
+        dataSeries1.getData().add(new XYChart.Data("oct"  , numPerMonth[9]));
+        dataSeries1.getData().add(new XYChart.Data("nov"  , numPerMonth[10]));
+        dataSeries1.getData().add(new XYChart.Data("dec"  , numPerMonth[11]));
 
-        dataSeries2.setName("pot");
-//        Random rand = new Random();
-        dataSeries2.getData().add(new XYChart.Data("Jan",  rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("Feb"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("mar"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("apr"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("may"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("jun"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("jul"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("aug"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("sep"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("oct"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("nov"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("dec"  , rand.nextInt(yearrandom)));
+        dataSeries2.setName("Bouquet");
+        dataSeries2.getData().add(new XYChart.Data("Jan", numPerMonth[0]));
+        dataSeries2.getData().add(new XYChart.Data("Feb"  , numPerMonth[1]));
+        dataSeries2.getData().add(new XYChart.Data("mar"  , numPerMonth[2]));
+        dataSeries2.getData().add(new XYChart.Data("apr"  , numPerMonth[3]));
+        dataSeries2.getData().add(new XYChart.Data("may"  , numPerMonth[4]));
+        dataSeries2.getData().add(new XYChart.Data("jun"  , numPerMonth[5]));
+        dataSeries2.getData().add(new XYChart.Data("jul"  , numPerMonth[6]));
+        dataSeries2.getData().add(new XYChart.Data("aug"  , numPerMonth[7]));
+        dataSeries2.getData().add(new XYChart.Data("sep"  , numPerMonth[8]));
+        dataSeries2.getData().add(new XYChart.Data("oct"  , numPerMonth[9]));
+        dataSeries2.getData().add(new XYChart.Data("nov"  , numPerMonth[10]));
+        dataSeries2.getData().add(new XYChart.Data("dec"  , numPerMonth[11]));
 
-        dataSeries3.setName("Bouquet");
-//        Random rand = new Random();
-        dataSeries3.getData().add(new XYChart.Data("Jan",  rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("Feb"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("mar"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("apr"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("may"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("jun"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("jul"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("aug"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("sep"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("oct"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("nov"  , rand.nextInt(yearrandom)));
-        dataSeries3.getData().add(new XYChart.Data("dec"  , rand.nextInt(yearrandom)));
+        dataSeries3.setName("Arrangement");
+        dataSeries3.getData().add(new XYChart.Data("Jan", numPerMonth[0]));
+        dataSeries3.getData().add(new XYChart.Data("Feb"  , numPerMonth[1]));
+        dataSeries3.getData().add(new XYChart.Data("mar"  , numPerMonth[2]));
+        dataSeries3.getData().add(new XYChart.Data("apr"  , numPerMonth[3]));
+        dataSeries3.getData().add(new XYChart.Data("may"  , numPerMonth[4]));
+        dataSeries3.getData().add(new XYChart.Data("jun"  , numPerMonth[5]));
+        dataSeries3.getData().add(new XYChart.Data("jul"  , numPerMonth[6]));
+        dataSeries3.getData().add(new XYChart.Data("aug"  , numPerMonth[7]));
+        dataSeries3.getData().add(new XYChart.Data("sep"  , numPerMonth[8]));
+        dataSeries3.getData().add(new XYChart.Data("oct"  , numPerMonth[9]));
+        dataSeries3.getData().add(new XYChart.Data("nov"  , numPerMonth[10]));
+        dataSeries3.getData().add(new XYChart.Data("dec"  , numPerMonth[11]));
 
 
         ordersChart.getData().add(dataSeries1);

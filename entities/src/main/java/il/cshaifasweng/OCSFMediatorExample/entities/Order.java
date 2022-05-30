@@ -2,6 +2,10 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -15,6 +19,7 @@ public class Order implements Serializable {
     private String credit;
     private String cvv;
     private String dateTime;
+    private Date currentDate;
     private double finalPrice;
     private String formOfSupplying;
     private String monthAndYear;
@@ -50,6 +55,7 @@ public class Order implements Serializable {
         this.storeName = storeName;
         this.userID = userID;
         this.flowers = flowers;
+        this.currentDate= new Date();
     }
 
     public Order() {

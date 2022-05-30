@@ -18,7 +18,10 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -41,7 +44,7 @@ public class IncomeReportsController implements Initializable {
 
     @FXML private ComboBox<String> yearCB;
     private static ArrayList<Order> orderslst=new ArrayList<>();
-    private String currentYear="all";
+    private String currentYear="2022";
     private String currentStore="all";
     private int finalprice=0;
 
@@ -57,7 +60,8 @@ public class IncomeReportsController implements Initializable {
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("OrdersReportsBoundary");
+        App.setRoot("ManageStoreController");
+//        App.setRoot("ManageChainController"); // if the manager is a chain manager
 
     }
 
@@ -67,12 +71,11 @@ public class IncomeReportsController implements Initializable {
             { "2022", "2021", "2020",
                     "2019", "2018" };
     private String stores[] =
-            { "all","haifa", "tel aviv", "eilat",
-                    "london", "new york" };
+            { "all","Haifa", "Tel Aviv", "Eilat",
+                    "London", "New York" };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("orderlst is: "+orderslst);
         yearCB.setItems(FXCollections.observableArrayList(years));
         storeCB.setItems(FXCollections.observableArrayList(stores));
         EventHandler<ActionEvent> event =
@@ -83,7 +86,11 @@ public class IncomeReportsController implements Initializable {
 //                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
                         yearrandom+=1000;
                         currentYear=yearCB.getSelectionModel().getSelectedItem();
-                        initchart();
+                        try {
+                            initchart();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
                     }
                 };
         EventHandler<ActionEvent> event2 =
@@ -94,7 +101,11 @@ public class IncomeReportsController implements Initializable {
 //                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
                         yearrandom+=1000;
                         currentStore=storeCB.getSelectionModel().getSelectedItem();
-                        initchart();
+                        try {
+                            initchart();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
                     }
                 };
 
@@ -104,22 +115,28 @@ public class IncomeReportsController implements Initializable {
         storeCB.getSelectionModel().selectFirst();
         storeCB.setOnAction(event2);
         yearrandom=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
-        initchart();
+        try {
+            initchart();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
-    public void initchart(){
+    public void initchart() throws ParseException {
+        finalprice=0;
         incomeChart.setAnimated(false);
         incomeChart.getData().clear();
         incomeChart.layout();
         XYChart.Series dataSeries1 = new XYChart.Series();
-        XYChart.Series dataSeries2 = new XYChart.Series();
-        dataSeries1.setName("all");
+        dataSeries1.setName("Income");
         double [] incomePerMonth=new double[12];
         for(int i=0;i<orderslst.size();i++){
-            //we must also check if the order year is equal to currentYear
-            // and check if the order store is equal to currentStore
-            if(orderslst.get(i).getStoreName()==currentStore||currentStore=="all") {
-                incomePerMonth[0] += orderslst.get(i).getFinalPrice();
+            String sDate1=orderslst.get(i).getDateTime();
+            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+
+            if((orderslst.get(i).getStoreName().equals(currentStore)||currentStore.equals("all"))
+            &&((date1.getYear()+1900)==Integer.parseInt(currentYear))) {
+                incomePerMonth[date1.getMonth()] += orderslst.get(i).getFinalPrice();
                 finalprice+=orderslst.get(i).getFinalPrice();
             }
         }
@@ -138,26 +155,8 @@ public class IncomeReportsController implements Initializable {
         dataSeries1.getData().add(new XYChart.Data("nov"  , incomePerMonth[10]));
         dataSeries1.getData().add(new XYChart.Data("dec"  , incomePerMonth[11]));
 
-        dataSeries2.setName("self pickup");
-        Random rand = new Random();
-        dataSeries2.getData().add(new XYChart.Data("Jan",  rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("Feb"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("mar"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("apr"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("may"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("jun"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("jul"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("aug"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("sep"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("oct"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("nov"  , rand.nextInt(yearrandom)));
-        dataSeries2.getData().add(new XYChart.Data("dec"  , rand.nextInt(yearrandom)));
-
-
-
-
         incomeChart.getData().add(dataSeries1);
-        incomeChart.getData().add(dataSeries2);
+
 
 
 

@@ -161,9 +161,8 @@ public class CatalogBoundaryController implements Initializable {
     @FXML
     public void getDetails(ActionEvent event) throws IOException {
         if(userName.getText().equals("Register / Login")) {
-//            App.setRoot("LoginOrSignupBoundary");
-//            App.setRoot("OrdersReportsBoundary");
-              App.setRoot("IncomeReportsBoundary");
+            App.setRoot("LoginOrSignupBoundary");
+
 
         }
         else {
