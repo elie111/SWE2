@@ -14,12 +14,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
 public class SimpleServer extends AbstractServer {
 	private static Session session;
 	static Scanner sc = new Scanner(System.in);
+	static HashSet<String> connected = new HashSet<>();
 
 	public SimpleServer(int port) {
 		super(port);
@@ -153,25 +155,27 @@ public class SimpleServer extends AbstractServer {
 				for(int i = 0; i < orderList.size(); i++) {
 					if(myOrderId == orderList.get(i).getOrderID()) {
 						if(myUserId == orderList.get(i).getUserID()) {
-							// order update:
-							int realOrderID = orderList.get(i).getId();
-							orderList.get(i).setStatus(status);
-							orderController.updateData(realOrderID, orderList.get(i));
-							// user update:
-							String supplyTime = orderList.get(i).getDateTime();
-							sum = orderList.get(i).getFinalPrice() + orderList.get(i).getRefund();
-							percentageRefund = calculateNewRefund(cancellationTime, supplyTime, sum);
-							userRefund = refundNow + percentageRefund;
-							userList.get(myUserId - 1).setRefund(userRefund);
-							userController.updateData(myUserId, userList.get(myUserId - 1));
-							// create refund in database
-							Refund r = new Refund(myOrderId, percentageRefund, myUserId);
-							refundController.addRefund(r);
-							session.getTransaction().commit();
+							if(orderList.get(i).getStatus() == 1) {
+								// order update:
+								int realOrderID = orderList.get(i).getId();
+								orderList.get(i).setStatus(status);
+								orderController.updateData(realOrderID, orderList.get(i));
+								// user update:
+								String supplyTime = orderList.get(i).getDateTime();
+								sum = orderList.get(i).getFinalPrice() + orderList.get(i).getRefund();
+								percentageRefund = calculateNewRefund(cancellationTime, supplyTime, sum);
+								userRefund = refundNow + percentageRefund;
+								userList.get(myUserId - 1).setRefund(userRefund);
+								userController.updateData(myUserId, userList.get(myUserId - 1));
+								// create refund in database
+								Refund r = new Refund(myOrderId, percentageRefund, myUserId);
+								refundController.addRefund(r);
+								session.getTransaction().commit();
 
-							answers.add("#cancelOrder");
-							answers.add(userRefund);
-							client.sendToClient(answers);
+								answers.add("#cancelOrder");
+								answers.add(userRefund);
+								client.sendToClient(answers);
+							}
 						}
 					}
 				}
@@ -255,9 +259,29 @@ public class SimpleServer extends AbstractServer {
 				flowerController.updateData(id, f);
 				session.getTransaction().commit();
 			}
-
-
-
+			// order list - employee
+			if((arr.get(0)).equals("#orderListE")) {
+				ArrayList<Order> list = (ArrayList<Order>)orderController.getAllData(Order.class);
+				answers.add("#orderListE");
+				answers.add((String)arr.get(1));
+				answers.add((int)arr.get(2));
+				answers.add(list);
+				client.sendToClient(answers);
+			}
+			// supply order - employee
+			if((arr.get(0)).equals("#supplyOrder")) {
+				List<Order> list = orderController.getAllData(Order.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
+				list.get(newID).setStatus(2);
+				orderController.updateData(newID1, list.get(newID));
+				session.getTransaction().commit();
+			}
+			// disconnecting
+			if((arr.get(0)).equals("#disconnecting")) {
+				String Email = (String)arr.get(1);
+				connected.remove(Email);
+			}
 		}
 		catch (Exception exception) {
 			if (session != null) {
@@ -281,6 +305,11 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail)) {
+						answers.add("#connectEntity");
+						answers.add(false);
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -296,13 +325,11 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getStoreOrNull());
 					answers.add(list.get(i).getRefund());
 					answers.add(list.get(i).getID());
+					connected.add(eMail);
 					return;
 				}
 			}
 		}
-		answers.add("#connectEntity");
-		answers.add(false);
-		return;
 	}
 
 	public void loginEmployee(ArrayList<Object> arr, List<Employee> list, ArrayList<Object> answers) {
@@ -315,6 +342,11 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail)) {
+						answers.add("#connectEntity");
+						answers.add(false);
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -322,13 +354,11 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}
 		}
-		answers.add("#connectEntity");
-		answers.add(false);
-		return;
 	}
 
 	public void loginStoreM(ArrayList<Object> arr, List<StoreManager> list, ArrayList<Object> answers) {
@@ -341,6 +371,11 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail)) {
+						answers.add("#connectEntity");
+						answers.add(false);
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -349,13 +384,11 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getStoreName());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}
 		}
-		answers.add("#connectEntity");
-		answers.add(false);
-		return;
 	}
 
 	public void loginChainM(ArrayList<Object> arr, List<ChainManager> list, ArrayList<Object> answers) {
@@ -368,6 +401,11 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail)) {
+						answers.add("#connectEntity");
+						answers.add(false);
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -375,13 +413,11 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}
 		}
-		answers.add("#connectEntity");
-		answers.add(false);
-		return;
 	}
 
 	public double calculateNewRefund(String cancellationTime, String supplyTime, double refund) throws ParseException {

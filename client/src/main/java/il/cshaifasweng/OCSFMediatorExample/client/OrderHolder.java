@@ -6,6 +6,9 @@ public class OrderHolder {
     private String finalPrice;
     private String flowers;
     private String status;
+    private String receiverName;
+    private String address;
+    private int realID;
 
     public OrderHolder(int orderID, String dateTime, double finalPrice, String flowers, int status) {
         this.orderID = Integer.toString(orderID);
@@ -23,6 +26,36 @@ public class OrderHolder {
         else if(status == 3) {
             this.status = "Cancelled";
         }
+    }
+
+    public OrderHolder(int orderID, String receiverName, String flowers, String dateTime,
+                       String address, int where, int realID) {
+        this.orderID = Integer.toString(orderID);
+        this.receiverName = receiverName;
+        this.flowers = flowers;
+        this.dateTime = dateTime;
+
+        // "Haifa", "Tel Aviv", "New york", "Eilat", "London" "Delivery"
+        if(where == 1) {
+            this.address = "Pick Up Haifa";
+        }
+        else if (where == 2) {
+            this.address = "Pick Up Tel Aviv";
+        }
+        else if (where == 3) {
+            this.address = "Pick Up New York";
+        }
+        else if (where == 4) {
+            this.address = "Pick Up Eilat";
+        }
+        else if (where == 5) {
+            this.address = "Pick Up London";
+        }
+        else if (where == 6) {
+            this.address = address;
+        }
+
+        this.realID = realID;
     }
 
     public String getOrderID() {
@@ -63,5 +96,21 @@ public class OrderHolder {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -94,6 +94,12 @@ public class LoginBoundaryController implements Initializable {
                 e.printStackTrace();
             }
         }
+        else if(i == 6) {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("You are already connected!");
+            a.showAndWait();
+        }
     }
 
     public void moveForwardUser() throws IOException {

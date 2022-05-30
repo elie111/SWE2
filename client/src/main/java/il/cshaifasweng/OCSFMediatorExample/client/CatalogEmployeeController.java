@@ -25,6 +25,7 @@ public class CatalogEmployeeController implements Initializable {
 
     @FXML private Label catalogL;
     @FXML private ListView<String> myListView;
+    private String Email;
 
     private static ArrayList<Flower> flowers = new ArrayList<Flower>();
     private static Label placeHolderList = new Label("No flowers in catalog");
@@ -46,15 +47,19 @@ public class CatalogEmployeeController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
+                Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
+                Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
                 userName.setText(EntityHolder.getStoreM().getName());
+                Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
                 userName.setText(EntityHolder.getChainM().getName());
+                Email = EntityHolder.getChainM().getEmail();
             }
         }
 
@@ -77,6 +82,11 @@ public class CatalogEmployeeController implements Initializable {
             a.setHeaderText("Do you wish to disconnect?");
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
+                ArrayList<Object> arr = new ArrayList<>();
+                arr.add("#disconnecting");
+                arr.add(Email);
+                App.getClient().sendToServer(arr);
+
                 App.setRoot("LoginOrSignupBoundary");
                 EntityHolder.setTable(-1);
                 EntityHolder.setUser(null);
@@ -150,6 +160,13 @@ public class CatalogEmployeeController implements Initializable {
                 e.printStackTrace();
             }
         }
+        else if(i == 2) {
+            try {
+                moveToOrderList();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void moveToUpdate() throws IOException {
@@ -158,6 +175,55 @@ public class CatalogEmployeeController implements Initializable {
 
     @FXML
     public void orderList(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#orderListE");
+
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Message");
+        a.setHeaderText("Which list would you like?");
+        String[] b = {"Haifa", "Tel Aviv", "New York", "Eilat", "London", "Delivery"};
+        ButtonType b1 = new ButtonType(b[0]);
+        ButtonType b2 = new ButtonType(b[1]);
+        ButtonType b3 = new ButtonType(b[2]);
+        ButtonType b4 = new ButtonType(b[3]);
+        ButtonType b5 = new ButtonType(b[4]);
+        ButtonType b6 = new ButtonType(b[5]);
+        a.getButtonTypes().setAll(b1, b2, b3, b4, b5, b6);
+        Optional<ButtonType> result = a.showAndWait();
+
+        if(result.get() == b1) {
+            arr.add("Haifa");
+            arr.add(1);
+            App.getClient().sendToServer(arr);
+        }
+        else if(result.get() == b2) {
+            arr.add("Tel Aviv");
+            arr.add(2);
+            App.getClient().sendToServer(arr);
+        }
+        else if(result.get() == b3) {
+            arr.add("New York");
+            arr.add(3);
+            App.getClient().sendToServer(arr);
+        }
+        else if(result.get() == b4) {
+            arr.add("Eilat");
+            arr.add(4);
+            App.getClient().sendToServer(arr);
+        }
+        else if(result.get() == b5) {
+            arr.add("London");
+            arr.add(5);
+            App.getClient().sendToServer(arr);
+        }
+        else if(result.get() == b6) {
+            arr.add("");
+            arr.add(6);
+            App.getClient().sendToServer(arr);
+        }
+    }
+
+    public void moveToOrderList() throws IOException {
         App.setRoot("OrderListEmployee");
     }
 

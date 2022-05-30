@@ -40,6 +40,8 @@ public class UpdateFlowerEmployeeController implements Initializable {
     @FXML private Button updateBtn;
     @FXML private Button cancelBtn;
 
+    private String Email;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(EntityHolder.getTable() == -1) {
@@ -48,15 +50,19 @@ public class UpdateFlowerEmployeeController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
+                Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
+                Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
                 userName.setText(EntityHolder.getStoreM().getName());
+                Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
                 userName.setText(EntityHolder.getChainM().getName());
+                Email = EntityHolder.getChainM().getEmail();
             }
         }
 
@@ -143,6 +149,11 @@ public class UpdateFlowerEmployeeController implements Initializable {
             a.setHeaderText("Do you wish to disconnect?");
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
+                ArrayList<Object> arr = new ArrayList<>();
+                arr.add("#disconnecting");
+                arr.add(Email);
+                App.getClient().sendToServer(arr);
+
                 App.setRoot("LoginOrSignupBoundary");
                 EntityHolder.setTable(-1);
                 EntityHolder.setUser(null);

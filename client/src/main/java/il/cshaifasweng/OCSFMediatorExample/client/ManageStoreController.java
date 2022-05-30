@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -17,6 +18,8 @@ public class ManageStoreController implements Initializable {
     @FXML private Text storeML;
     @FXML private Button userName;
     @FXML private Button reportBtn;
+
+    private String Email;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -26,15 +29,19 @@ public class ManageStoreController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
+                Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
+                Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
                 userName.setText(EntityHolder.getStoreM().getName());
+                Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
                 userName.setText(EntityHolder.getChainM().getName());
+                Email = EntityHolder.getChainM().getEmail();
             }
         }
     }
@@ -50,6 +57,11 @@ public class ManageStoreController implements Initializable {
             a.setHeaderText("Do you wish to disconnect?");
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
+                ArrayList<Object> arr = new ArrayList<>();
+                arr.add("#disconnecting");
+                arr.add(Email);
+                App.getClient().sendToServer(arr);
+
                 App.setRoot("LoginOrSignupBoundary");
                 EntityHolder.setTable(-1);
                 EntityHolder.setUser(null);

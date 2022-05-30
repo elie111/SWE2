@@ -177,7 +177,31 @@ public class SimpleClient extends AbstractClient {
 			CatalogEmployeeController c = new CatalogEmployeeController();
 			c.nextStep(1);
 		}
-		// update flower - employee
+		// order list - employee
+		if(msgArray.get(0).equals("#orderListE")) {
+			String location = (String)msgArray.get(1);
+			int index = (int)msgArray.get(2);
+			ArrayList<Order> list = (ArrayList<Order>)msgArray.get(3);
+			ObservableList<OrderHolder> newList = FXCollections.observableArrayList();
+			String generalStoreId = "";
+
+			for(int i = 0; i < list.size(); i++) {
+				generalStoreId = list.get(i).getStoreName();
+				if(generalStoreId.equals(location) && list.get(i).getStatus() == 1) {
+					// int orderID, String receiverName, String flowers, String dateTime, String address, int where
+					OrderHolder o = new OrderHolder(list.get(i).getOrderID(), list.get(i).getReceiverName(),
+													list.get(i).getFlowers(), list.get(i).getDateTime(),
+													list.get(i).getAddress(), index, list.get(i).getId());
+					newList.add(o);
+				}
+			}
+
+			OrderListEmployeeController.setMyOrders(newList);
+			CatalogEmployeeController c = new CatalogEmployeeController();
+			c.nextStep(2);
+		}
+
+
 	}
 
 	@Override

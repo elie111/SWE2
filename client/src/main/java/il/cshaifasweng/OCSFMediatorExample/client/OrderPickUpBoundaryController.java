@@ -62,6 +62,7 @@ public class OrderPickUpBoundaryController implements Initializable {
     private int refundFlag = 0;
     private String localDateTime;
     private boolean updateCreditCard = false;
+    private String Email;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,15 +72,19 @@ public class OrderPickUpBoundaryController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
+                Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
+                Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
                 userName.setText(EntityHolder.getStoreM().getName());
+                Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
                 userName.setText(EntityHolder.getChainM().getName());
+                Email = EntityHolder.getChainM().getEmail();
             }
         }
 
@@ -91,7 +96,7 @@ public class OrderPickUpBoundaryController implements Initializable {
                                            "07", "08", "09", "10", "11", "12");
         chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
                                           "28", "29", "30", "31", "32", "33");
-        chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
+        chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New York", "Eilat", "London");
         
         timeChoose.getItems().addAll("Supply immediately", "Pick Date & Time");
         pickupDateL.setVisible(false);
@@ -218,6 +223,11 @@ public class OrderPickUpBoundaryController implements Initializable {
             a.setHeaderText("Do you wish to disconnect?");
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
+                ArrayList<Object> arr = new ArrayList<>();
+                arr.add("#disconnecting");
+                arr.add(Email);
+                App.getClient().sendToServer(arr);
+
                 App.setRoot("LoginOrSignupBoundary");
                 EntityHolder.setTable(-1);
                 EntityHolder.setUser(null);

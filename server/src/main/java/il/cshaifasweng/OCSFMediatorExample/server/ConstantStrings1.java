@@ -242,7 +242,7 @@ public class ConstantStrings1 {
             "",
             "",
             "",
-            "New york",
+            "New York",
             "",
             "",
             "",
@@ -313,7 +313,7 @@ public class ConstantStrings1 {
     public static final String[] storeMUniqueStore = {
             "Haifa",
             "Tel Aviv",
-            "New york",
+            "New York",
             "Eilat",
             "London"
     };

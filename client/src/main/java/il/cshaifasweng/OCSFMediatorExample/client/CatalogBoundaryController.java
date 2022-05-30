@@ -70,6 +70,7 @@ public class CatalogBoundaryController implements Initializable {
 
     private ArrayList<String> listStr = new ArrayList<String>();
     private ArrayList<String> cartNames = new ArrayList<String>();
+    private String Email;
 
     public static void setFlowers(ArrayList<Flower> newFlowers) {
         if(CatalogBoundaryController.flowers.isEmpty()) {}
@@ -100,16 +101,19 @@ public class CatalogBoundaryController implements Initializable {
         else {
             if(EntityHolder.getTable() == 0) {
                 userName.setText(EntityHolder.getUser().getName());
-
+                Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
                 userName.setText(EntityHolder.getEmployee().getName());
+                Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
                 userName.setText(EntityHolder.getStoreM().getName());
+                Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
                 userName.setText(EntityHolder.getChainM().getName());
+                Email = EntityHolder.getChainM().getEmail();
             }
         }
 
@@ -188,6 +192,11 @@ public class CatalogBoundaryController implements Initializable {
             a.setHeaderText("Do you wish to disconnect?");
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
+                ArrayList<Object> arr = new ArrayList<>();
+                arr.add("#disconnecting");
+                arr.add(Email);
+                App.getClient().sendToServer(arr);
+
                 App.setRoot("LoginOrSignupBoundary");
                 EntityHolder.setTable(-1);
                 EntityHolder.setUser(null);
@@ -392,8 +401,8 @@ public class CatalogBoundaryController implements Initializable {
 
             alert.setTitle("Question");
             alert.setHeaderText("Choose delivery or pick up your order yourself");
-            ButtonType deliveryBtn = new ButtonType("Delivery", ButtonBar.ButtonData.OK_DONE);
-            ButtonType pickUpBtn = new ButtonType("Pick Up", ButtonBar.ButtonData.CANCEL_CLOSE);
+            ButtonType deliveryBtn = new ButtonType("Delivery");
+            ButtonType pickUpBtn = new ButtonType("Pick Up");
             alert.getButtonTypes().setAll(deliveryBtn, pickUpBtn);
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -403,9 +412,6 @@ public class CatalogBoundaryController implements Initializable {
             else if(result.get() == pickUpBtn) {
                 App.setRoot("OrderPickUpBoundary");
             }
-            alert.setOnCloseRequest(e -> {
-                alert.close();
-            });
         }
     }
 

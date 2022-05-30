@@ -66,7 +66,7 @@ public class RegistrationBoundaryController implements Initializable {
         chooseYear.getItems().addAll("22", "23", "24", "25", "26", "27",
                                           "28", "29", "30", "31", "32", "33");
         chooseMembership.getItems().addAll("Store Account", "Chain Account", "Yearly Chain Account");
-        chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New york", "Eilat", "London");
+        chooseStore.getItems().addAll("Haifa", "Tel Aviv", "New York", "Eilat", "London");
 
         chooseMembership.getSelectionModel().selectedItemProperty().addListener((option, oldV, newV) -> {
             if(newV.equals("Store Account")) {
