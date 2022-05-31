@@ -120,6 +120,14 @@ public class SimpleClient extends AbstractClient {
 					loginController.nextStep(5);
 				}
 			}
+			else {
+				if(msgArray.get(2).equals("connected"))
+				{
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(6);
+				}
+
+			}
 		}
 		// add order (pick up + delivery)
 		if(msgArray.get(0).equals("#addOrder")) {

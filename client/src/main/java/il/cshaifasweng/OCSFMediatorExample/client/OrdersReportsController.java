@@ -60,8 +60,9 @@ public class OrdersReportsController implements Initializable {
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("ManageStoreController");
+        App.setRoot("ManageStore");
 //        App.setRoot("ManageChainController"); // if the manager is a chain manager
+        //App.getClient().sendToServer();
 
     }
 

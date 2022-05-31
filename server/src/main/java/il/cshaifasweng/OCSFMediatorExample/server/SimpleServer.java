@@ -11,12 +11,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
 public class SimpleServer extends AbstractServer {
 	private static Session session;
 	static Scanner sc = new Scanner(System.in);
+	static HashSet<String> connected=new HashSet<>();
 
 	public SimpleServer(int port) {
 		super(port);
@@ -223,11 +225,22 @@ public class SimpleServer extends AbstractServer {
 		String myMail = (String)arr.get(2);
 		String myPassword = (String)arr.get(3);
 
+
 		for(int i = 0; i < list.size(); i++) {
 			eMail = list.get(i).getEmail();
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+
+					if(connected.contains(eMail))
+					{
+
+						answers.add("#connectEntity");
+						answers.add(false);
+						answers.add("connected");
+						return;
+					}
+
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -243,12 +256,14 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getStoreOrNull());
 					answers.add(list.get(i).getRefund());
 					answers.add(list.get(i).getID());
+					connected.add(eMail);
 					return;
 				}
 			}
 		}
 		answers.add("#connectEntity");
 		answers.add(false);
+		answers.add("wrongdetails");
 		return;
 	}
 
@@ -262,6 +277,15 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail))
+					{
+
+						answers.add("#connectEntity");
+						answers.add(false);
+						answers.add("connected");
+						return;
+					}
+
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -269,6 +293,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}
@@ -288,6 +313,14 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail))
+					{
+
+						answers.add("#connectEntity");
+						answers.add(false);
+						answers.add("connected");
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -296,6 +329,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getStoreName());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}
@@ -315,6 +349,14 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+					if(connected.contains(eMail))
+					{
+
+						answers.add("#connectEntity");
+						answers.add(false);
+						answers.add("connected");
+						return;
+					}
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
@@ -322,6 +364,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getId());
+					connected.add(eMail);
 					return;
 				}
 			}

@@ -11,25 +11,21 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class IncomeReportsController implements Initializable {
 
-    @FXML private NumberAxis incomeAxis;
 
-    @FXML private BarChart<?, ?> incomeChart;
 
     @FXML private Text incomeTxt;
 
@@ -39,10 +35,12 @@ public class IncomeReportsController implements Initializable {
 
     @FXML private ComboBox<String> storeCB;
 
-    @FXML private Button userNameBtn;
-    @FXML private Label yearIncome;
+    @FXML private Button userName;
+    @FXML private Label finalres;
+    @FXML private  DatePicker start;
+    @FXML private  DatePicker end;
 
-    @FXML private ComboBox<String> yearCB;
+
     private static ArrayList<Order> orderslst=new ArrayList<>();
     private String currentYear="2022";
     private String currentStore="all";
@@ -53,112 +51,86 @@ public class IncomeReportsController implements Initializable {
         IncomeReportsController.orderslst=orders;
     }
 
-    @FXML
-    void getDetails(ActionEvent event) {
 
-    }
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("ManageStoreController");
+        App.setRoot("ManageStore");
 //        App.setRoot("ManageChainController"); // if the manager is a chain manager
 
     }
 
 
-    private int yearrandom=1;
-    private String years[] =
-            { "2022", "2021", "2020",
-                    "2019", "2018" };
+
     private String stores[] =
             { "all","Haifa", "Tel Aviv", "Eilat",
                     "London", "New York" };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        yearCB.setItems(FXCollections.observableArrayList(years));
-        storeCB.setItems(FXCollections.observableArrayList(stores));
-        EventHandler<ActionEvent> event =
-                new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-//                        selected.setText(yearCB.getValue() + " selected");
-//                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
-                        yearrandom+=1000;
-                        currentYear=yearCB.getSelectionModel().getSelectedItem();
-                        try {
-                            initchart();
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-                    }
-                };
-        EventHandler<ActionEvent> event2 =
-                new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-//                        selected.setText(yearCB.getValue() + " selected");
-//                        currentyear=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
-                        yearrandom+=1000;
-                        currentStore=storeCB.getSelectionModel().getSelectedItem();
-                        try {
-                            initchart();
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-                    }
-                };
 
-        // Set on action
-        yearCB.getSelectionModel().selectFirst();
-        yearCB.setOnAction(event);
-        storeCB.getSelectionModel().selectFirst();
-        storeCB.setOnAction(event2);
-        yearrandom=Integer.parseInt(yearCB.getSelectionModel().getSelectedItem());
-        try {
-            initchart();
-        } catch (ParseException e) {
-            e.printStackTrace();
+
+        if(EntityHolder.getTable() == -1) {
+            userName.setText("Register / Login");
         }
-
-    }
-    public void initchart() throws ParseException {
-        finalprice=0;
-        incomeChart.setAnimated(false);
-        incomeChart.getData().clear();
-        incomeChart.layout();
-        XYChart.Series dataSeries1 = new XYChart.Series();
-        dataSeries1.setName("Income");
-        double [] incomePerMonth=new double[12];
-        for(int i=0;i<orderslst.size();i++){
-            String sDate1=orderslst.get(i).getDateTime();
-            Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-
-            if((orderslst.get(i).getStoreName().equals(currentStore)||currentStore.equals("all"))
-            &&((date1.getYear()+1900)==Integer.parseInt(currentYear))) {
-                incomePerMonth[date1.getMonth()] += orderslst.get(i).getFinalPrice();
-                finalprice+=orderslst.get(i).getFinalPrice();
+        else {
+            if(EntityHolder.getTable() == 0) {
+                userName.setText(EntityHolder.getUser().getName());
+            }
+            else if(EntityHolder.getTable() == 1) {
+                userName.setText(EntityHolder.getEmployee().getName());
+            }
+            else if(EntityHolder.getTable() == 2) {
+                userName.setText(EntityHolder.getStoreM().getName());
+            }
+            else if(EntityHolder.getTable() == 3) {
+                userName.setText(EntityHolder.getChainM().getName());
             }
         }
-        yearIncome.setText(Integer.toString(finalprice));
-
-        dataSeries1.getData().add(new XYChart.Data("Jan", incomePerMonth[0]));
-        dataSeries1.getData().add(new XYChart.Data("Feb"  , incomePerMonth[1]));
-        dataSeries1.getData().add(new XYChart.Data("mar"  , incomePerMonth[2]));
-        dataSeries1.getData().add(new XYChart.Data("apr"  , incomePerMonth[3]));
-        dataSeries1.getData().add(new XYChart.Data("may"  , incomePerMonth[4]));
-        dataSeries1.getData().add(new XYChart.Data("jun"  , incomePerMonth[5]));
-        dataSeries1.getData().add(new XYChart.Data("jul"  , incomePerMonth[6]));
-        dataSeries1.getData().add(new XYChart.Data("aug"  , incomePerMonth[7]));
-        dataSeries1.getData().add(new XYChart.Data("sep"  , incomePerMonth[8]));
-        dataSeries1.getData().add(new XYChart.Data("oct"  , incomePerMonth[9]));
-        dataSeries1.getData().add(new XYChart.Data("nov"  , incomePerMonth[10]));
-        dataSeries1.getData().add(new XYChart.Data("dec"  , incomePerMonth[11]));
-
-        incomeChart.getData().add(dataSeries1);
+    }
 
 
+    @FXML
+    public void getDetails(ActionEvent event) throws IOException {
+        if(userName.getText().equals("Register / Login")) {
+            App.setRoot("LoginOrSignupBoundary");
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Do you wish to disconnect?");
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setRoot("LoginOrSignupBoundary");
+                EntityHolder.setTable(-1);
+                EntityHolder.setUser(null);
+                EntityHolder.setEmployee(null);
+                EntityHolder.setStoreM(null);
+                EntityHolder.setChainM(null);
+                EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
+            }
+        }
+    }
+    @FXML
+    public void confirm(ActionEvent actionEvent) {
+        double sum=0;
+        LocalDate strt= start.getValue();
+        LocalDate endd=end.getValue();
+        if(strt!=null && endd!=null) {
+            for (Order order : orderslst) {
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+                LocalDate l = LocalDate.parse(order.getDateTime().substring(0, 10), formatter);
+                System.out.println(EntityHolder.getStoreM().getStoreName());
+                System.out.println(order.getStoreName());
 
-
+                String managerstore=EntityHolder.getStoreM().getStoreName();
+                String orderstore=order.getStoreName();
+                if (l.isAfter(strt) && l.isBefore(endd) && managerstore.equals(orderstore))
+                    sum += order.getFinalPrice();
+            }
+        }
+        finalres.setText( String.valueOf(sum));
     }
 }
