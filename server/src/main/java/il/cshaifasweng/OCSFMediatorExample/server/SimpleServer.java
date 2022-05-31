@@ -225,13 +225,16 @@ public class SimpleServer extends AbstractServer {
 		String myMail = (String)arr.get(2);
 		String myPassword = (String)arr.get(3);
 
+
 		for(int i = 0; i < list.size(); i++) {
 			eMail = list.get(i).getEmail();
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
+
 					if(connected.contains(eMail))
 					{
+
 						answers.add("#connectEntity");
 						answers.add(false);
 						answers.add("connected");
@@ -273,8 +276,8 @@ public class SimpleServer extends AbstractServer {
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
 				if(password.equals(myPassword)) {
-					if(connected.contains(eMail))
-					{
+					if(connected.contains(eMail)) {
+
 						answers.add("#connectEntity");
 						answers.add(false);
 						answers.add("connected");
@@ -309,6 +312,7 @@ public class SimpleServer extends AbstractServer {
 				if(password.equals(myPassword)) {
 					if(connected.contains(eMail))
 					{
+
 						answers.add("#connectEntity");
 						answers.add(false);
 						answers.add("connected");
@@ -344,6 +348,7 @@ public class SimpleServer extends AbstractServer {
 				if(password.equals(myPassword)) {
 					if(connected.contains(eMail))
 					{
+
 						answers.add("#connectEntity");
 						answers.add(false);
 						answers.add("connected");

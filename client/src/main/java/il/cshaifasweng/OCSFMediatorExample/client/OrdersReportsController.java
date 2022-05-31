@@ -66,6 +66,7 @@ public class OrdersReportsController implements Initializable {
     void returnFunc(ActionEvent event) throws IOException {
         App.setRoot("ManageStore");
 //        App.setRoot("ManageChainController"); // if the manager is a chain manager
+        //App.getClient().sendToServer();
 
     }
 

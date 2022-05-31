@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginBoundaryController implements Initializable {
@@ -93,6 +94,14 @@ public class LoginBoundaryController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else if(i==6)
+        {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("user is connected!");
+            //Optional<ButtonType> result = a.showAndWait();
+            a.showAndWait();
         }
     }
 
