@@ -13,18 +13,27 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class ComplaintsReportsController implements Initializable {
 
     @FXML private BarChart<?, ?> complaintsChart;
+
+    @FXML private DatePicker endDate;
+
+    @FXML private Button generateBtn;
 
     @FXML private NumberAxis incomeAxis;
 
@@ -36,16 +45,13 @@ public class ComplaintsReportsController implements Initializable {
 
     @FXML private Button returnBtn;
 
+    @FXML private DatePicker startDate;
 
     @FXML private Button userNameBtn;
-
-    @FXML private ComboBox<String> yearCB;
 
     @FXML private Label yearIncome;
 
     private static ArrayList<Complaint> compList=new ArrayList<>();
-    private String currentTimePeriod="all";
-    private String currentStore="all";
     private int numComp=0;
 
     public static void setComplaints(ArrayList<Complaint> complaints) {
@@ -58,36 +64,16 @@ public class ComplaintsReportsController implements Initializable {
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("ManageStoreController");
+        App.setRoot("ManageStore");
 //        App.setRoot("ManageChainController"); // if the manager is a chain manager
 
     }
-    private String timeperiod[] =
-            { "all" ,"last week", "last month", "last year"};
-    private String stores[] =
-            { "all","Haifa", "Tel Aviv", "Eilat",
-                    "London", "New York" };
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        yearCB.setItems(FXCollections.observableArrayList(timeperiod));
-        EventHandler<ActionEvent> event =
-                new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-
-                        currentTimePeriod=yearCB.getSelectionModel().getSelectedItem();
-                        try {
-                            initchart();
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-                    }
-                };
-
-
-        // Set on action
-        yearCB.getSelectionModel().selectFirst();
-        yearCB.setOnAction(event);
+        LocalDate s = LocalDate.now();
+        endDate.setValue(s);
+        startDate.setValue(s.minusDays(7));
         try {
             initchart();
         } catch (ParseException e) {
@@ -99,82 +85,42 @@ public class ComplaintsReportsController implements Initializable {
         complaintsChart.setAnimated(false);
         complaintsChart.getData().clear();
         complaintsChart.layout();
+        long dur= Math.abs(Duration.between(startDate.getValue().atStartOfDay(),endDate.getValue().atStartOfDay()).toDays());
         XYChart.Series dataSeries1 = new XYChart.Series();
         dataSeries1.setName("Complaints");
 
-
-
-
-             if(currentTimePeriod.equals("all")){
-                 int [] reportsPerMonth=new int[5];
+                 int [] reportsPerMonth=new int[(int)dur];
                  for(int i=0;i<compList.size();i++) {
                      String sDate1 = compList.get(i).getDateTime();
                      Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-                     reportsPerMonth[(date1.getYear()+1900)-2018]+=1;
+
+                     if(date1.after(Date.from((startDate.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                             &&date1.before(Date.from(endDate.getValue().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                         long index=Math.abs(Duration.between(date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(), startDate.getValue().atStartOfDay()).toDays());;
+                         reportsPerMonth[(int)index]+=1;
+                         numComp+=1;
+                     }
+
+
+                 }
+                 for(int i=0;i<reportsPerMonth.length;i++){
+
+                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd");
+                     Date date2=Date.from((startDate.getValue()).plusDays(i).atStartOfDay(ZoneId.systemDefault()).toInstant());
+                     String strDate = dateFormat.format(date2);
+                     dataSeries1.getData().add(new XYChart.Data(strDate, reportsPerMonth[i]));
                  }
                  yearIncome.setText(Integer.toString(numComp));
-                 dataSeries1.getData().add(new XYChart.Data("2018", reportsPerMonth[0]));
-                 dataSeries1.getData().add(new XYChart.Data("2019"  , reportsPerMonth[1]));
-                 dataSeries1.getData().add(new XYChart.Data("2020"  , reportsPerMonth[2]));
-                 dataSeries1.getData().add(new XYChart.Data("2021"  , reportsPerMonth[3]));
-                 dataSeries1.getData().add(new XYChart.Data("2022"  , reportsPerMonth[4]));
-
-             }
-            if(currentTimePeriod.equals("last week")){
-                int [] reportsPerMonth=new int[7];
-                for(int i=0;i<compList.size();i++) {
-                    String sDate1 = compList.get(i).getDateTime();
-                    Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-
-                    Calendar currentCalendar = Calendar.getInstance();
-                    int week = currentCalendar.get(Calendar.WEEK_OF_YEAR);
-                    int year = currentCalendar.get(Calendar.YEAR);
-                    Calendar targetCalendar = Calendar.getInstance();
-                    targetCalendar.setTime(date1);
-                    int targetWeek = targetCalendar.get(Calendar.WEEK_OF_YEAR);
-                    int targetYear = targetCalendar.get(Calendar.YEAR);
-                    if( week == targetWeek && year == targetYear){
-                        System.out.println("test");
-                        reportsPerMonth[date1.getDay()]+=1;
-                    }
-
-
-                }
-                Date date = new Date();
-                Calendar c = Calendar.getInstance();
-                c.setTime(date);
-                int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-                c.add(Calendar.DATE, -i - 7);
-                Date start = c.getTime();
-                c.add(Calendar.DATE, 6);
-                Date end = c.getTime();
-
-                yearIncome.setText(Integer.toString(numComp));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay(), reportsPerMonth[start.getDay()]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+1  , reportsPerMonth[start.getDay()+1]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+2  , reportsPerMonth[start.getDay()+2]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+3  , reportsPerMonth[start.getDay()+3]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+4  , reportsPerMonth[start.getDay()+4]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+5  , reportsPerMonth[start.getDay()+5]));
-                dataSeries1.getData().add(new XYChart.Data(start.getDay()+6  , reportsPerMonth[start.getDay()+6]));
-
-            }
-            if(currentTimePeriod.equals("last month")){
-
-            }
-            if(currentTimePeriod.equals("last year")){
-
-            }
-
-
-
-
-
 
         complaintsChart.getData().add(dataSeries1);
 
 
 
 
+    }
+
+    @FXML
+    void generateFunc(ActionEvent event) throws ParseException {
+        initchart();
     }
 }

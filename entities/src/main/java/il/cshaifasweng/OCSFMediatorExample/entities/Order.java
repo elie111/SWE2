@@ -34,6 +34,7 @@ public class Order implements Serializable {
 
     private String flowers;
 
+
     public Order(int userID, String flowers, String card, String formOfSupplying,
                  String storeName, String address, String receiverName, String receiverPhone,
                  String dateTime, double finalPrice, String credit, String cvv,
@@ -56,6 +57,14 @@ public class Order implements Serializable {
         this.userID = userID;
         this.flowers = flowers;
         this.currentDate= new Date();
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
     }
 
     public Order() {

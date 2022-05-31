@@ -69,6 +69,13 @@ public class App {
                 flowersList.add(flowerItem);
                 session.save(flowerItem);
             }
+            // complaints
+            for(int i = 0; i < c.complaintDate.length; i++) {
+                Complaint complaint=new Complaint();
+                complaint.setDateTime(c.complaintDate[i]);
+                complaintList.add(complaint);
+                session.save(complaint);
+            }
 
             // users
             for(int i = 0; i < c.userNames.length; i++) {

@@ -4,7 +4,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
@@ -20,10 +20,12 @@
          </yAxis>
       </BarChart>
       <Text fx:id="incomeTxt" fill="#b91b1b" layoutX="118.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Complaints Report" textAlignment="CENTER" />
-      <ComboBox id="yearCB" fx:id="yearCB" layoutX="111.0" layoutY="109.0" prefWidth="150.0" />
       <Button id="returnBtn" fx:id="returnBtn" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="return" />
       <Button id="userNameBtn" fx:id="userNameBtn" layoutX="496.0" layoutY="23.0" mnemonicParsing="false" onAction="#getDetails" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="username" />
-      <Label fx:id="priceLabel" layoutX="320.0" layoutY="113.0" prefHeight="16.0" prefWidth="89.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="total number:" />
-      <Label id="yearIncome" fx:id="yearIncome" layoutX="410.0" layoutY="112.0" prefHeight="18.0" prefWidth="22.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <Label fx:id="priceLabel" layoutX="46.0" layoutY="142.0" prefHeight="16.0" prefWidth="89.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="total number:" />
+      <Label id="yearIncome" fx:id="yearIncome" layoutX="134.0" layoutY="142.0" prefHeight="18.0" prefWidth="22.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <DatePicker id="startDate" fx:id="startDate" layoutX="46.0" layoutY="108.0" />
+      <DatePicker id="endDate" fx:id="endDate" layoutX="255.0" layoutY="108.0" />
+      <Button id="generateBtn" fx:id="generateBtn" layoutX="498.0" layoutY="108.0" mnemonicParsing="false" onAction="#generateFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Generate" />
    </children>
 </AnchorPane>

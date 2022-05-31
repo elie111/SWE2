@@ -20,6 +20,7 @@ public class Flower implements Serializable {
     private Boolean sale;
     private String description;
 
+
     @ManyToOne
     private Catalog catalog;
 

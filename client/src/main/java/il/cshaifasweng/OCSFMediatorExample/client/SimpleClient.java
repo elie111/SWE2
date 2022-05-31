@@ -47,7 +47,9 @@ public class SimpleClient extends AbstractClient {
 		}
 		if(msgArray.get(0).equals("#getorders")) {
 			IncomeReportsController.setOrders((ArrayList<Order>)(msgArray.get(1)));
+			IncomeReportsChainController.setOrders((ArrayList<Order>)(msgArray.get(1)));
 			OrdersReportsController.setOrders((ArrayList<Order>)(msgArray.get(1)));
+			OrdersReportsChainController.setOrders((ArrayList<Order>)(msgArray.get(1)));
 		}
 		if(msgArray.get(0).equals("#getcomplaints")) {
 			ComplaintsReportsController.setComplaints((ArrayList<Complaint>)(msgArray.get(1)));
@@ -119,6 +121,14 @@ public class SimpleClient extends AbstractClient {
 					LoginBoundaryController loginController = new LoginBoundaryController();
 					loginController.nextStep(5);
 				}
+			}
+			else {
+				if(msgArray.get(2).equals("connected"))
+				{
+					LoginBoundaryController loginController = new LoginBoundaryController();
+					loginController.nextStep(6);
+				}
+
 			}
 		}
 		// add order (pick up + delivery)
