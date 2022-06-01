@@ -12,18 +12,23 @@
    <children>
       <Text fx:id="incomeTxt" fill="#b91b1b" layoutX="157.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: linear-gradient linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique; -fx-font-size: 40px;" text="Orders Report" textAlignment="CENTER" />
       <Button id="returnBtn" fx:id="returnBtn" layoutX="20.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="return" />
-      <Button id="userNameBtn" fx:id="userNameBtn" layoutX="496.0" layoutY="23.0" mnemonicParsing="false" onAction="#getDetails" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="username" />
-      <Label fx:id="priceLabel" layoutX="217.0" layoutY="190.0" prefHeight="26.0" prefWidth="111.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="number of orders 1:" />
-      <Label id="yearIncome" fx:id="yearIncome1" layoutX="335.0" layoutY="194.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
-      <PieChart id="ordersChart2" fx:id="ordersChart2" layoutX="286.0" layoutY="214.0" prefHeight="185.0" prefWidth="314.0" />
-      <DatePicker id="startDate1" fx:id="startDate1" layoutX="26.0" layoutY="119.0" />
-      <DatePicker id="endDate1" fx:id="endDate1" layoutX="213.0" layoutY="119.0" />
-      <Button id="generateBtn" fx:id="generateBtn" layoutX="473.0" layoutY="119.0" mnemonicParsing="false" onAction="#generateFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Generate" />
-      <ComboBox id="storeCB" fx:id="storeCB" layoutX="26.0" layoutY="190.0" prefWidth="150.0" />
-      <DatePicker id="startDate2" fx:id="startDate2" layoutX="26.0" layoutY="152.0" />
-      <DatePicker id="endDate2" fx:id="endDate2" layoutX="213.0" layoutY="152.0" />
-      <PieChart id="ordersChart1" fx:id="ordersChart1" layoutX="-1.0" layoutY="214.0" prefHeight="186.0" prefWidth="290.0" />
-      <Label fx:id="priceLabel1" layoutX="387.0" layoutY="190.0" prefHeight="26.0" prefWidth="111.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="number of orders 2:" />
-      <Label id="yearIncome" fx:id="yearIncome2" layoutX="500.0" layoutY="194.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <Button id="userNameBtn" fx:id="userNameBtn" layoutX="496.0" layoutY="23.0" maxHeight="25.0" maxWidth="100.0" mnemonicParsing="false" onAction="#getDetails" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="username" />
+      <Label fx:id="priceLabel" layoutX="450.0" layoutY="110.0" prefHeight="26.0" prefWidth="52.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="orders :" />
+      <Label id="yearIncome" fx:id="yearIncome1" layoutX="510.0" layoutY="114.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <PieChart id="ordersChart2" fx:id="ordersChart2" layoutX="295.0" layoutY="214.0" prefHeight="185.0" prefWidth="300.0" />
+      <DatePicker id="startDate1" fx:id="startDate1" layoutX="50.0" layoutY="119.0" />
+      <DatePicker id="endDate1" fx:id="endDate1" layoutX="250.0" layoutY="119.0" />
+      <Button id="generateBtn" fx:id="generateBtn" layoutX="250.0" layoutY="190.0" mnemonicParsing="false" onAction="#generateFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Generate" />
+      <ComboBox id="storeCB" fx:id="storeCB" layoutX="50.0" layoutY="190.0" prefWidth="150.0" />
+      <DatePicker id="startDate2" fx:id="startDate2" layoutX="50.0" layoutY="152.0" />
+      <DatePicker id="endDate2" fx:id="endDate2" layoutX="250.0" layoutY="152.0" />
+      <PieChart id="ordersChart1" fx:id="ordersChart1" layoutX="5.0" layoutY="214.0" prefHeight="185.0" prefWidth="300.0" />
+      <Label fx:id="ordersLabel2" layoutX="450.0" layoutY="145.0" prefHeight="26.0" prefWidth="52.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="orders :" />
+      <Label id="yearIncome" fx:id="yearIncome2" layoutX="510.0" layoutY="149.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <Label fx:id="priceLabel2" layoutX="450.0" layoutY="125.0" prefHeight="26.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="flowers :" />
+      <Label fx:id="flowersLabel2" layoutX="450.0" layoutY="160.0" prefHeight="26.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="flowers : " />
+      <Label id="yearIncome" fx:id="yearFlower1" layoutX="510.0" layoutY="129.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <Label id="yearIncome" fx:id="yearFlower2" layoutX="510.0" layoutY="164.0" prefHeight="18.0" prefWidth="62.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 12px;" text="0" />
+      <Button id="compareBtn" fx:id="compareBtn" layoutX="338.0" layoutY="190.0" mnemonicParsing="false" onAction="#compareFunc" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;" text="Compare" />
    </children>
 </AnchorPane>

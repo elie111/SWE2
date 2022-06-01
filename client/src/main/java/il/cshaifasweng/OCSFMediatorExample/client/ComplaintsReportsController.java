@@ -11,10 +11,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -53,27 +50,72 @@ public class ComplaintsReportsController implements Initializable {
 
     private static ArrayList<Complaint> compList=new ArrayList<>();
     private int numComp=0;
+    private static SimpleClient client;
 
     public static void setComplaints(ArrayList<Complaint> complaints) {
         ComplaintsReportsController.compList=complaints;
     }
 
-    @FXML void getDetails(ActionEvent event) {
-
+    @FXML
+    public void getDetails(ActionEvent event) throws IOException {
+        if(userNameBtn.getText().equals("Register / Login")) {
+            App.setRoot("LoginOrSignupBoundary");
+        }
+        else {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Do you wish to disconnect?");
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setRoot("LoginOrSignupBoundary");
+                EntityHolder.setTable(-1);
+                EntityHolder.setUser(null);
+                EntityHolder.setEmployee(null);
+                EntityHolder.setStoreM(null);
+                EntityHolder.setChainM(null);
+                EntityHolder.setID(-1);
+                CatalogBoundaryController c = new CatalogBoundaryController();
+                c.refreshAfterDisconnect();
+            }
+        }
     }
 
     @FXML
     void returnFunc(ActionEvent event) throws IOException {
         App.setRoot("ManageStore");
-//        App.setRoot("ManageChainController"); // if the manager is a chain manager
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client = SimpleClient.getClient();
+        ArrayList<Object> arr3 = new ArrayList<>();
+        arr3.add("#getcomplaints");
+        try {
+            client.sendToServer(arr3);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(EntityHolder.getTable() == -1) {
+            userNameBtn.setText("Register / Login");
+        }
+        else {
+            if(EntityHolder.getTable() == 0) {
+                userNameBtn.setText(EntityHolder.getUser().getName());
+            }
+            else if(EntityHolder.getTable() == 1) {
+                userNameBtn.setText(EntityHolder.getEmployee().getName());
+            }
+            else if(EntityHolder.getTable() == 2) {
+                userNameBtn.setText(EntityHolder.getStoreM().getName());
+            }
+            else if(EntityHolder.getTable() == 3) {
+                userNameBtn.setText(EntityHolder.getChainM().getName());
+            }
+        }
         LocalDate s = LocalDate.now();
         endDate.setValue(s);
-        startDate.setValue(s.minusDays(7));
+        startDate.setValue(s.minusDays(6));
         try {
             initchart();
         } catch (ParseException e) {
@@ -89,13 +131,13 @@ public class ComplaintsReportsController implements Initializable {
         XYChart.Series dataSeries1 = new XYChart.Series();
         dataSeries1.setName("Complaints");
 
-                 int [] reportsPerMonth=new int[(int)dur];
+                 int [] reportsPerMonth=new int[(int)dur+1];
                  for(int i=0;i<compList.size();i++) {
                      String sDate1 = compList.get(i).getDateTime();
                      Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
 
                      if(date1.after(Date.from((startDate.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                             &&date1.before(Date.from(endDate.getValue().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                             &&date1.before(Date.from(endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
                          long index=Math.abs(Duration.between(date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(), startDate.getValue().atStartOfDay()).toDays());;
                          reportsPerMonth[(int)index]+=1;
                          numComp+=1;
@@ -105,7 +147,7 @@ public class ComplaintsReportsController implements Initializable {
                  }
                  for(int i=0;i<reportsPerMonth.length;i++){
 
-                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd");
+                     DateFormat dateFormat = new SimpleDateFormat("MMM-dd");
                      Date date2=Date.from((startDate.getValue()).plusDays(i).atStartOfDay(ZoneId.systemDefault()).toInstant());
                      String strDate = dateFormat.format(date2);
                      dataSeries1.getData().add(new XYChart.Data(strDate, reportsPerMonth[i]));

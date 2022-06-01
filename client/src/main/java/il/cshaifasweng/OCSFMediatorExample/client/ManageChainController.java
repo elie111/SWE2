@@ -64,7 +64,7 @@ public class ManageChainController implements Initializable {
     }
     @FXML
     void compFunc(ActionEvent event) throws IOException {
-         App.setRoot("ComplaintsReportsBoundary");
+         App.setRoot("ComplaintsReportsChainBoundary");
     }
 
 
