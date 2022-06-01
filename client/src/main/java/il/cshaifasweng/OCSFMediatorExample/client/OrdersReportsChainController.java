@@ -200,9 +200,9 @@ public class OrdersReportsChainController implements Initializable {
                 }
             }
         }
-            PieChart.Data slice1 = new PieChart.Data("Pot", pot1);
-            PieChart.Data slice2 = new PieChart.Data("Arrangment"  , arrang1);
-            PieChart.Data slice3 = new PieChart.Data("Bouquet" , boq1);
+            PieChart.Data slice1 = new PieChart.Data("Flower Pot", pot1);
+            PieChart.Data slice2 = new PieChart.Data("Flower Arrangement"  , arrang1);
+            PieChart.Data slice3 = new PieChart.Data("Bridal Bouquet" , boq1);
 
             ordersChart1.getData().add(slice1);
             ordersChart1.getData().add(slice2);
@@ -249,9 +249,9 @@ public class OrdersReportsChainController implements Initializable {
                 }
             }
         }
-            PieChart.Data slice11 = new PieChart.Data("Pot", pot2);
-            PieChart.Data slice12 = new PieChart.Data("Arrangment"  , arrang2);
-            PieChart.Data slice13 = new PieChart.Data("Bouquet" , boq2);
+            PieChart.Data slice11 = new PieChart.Data("Flower Pot", pot2);
+            PieChart.Data slice12 = new PieChart.Data("Flower Arrangement"  , arrang2);
+            PieChart.Data slice13 = new PieChart.Data("Bridal Bouquet" , boq2);
 
             ordersChart2.getData().add(slice11);
             ordersChart2.getData().add(slice12);
