@@ -15,17 +15,19 @@ public class Complaint implements Serializable {
     private String dateTime;
     // order number
     private int orderId;
-    // status of complaint: 1 = submitted, 2 = in process, 3 = closed
+    // status of complaint: 1 = submitted, 2 = closed
     private int status;
     private int userId;
+    private double price;
 
-    public Complaint(int userId, int orderId, String content, String dateTime, int status) {
+    public Complaint(int userId, int orderId, String content, String dateTime, int status, double price) {
         super();
         this.userId = userId;
         this.orderId = orderId;
         this.content = content;
         this.dateTime = dateTime;
         this.status = status;
+        this.price = price;
     }
 
     public Complaint() {
@@ -78,5 +80,13 @@ public class Complaint implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -167,6 +167,13 @@ public class CatalogEmployeeController implements Initializable {
                 e.printStackTrace();
             }
         }
+        else if(i == 3) {
+            try {
+                moveToComplaintList();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void moveToUpdate() throws IOException {
@@ -229,6 +236,12 @@ public class CatalogEmployeeController implements Initializable {
 
     @FXML
     public void complaintList(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#ComplaintListE");
+        App.getClient().sendToServer(arr);
+    }
+
+    public void moveToComplaintList() throws IOException {
         App.setRoot("ComplaintListEmployee");
     }
 }

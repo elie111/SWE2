@@ -579,6 +579,10 @@ public class OrderPickUpBoundaryController implements Initializable {
     }
 
     public boolean checkMonthYear(String month, String year) {
+        if(month == null || year == null) {
+            return false;
+        }
+
         String monthAndYear = "20" + year + "-" + month + "-" + "01";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
@@ -653,6 +657,7 @@ public class OrderPickUpBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getAccount());
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
         App.getClient().sendToServer(arr);
@@ -677,6 +682,7 @@ public class OrderPickUpBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getAccount());
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
         App.getClient().sendToServer(arr);
@@ -709,6 +715,8 @@ public class OrderPickUpBoundaryController implements Initializable {
         else if(p > 0) {
             arr.add(refund);
         }
+        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getEmail());
 
         App.getClient().sendToServer(arr);
         moveOn();

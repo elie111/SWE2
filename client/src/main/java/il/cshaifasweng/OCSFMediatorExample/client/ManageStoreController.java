@@ -17,7 +17,9 @@ import java.util.ResourceBundle;
 public class ManageStoreController implements Initializable {
     @FXML private Text storeML;
     @FXML private Button userName;
-    @FXML private Button reportBtn;
+    @FXML private Button incomeBtn;
+    @FXML private Button ordersBtn;
+    @FXML private Button complaintBtn;
 
     private String Email;
 

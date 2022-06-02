@@ -9,15 +9,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class OrderListEmployeeController implements Initializable {
-    @FXML
-    private Text OrderListL;
+    @FXML private Text OrderListL;
     @FXML private Button userName;
 
     @FXML private TableView<OrderHolder> tableView;
@@ -115,6 +119,11 @@ public class OrderListEmployeeController implements Initializable {
             msg.add(index);
 
             App.getClient().sendToServer(msg);
+            if(list.get(index).getReceiverName().equals(list.get(index).getName())) {}
+            else {
+                sendEmail(list.get(index).getEmail(), list.get(index).getOrderID());
+            }
+
             message();
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
         }
@@ -125,5 +134,40 @@ public class OrderListEmployeeController implements Initializable {
         a.setTitle("Message");
         a.setHeaderText("Order has been supplied");
         a.showAndWait();
+    }
+
+    public void sendEmail(String email, String orderID) {
+        final String username = "lilachservice@yahoo.com";
+        final String password = "ogpmilcfzbcomkqx";
+        String fromEmail = "lilachservice@yahoo.com";
+        String toEmail = email;
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.mail.yahoo.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        MimeMessage msg = new MimeMessage(session);
+
+        try {
+            msg.setFrom(new InternetAddress(fromEmail));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            String subject = "About your order, number " + orderID;
+            msg.setSubject(subject);
+            msg.setText("Your order has been supplied!");
+            Transport.send(msg);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        // session.close();
+
     }
 }

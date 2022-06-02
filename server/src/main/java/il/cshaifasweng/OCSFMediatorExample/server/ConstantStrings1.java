@@ -125,11 +125,11 @@ public class ConstantStrings1 {
     };
 
     public static final String[] userEmails = {
-            "Yael1@gmail.com",
-            "avital77b@gmail.com",
-            "I1n2b3a4r5@gmail.com",
-            "fa87@gmail.com",
-            "EliHa@gmail.com",
+            "yael1234n@gmail.com",
+            "avitalbere@gmail.com",
+            "inbar.lev.tov@gmail.com",
+            "fesalsadi@gmail.com",
+            "haddadelie12@gmail.com",
             "1956brandon@gmail.com",
             "CarrieBradshaw@gmail.com",
             "Dave444F@gmail.com",
@@ -268,6 +268,22 @@ public class ConstantStrings1 {
             0
     };
 
+    public static final int[] userStatus = {
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+    };
+
     public static final String[] employeesNames = {
             "Melinda French Gates",
             "MacKenzie Scott",
@@ -284,6 +300,12 @@ public class ConstantStrings1 {
             "16sghancbdgsf",
             "1827hdnnn",
             "halwkd777"
+    };
+
+    public static final int[] employeeStatus = {
+            1,
+            1,
+            1
     };
 
     public static final String[] storeMNames = {
@@ -316,5 +338,13 @@ public class ConstantStrings1 {
             "New York",
             "Eilat",
             "London"
+    };
+
+    public static final int[] storeMStatus = {
+            1,
+            1,
+            1,
+            1,
+            1
     };
 }

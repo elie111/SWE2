@@ -55,13 +55,15 @@ public class SimpleServer extends AbstractServer {
 			}
 			// sign up a new user
 			if((arr.get(0)).equals("#register")) {
+				// creating user in database
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
 									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
 									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
-									 (String)arr.get(10), (double)arr.get(11));
+									 (String)arr.get(10), (double)arr.get(11), (int)arr.get(12));
 				userController.addUser(user);
 				session.getTransaction().commit();
 
+				// sending user details to Entity Holder in client
 				List<User> list = userController.getAllData(User.class);
 				String eMail = "", password = "";
 				String myMail = (String)arr.get(3);
@@ -84,6 +86,7 @@ public class SimpleServer extends AbstractServer {
 							answers.add(list.get(i).getAccount());
 							answers.add(list.get(i).getStoreOrNull());
 							answers.add(list.get(i).getRefund());
+							answers.add(list.get(i).getStatus());
 							answers.add(list.get(i).getID());
 							client.sendToClient(answers);
 						}
@@ -93,6 +96,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			// login for users, employees, store Managers, Chain manager
 			if((arr.get(0)).equals("#loginUser")) {
+				// choose one, gather it's details and then send them to client
 				if((arr.get(1)).equals("User")) {
 					List<User> list = userController.getAllData(User.class);
 					loginUser(arr, list, answers);
@@ -118,7 +122,7 @@ public class SimpleServer extends AbstractServer {
 										(String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
 										(double)arr.get(10), (String)arr.get(11), (String)arr.get(12),
 										(String)arr.get(13), (int)arr.get(14), (int)arr.get(15),
-										(double)arr.get(16));
+										(double)arr.get(16), (String)arr.get(17), (String)arr.get(18));
 				orderController.addOrder(item);
 				session.getTransaction().commit();
 			}
@@ -127,8 +131,8 @@ public class SimpleServer extends AbstractServer {
 				User user = new User((String)arr.get(1), (String)arr.get(2), (String)arr.get(3),
 									 (String)arr.get(4), (String)arr.get(5), (String)arr.get(6),
 									 (String)arr.get(7), (String)arr.get(8), (String)arr.get(9),
-									 (String)arr.get(10), (double)arr.get(11));
-				int currentID = (int)arr.get(12);
+									 (String)arr.get(10), (double)arr.get(11), (int)arr.get(12));
+				int currentID = (int)arr.get(13);
 				userController.updateData(currentID, user);
 				session.getTransaction().commit();
 			}
@@ -189,9 +193,10 @@ public class SimpleServer extends AbstractServer {
 				for(int i = 0; i < list.size(); i++) {
 					if(myOrderId == list.get(i).getOrderID()) {
 						if(myUserId == list.get(i).getUserID()) {
+							double p = list.get(i).getFinalPrice() + list.get(i).getRefund();
 							Complaint complaint = new Complaint((int)arr.get(1), (int)arr.get(2),
 																(String)arr.get(3), (String)arr.get(4),
-																(int) arr.get(5));
+																(int)arr.get(5), p);
 							complaintController.addComplaint(complaint);
 							session.getTransaction().commit();
 							answers.add("#complaintAdded");
@@ -281,7 +286,43 @@ public class SimpleServer extends AbstractServer {
 			if((arr.get(0)).equals("#disconnecting")) {
 				String Email = (String)arr.get(1);
 				connected.remove(Email);
+				// System.out.println(connected);
 			}
+			// complaint list - employee
+			if((arr.get(0)).equals("#ComplaintListE")) {
+				ArrayList<Complaint> list = (ArrayList<Complaint>)complaintController.getAllData(Complaint.class);
+				answers.add("#ComplaintListE");
+				answers.add(list);
+				client.sendToClient(answers);
+			}
+			// handling complaint - employee
+			if((arr.get(0)).equals("#closeComplaint")) {
+				List<Complaint> list = complaintController.getAllData(Complaint.class);
+				List<User> list1 = userController.getAllData(User.class);
+//				List<Order> list = orderController.getAllData(Order.class);
+				int userID = (int)arr.get(1);
+				int orderID = (int)arr.get(2);
+				int complaintID = (int)arr.get(3);
+				double refund = (double)arr.get(4);
+
+				// update complaint
+				list.get(complaintID - 1).setStatus(2);
+				complaintController.updateData(complaintID, list.get(complaintID - 1));
+				// update user regarding refund
+				double userR = list1.get(userID - 1).getRefund() + refund;
+				list1.get(userID - 1).setRefund(userR);
+				userController.updateData(userID, list1.get(userID - 1));
+				// create refund in database
+				Refund r = new Refund(orderID, refund, userID);
+				refundController.addRefund(r);
+				session.getTransaction().commit();
+				// update entity, user, refund afterwards in client
+			}
+
+
+
+
+
 		}
 		catch (Exception exception) {
 			if (session != null) {
@@ -324,6 +365,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getAccount());
 					answers.add(list.get(i).getStoreOrNull());
 					answers.add(list.get(i).getRefund());
+					answers.add(list.get(i).getStatus());
 					answers.add(list.get(i).getID());
 					connected.add(eMail);
 					return;
@@ -341,7 +383,7 @@ public class SimpleServer extends AbstractServer {
 			eMail = list.get(i).getEmail();
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
-				if(password.equals(myPassword)) {
+				if(password.equals(myPassword) && list.get(i).getStatus() == 1) {
 					if(connected.contains(eMail)) {
 						answers.add("#connectEntity");
 						answers.add(false);
@@ -353,6 +395,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getName());
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
+					answers.add(list.get(i).getStatus());
 					answers.add(list.get(i).getId());
 					connected.add(eMail);
 					return;
@@ -370,7 +413,7 @@ public class SimpleServer extends AbstractServer {
 			eMail = list.get(i).getEmail();
 			if(eMail.equals(myMail)) {
 				password = list.get(i).getPassword();
-				if(password.equals(myPassword)) {
+				if(password.equals(myPassword) && list.get(i).getStatus() == 1) {
 					if(connected.contains(eMail)) {
 						answers.add("#connectEntity");
 						answers.add(false);
@@ -383,6 +426,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getStoreName());
+					answers.add(list.get(i).getStatus());
 					answers.add(list.get(i).getId());
 					connected.add(eMail);
 					return;

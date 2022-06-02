@@ -241,6 +241,10 @@ public class OrderDeliveryBoundaryController implements Initializable {
                 globalP *= 0.9;
             }
         }
+
+        // delivery cost
+        p += 10;
+        globalP += 10;
     }
 
     @FXML
@@ -279,6 +283,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
                 flowersList.add(key);
             }
         }
+        cartList.add("Delivery");
         list.getItems().addAll(cartList);
     }
 
@@ -514,6 +519,18 @@ public class OrderDeliveryBoundaryController implements Initializable {
         if(a.trim().isEmpty()) {
             return false;
         }
+
+        char c;
+        for(int i = 0; i < a.length(); i++) {
+            c = a.charAt(i);
+            if (Character.isLetter(c) || c == ' ' || (c >= '0' && c <= '9')) {
+                continue;
+            }
+            else {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -689,6 +706,10 @@ public class OrderDeliveryBoundaryController implements Initializable {
     }
 
     public boolean checkMonthYear(String month, String year) {
+        if(month == null || year == null) {
+            return false;
+        }
+
         String monthAndYear = "20" + year + "-" + month + "-" + "01";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.parse(LocalDate.now().toString(), formatter);
@@ -769,6 +790,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getAccount());
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
         App.getClient().sendToServer(arr);
@@ -793,6 +815,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getAccount());
         arr.add(EntityHolder.getUser().getStoreOrNull());
         arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
         App.getClient().sendToServer(arr);
@@ -825,6 +848,8 @@ public class OrderDeliveryBoundaryController implements Initializable {
         else if(p > 0) {
             arr.add(refund);
         }
+        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getEmail());
 
         App.getClient().sendToServer(arr);
         moveOn();

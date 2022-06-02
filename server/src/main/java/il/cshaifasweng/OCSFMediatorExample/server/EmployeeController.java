@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Employee;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
@@ -22,5 +23,21 @@ public class EmployeeController {
         CriteriaQuery<T> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
+    }
+
+    public void updateData(int id, Employee employee) throws Exception {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Employee> criteriaQuery = builder.createQuery(Employee.class);
+        Root<Employee> rootEntry = criteriaQuery.from(Employee.class);
+        CriteriaQuery<Employee> allCriteriaQuery = criteriaQuery.select(rootEntry);
+        TypedQuery<Employee> allQuery = session.createQuery(allCriteriaQuery);
+
+        allQuery.getResultList().get(id - 1).setEmail(employee.getEmail());
+        allQuery.getResultList().get(id - 1).setPassword(employee.getPassword());
+        allQuery.getResultList().get(id - 1).setName(employee.getName());
+        allQuery.getResultList().get(id - 1).setStatus(employee.getStatus());
+
+        session.update(allQuery.getResultList().get(id - 1));
+        session.flush();
     }
 }

@@ -13,12 +13,15 @@ public class Employee implements Serializable {
     private String email;
     private String password;
     private String userName;
+    // 1 active, 2 not active
+    private int status;
 
-    public Employee(String userName, String email, String password) {
+    public Employee(String userName, String email, String password, int status) {
         super();
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.status = status;
     }
 
     public Employee() {
@@ -55,5 +58,13 @@ public class Employee implements Serializable {
 
     public void setName(String userName) {
         this.userName = userName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

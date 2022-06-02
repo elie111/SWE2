@@ -67,12 +67,11 @@ public class UpdateFlowerEmployeeController implements Initializable {
         }
 
         chooseType.getItems().addAll("Flower Pot", "Bridal Bouquet", "Flower Arrangement");
-        String path = "C:\\Users\\inbar lev tov\\Desktop\\software 2022\\project\\SWE2\\client\\src\\main\\resources\\il\\cshaifasweng\\OCSFMediatorExample\\client\\Images";
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        for (File f: listOfFiles) {
-            chooseImage.getItems().add(f.getName());
-        }
+        chooseImage.getItems().addAll("Azalea.jpg", "beamingblush.jpg", "CallaLily.jpg", "DaffodilDoubleMix.jpg",
+                                          "delphiniumcheerblue.jpg", "dreamypink.jpg", "freesiaFlowers.jpg",
+                                          "homemadetreat.jpg", "ignited.jpg", "inmarcible.jpg", "IrisBouquet.jpg",
+                                          "romanticstarryblue.jpg", "roseat.jpg", "smileyroses.jpg",
+                                          "velvet.jpg", "wildcherry.jpg", "yellow.jpg", "DesertBluebells.jpg");
         chooseColor.getItems().addAll("pink", "red", "yellow", "blue");
         chooseStatus.getItems().addAll("Active", "Not Active");
         ChooseSale.getItems().addAll("True", "False");

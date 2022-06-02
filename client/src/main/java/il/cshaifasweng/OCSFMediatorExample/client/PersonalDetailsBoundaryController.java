@@ -50,6 +50,8 @@ public class PersonalDetailsBoundaryController implements Initializable {
 
     @FXML private Label refundLabel1;
     @FXML private Label refundLabel2;
+    @FXML private Label statusL;
+    @FXML private Label statusField;
     private String Email;
 
     @Override
@@ -132,6 +134,12 @@ public class PersonalDetailsBoundaryController implements Initializable {
 
         String pricetxt = EntityHolder.getUser().getRefund() + " $";
         refundLabel2.setText(pricetxt);
+        if(EntityHolder.getUser().getStatus() == 1) {
+            statusField.setText("Active");
+        }
+        else {
+            statusField.setText("Not Active");
+        }
 
         textName.setEditable(false);
         textID.setEditable(false);
@@ -486,6 +494,7 @@ public class PersonalDetailsBoundaryController implements Initializable {
             arr.add(s);
         }
         arr.add(EntityHolder.getUser().getRefund());
+        arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
         EntityHolder.getUser().setName(name);

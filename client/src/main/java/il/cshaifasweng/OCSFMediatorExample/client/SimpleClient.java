@@ -21,8 +21,9 @@ public class SimpleClient extends AbstractClient {
 
 	public static SimpleClient getClient() {
 		if (client == null) {
-			System.out.println("please enter the IP address and then the port number: ");
-			client = new SimpleClient(sc.next(), sc.nextInt());
+//			System.out.println("please enter the IP address and then the port number: ");
+//			client = new SimpleClient(sc.next(), sc.nextInt());
+			client = new SimpleClient("localhost", 3000);
 		}
 		return client;
 	}
@@ -53,8 +54,8 @@ public class SimpleClient extends AbstractClient {
 								 (String)msgArray.get(5), (String)msgArray.get(6),
 								 (String)msgArray.get(7), (String)msgArray.get(8),
 								 (String)msgArray.get(9), (String)msgArray.get(10),
-								 (double)msgArray.get(11));
-			int id = (int)msgArray.get(12);
+								 (double)msgArray.get(11), (int)msgArray.get(12));
+			int id = (int)msgArray.get(13);
 			EntityHolder.setUser(user);
 			EntityHolder.setID(id);
 			RegistrationBoundaryController r = new RegistrationBoundaryController();
@@ -70,8 +71,8 @@ public class SimpleClient extends AbstractClient {
 										 (String)msgArray.get(7), (String)msgArray.get(8),
 										 (String)msgArray.get(9), (String)msgArray.get(10),
 										 (String)msgArray.get(11), (String)msgArray.get(12),
-										 (double)msgArray.get(13));
-					int id = (int)msgArray.get(14);
+										 (double)msgArray.get(13), (int)msgArray.get(14));
+					int id = (int)msgArray.get(15);
 					EntityHolder.setUser(user);
 					EntityHolder.setID(id);
 					LoginBoundaryController loginController = new LoginBoundaryController();
@@ -79,10 +80,9 @@ public class SimpleClient extends AbstractClient {
 				}
 				else if(msgArray.get(2).equals("Employee")) {
 					EntityHolder.setTable(1);
-					Employee employee = new Employee((String)msgArray.get(3),
-													 (String)msgArray.get(4),
-													 (String)msgArray.get(5));
-					int id = (int)msgArray.get(6);
+					Employee employee = new Employee((String)msgArray.get(3), (String)msgArray.get(4),
+													 (String)msgArray.get(5), (int)msgArray.get(6));
+					int id = (int)msgArray.get(7);
 					EntityHolder.setEmployee(employee);
 					EntityHolder.setID(id);
 					LoginBoundaryController loginController = new LoginBoundaryController();
@@ -90,11 +90,10 @@ public class SimpleClient extends AbstractClient {
 				}
 				else if(msgArray.get(2).equals("Store Manager")) {
 					EntityHolder.setTable(2);
-					StoreManager storeManager = new StoreManager((String)msgArray.get(3),
-																 (String)msgArray.get(4),
-																 (String)msgArray.get(5),
-																 (String)msgArray.get(6));
-					int id = (int)msgArray.get(7);
+					StoreManager storeManager = new StoreManager((String)msgArray.get(3), (String)msgArray.get(4),
+																 (String)msgArray.get(5), (String)msgArray.get(6),
+																 (int)msgArray.get(7));
+					int id = (int)msgArray.get(8);
 					EntityHolder.setStoreM(storeManager);
 					EntityHolder.setID(id);
 					LoginBoundaryController loginController = new LoginBoundaryController();
@@ -191,7 +190,8 @@ public class SimpleClient extends AbstractClient {
 					// int orderID, String receiverName, String flowers, String dateTime, String address, int where
 					OrderHolder o = new OrderHolder(list.get(i).getOrderID(), list.get(i).getReceiverName(),
 													list.get(i).getFlowers(), list.get(i).getDateTime(),
-													list.get(i).getAddress(), index, list.get(i).getId());
+													list.get(i).getAddress(), index,
+													list.get(i).getName(), list.get(i).getEmail());
 					newList.add(o);
 				}
 			}
@@ -200,7 +200,27 @@ public class SimpleClient extends AbstractClient {
 			CatalogEmployeeController c = new CatalogEmployeeController();
 			c.nextStep(2);
 		}
+		// complaint list - employee
+		if(msgArray.get(0).equals("#ComplaintListE")) {
+			ArrayList<Complaint> list = (ArrayList<Complaint>)msgArray.get(1);
+			ObservableList<ComplaintHolder> newList = FXCollections.observableArrayList();
 
+			for(int i = 0; i < list.size(); i++) {
+				if(list.get(i).getStatus() == 1) {
+					ComplaintHolder c = new ComplaintHolder(list.get(i).getOrderId(),
+															list.get(i).getUserId(),
+															list.get(i).getContent(),
+															list.get(i).getDateTime(),
+															list.get(i).getId(), list.get(i).getPrice());
+					newList.add(c);
+				}
+			}
+
+			ComplaintListEmployeeController.setComplaints(newList);
+			CatalogEmployeeController c = new CatalogEmployeeController();
+			c.nextStep(3);
+		}
+		// handling complaint - employee
 
 	}
 

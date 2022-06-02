@@ -355,7 +355,9 @@ public class RegistrationBoundaryController implements Initializable {
             arr.add(storeOrNull);
         }
         double refund = 0;
+        int status = 1;
         arr.add(refund);
+        arr.add(status);
 
         App.getClient().sendToServer(arr);
     }

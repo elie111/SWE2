@@ -29,4 +29,22 @@ public class ComplaintController {
         session.save(complaint);
         session.flush();
     }
+
+    public void updateData(int id, Complaint complain) throws Exception {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Complaint> criteriaQuery = builder.createQuery(Complaint.class);
+        Root<Complaint> rootEntry = criteriaQuery.from(Complaint.class);
+        CriteriaQuery<Complaint> allCriteriaQuery = criteriaQuery.select(rootEntry);
+        TypedQuery<Complaint> allQuery = session.createQuery(allCriteriaQuery);
+
+        allQuery.getResultList().get(id - 1).setContent(complain.getContent());
+        allQuery.getResultList().get(id - 1).setDateTime(complain.getDateTime());
+        allQuery.getResultList().get(id - 1).setOrderId(complain.getOrderId());
+        allQuery.getResultList().get(id - 1).setStatus(complain.getStatus());
+        allQuery.getResultList().get(id - 1).setUserId(complain.getUserId());
+        allQuery.getResultList().get(id - 1).setPrice(complain.getPrice());
+
+        session.update(allQuery.getResultList().get(id - 1));
+        session.flush();
+    }
 }

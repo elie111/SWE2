@@ -19,12 +19,13 @@ public class User implements Serializable {
     private String password;
     private String phone;
     private double refund;
+    private int status;
     private String storeOrNull;
     private String userName;
 
     public User(String name, String identificationNumber, String email, String phone, String credit,
                 String monthAndYear, String cvv, String password, String account, String storeOrNull,
-                double refund) {
+                double refund, int status) {
         super();
         this.userName = name;
         this.identificationNumber = identificationNumber;
@@ -37,6 +38,7 @@ public class User implements Serializable {
         this.account = account;
         this.storeOrNull = storeOrNull;
         this.refund = refund;
+        this.status = status;
     }
 
     public User() {
@@ -127,11 +129,23 @@ public class User implements Serializable {
         return id;
     }
 
+    public void setID(int ID) {
+        this.id = ID;
+    }
+
     public double getRefund() {
         return refund;
     }
 
     public void setRefund(double refund) {
         this.refund = refund;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

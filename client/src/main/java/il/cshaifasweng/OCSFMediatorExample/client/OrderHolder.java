@@ -8,7 +8,8 @@ public class OrderHolder {
     private String status;
     private String receiverName;
     private String address;
-    private int realID;
+    private String name;
+    private String email;
 
     public OrderHolder(int orderID, String dateTime, double finalPrice, String flowers, int status) {
         this.orderID = Integer.toString(orderID);
@@ -29,11 +30,13 @@ public class OrderHolder {
     }
 
     public OrderHolder(int orderID, String receiverName, String flowers, String dateTime,
-                       String address, int where, int realID) {
+                       String address, int where, String name, String email) {
         this.orderID = Integer.toString(orderID);
         this.receiverName = receiverName;
         this.flowers = flowers;
         this.dateTime = dateTime;
+        this.name = name;
+        this.email = email;
 
         // "Haifa", "Tel Aviv", "New york", "Eilat", "London" "Delivery"
         if(where == 1) {
@@ -54,8 +57,6 @@ public class OrderHolder {
         else if (where == 6) {
             this.address = address;
         }
-
-        this.realID = realID;
     }
 
     public String getOrderID() {
@@ -112,5 +113,21 @@ public class OrderHolder {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

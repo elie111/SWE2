@@ -26,13 +26,16 @@ public class Order implements Serializable {
     private int status;
     private String storeName;
     private int userID;
+    private String name;
+    private String email;
 
     private String flowers;
 
     public Order(int userID, String flowers, String card, String formOfSupplying,
                  String storeName, String address, String receiverName, String receiverEmail,
                  String dateTime, double finalPrice, String credit, String cvv,
-                 String monthAndYear, int status, int orderID, double refund) {
+                 String monthAndYear, int status, int orderID, double refund,
+                 String name, String email) {
         super();
         this.address = address;
         this.card = card;
@@ -50,6 +53,8 @@ public class Order implements Serializable {
         this.storeName = storeName;
         this.userID = userID;
         this.flowers = flowers;
+        this.name = name;
+        this.email = email;
     }
 
     public Order() {
@@ -136,11 +141,11 @@ public class Order implements Serializable {
         this.receiverName = receiverName;
     }
 
-    public String getReceiverPhone() {
+    public String getReceiverEmail() {
         return receiverEmail;
     }
 
-    public void setReceiverPhone(String receiverPhone) {
+    public void setReceiverEmail(String receiverPhone) {
         this.receiverEmail = receiverPhone;
     }
 
@@ -190,5 +195,21 @@ public class Order implements Serializable {
 
     public void setRefund(double refund) {
         this.refund = refund;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

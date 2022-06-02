@@ -47,11 +47,13 @@ public class OrderController {
         allQuery.getResultList().get(id - 1).setMonthAndYear(order.getMonthAndYear());
         allQuery.getResultList().get(id - 1).setOrderID(order.getOrderID());
         allQuery.getResultList().get(id - 1).setReceiverName(order.getReceiverName());
-        allQuery.getResultList().get(id - 1).setReceiverPhone(order.getReceiverPhone());
+        allQuery.getResultList().get(id - 1).setReceiverEmail(order.getReceiverEmail());
         allQuery.getResultList().get(id - 1).setRefund(order.getRefund());
         allQuery.getResultList().get(id - 1).setStatus(order.getStatus());
         allQuery.getResultList().get(id - 1).setStoreName(order.getStoreName());
         allQuery.getResultList().get(id - 1).setUserID(order.getUserID());
+        allQuery.getResultList().get(id - 1).setName(order.getName());
+        allQuery.getResultList().get(id - 1).setEmail(order.getEmail());
         allQuery.getResultList().get(id - 1).setFlowers(order.getFlowers());
 
         session.update(allQuery.getResultList().get(id - 1));

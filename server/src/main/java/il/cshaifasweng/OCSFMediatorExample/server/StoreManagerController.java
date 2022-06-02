@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.StoreManager;
 import org.hibernate.Session;
 
 import javax.persistence.TypedQuery;
@@ -22,5 +23,22 @@ public class StoreManagerController {
         CriteriaQuery<T> allCriteriaQuery = criteriaQuery.select(rootEntry);
         TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
         return allQuery.getResultList();
+    }
+
+    public void updateData(int id, StoreManager storeManager) throws Exception {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<StoreManager> criteriaQuery = builder.createQuery(StoreManager.class);
+        Root<StoreManager> rootEntry = criteriaQuery.from(StoreManager.class);
+        CriteriaQuery<StoreManager> allCriteriaQuery = criteriaQuery.select(rootEntry);
+        TypedQuery<StoreManager> allQuery = session.createQuery(allCriteriaQuery);
+
+        allQuery.getResultList().get(id - 1).setEmail(storeManager.getEmail());
+        allQuery.getResultList().get(id - 1).setPassword(storeManager.getPassword());
+        allQuery.getResultList().get(id - 1).setStoreName(storeManager.getStoreName());
+        allQuery.getResultList().get(id - 1).setName(storeManager.getName());
+        allQuery.getResultList().get(id - 1).setStatus(storeManager.getStatus());
+
+        session.update(allQuery.getResultList().get(id - 1));
+        session.flush();
     }
 }

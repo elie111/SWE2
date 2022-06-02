@@ -14,13 +14,16 @@ public class StoreManager implements Serializable {
     private String password;
     private String storeName;
     private String userName;
+    // 1 active, 2 not active
+    private int status;
 
-    public StoreManager(String userName, String email, String password, String storeName) {
+    public StoreManager(String userName, String email, String password, String storeName, int status) {
         super();
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.storeName = storeName;
+        this.status = status;
     }
 
     public StoreManager() {
@@ -65,5 +68,13 @@ public class StoreManager implements Serializable {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

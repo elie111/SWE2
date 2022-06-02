@@ -386,6 +386,12 @@ public class CatalogBoundaryController implements Initializable {
             a.setHeaderText("You must be logged in to your account");
             a.showAndWait();
         }
+        else if(EntityHolder.getUser().getStatus() == 2) {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("Message");
+            a.setHeaderText("Your account is blocked!");
+            a.showAndWait();
+        }
         else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -400,7 +406,7 @@ public class CatalogBoundaryController implements Initializable {
             }
 
             alert.setTitle("Question");
-            alert.setHeaderText("Choose delivery or pick up your order yourself");
+            alert.setHeaderText("Choose delivery or pick up your order yourself\n(Delivery costs 10$)");
             ButtonType deliveryBtn = new ButtonType("Delivery");
             ButtonType pickUpBtn = new ButtonType("Pick Up");
             alert.getButtonTypes().setAll(deliveryBtn, pickUpBtn);

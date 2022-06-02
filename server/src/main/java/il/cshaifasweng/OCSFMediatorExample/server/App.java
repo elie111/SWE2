@@ -47,8 +47,9 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("please enter the port number: ");
-        server = new SimpleServer(sc.nextInt());
+        // System.out.println("please enter the port number: ");
+        //server = new SimpleServer(sc.nextInt());
+        server = new SimpleServer(3000);
         server.listen();
 
         try {
@@ -76,18 +77,21 @@ public class App {
                                          c.userEmails[i], c.userPhoneNumbers[i],
                                          c.userCreditNumbers[i], c.userMonthAndYears[i],
                                          c.userCVVNumbers[i], c.userPasswords[i],
-                                         c.userAccounts[i], c.userStores[i], c.userRefund[i]);
+                                         c.userAccounts[i], c.userStores[i],
+                                         c.userRefund[i], c.userStatus[i]);
                 session.save(userItem);
             }
             // employees
             for(int i = 0; i < c.employeesNames.length; i++) {
-                Employee employeeItem = new Employee(c.employeesNames[i], c.employeesEmails[i], c.employeesPasswords[i]);
+                Employee employeeItem = new Employee(c.employeesNames[i], c.employeesEmails[i],
+                                                     c.employeesPasswords[i], c.employeeStatus[i]);
                 session.save(employeeItem);
             }
             // store managers
             for(int i = 0; i < c.storeMNames.length; i++) {
                 StoreManager storeMItem = new StoreManager(c.storeMNames[i], c.storeMEmails[i],
-                                                           c.storeMPasswords[i], c.storeMUniqueStore[i]);
+                                                           c.storeMPasswords[i], c.storeMUniqueStore[i],
+                                                           c.storeMStatus[i]);
                 session.save(storeMItem);
             }
             // a single chain manager

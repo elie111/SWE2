@@ -17,7 +17,10 @@ import java.util.ResourceBundle;
 public class ManageChainController implements Initializable {
     @FXML private Text chainML;
     @FXML private Button userName;
-    @FXML private Button addBtn;
+    @FXML private Button incomeBtn;
+    @FXML private Button ordersBtn;
+    @FXML private Button complaintBtn;
+    @FXML private Button changeBtn;
 
     private String Email;
 
