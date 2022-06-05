@@ -61,15 +61,15 @@ public class PersonalDetailsBoundaryController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -100,7 +100,7 @@ public class PersonalDetailsBoundaryController implements Initializable {
     }
 
     public void firstSettings() {
-        textName.setText(EntityHolder.getUser().getName());
+        textName.setText(EntityHolder.getUser().getUserName());
         textID.setText(EntityHolder.getUser().getId());
         textEmail.setText(EntityHolder.getUser().getEmail());
         textPhone.setText(EntityHolder.getUser().getPhone());
@@ -497,7 +497,7 @@ public class PersonalDetailsBoundaryController implements Initializable {
         arr.add(EntityHolder.getUser().getStatus());
         arr.add(EntityHolder.getID());
 
-        EntityHolder.getUser().setName(name);
+        EntityHolder.getUser().setUserName(name);
         EntityHolder.getUser().setId(id);
         EntityHolder.getUser().setEmail(email);
         EntityHolder.getUser().setPhone(phone);

@@ -15,6 +15,7 @@ public class Employee implements Serializable {
     private String userName;
     // 1 active, 2 not active
     private int status;
+    private String statusForTable;
 
     public Employee(String userName, String email, String password, int status) {
         super();
@@ -52,11 +53,11 @@ public class Employee implements Serializable {
         this.password = password;
     }
 
-    public String getName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -66,5 +67,20 @@ public class Employee implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusForTable() {
+        if(status == 1) {
+            statusForTable = "Active";
+        }
+        else {
+            statusForTable = "Not Active";
+        }
+
+        return statusForTable;
+    }
+
+    public void setStatusForTable(String statusForTable) {
+        this.statusForTable = statusForTable;
     }
 }

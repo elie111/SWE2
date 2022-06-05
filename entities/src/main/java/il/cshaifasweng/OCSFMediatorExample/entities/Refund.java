@@ -15,12 +15,15 @@ public class Refund implements Serializable {
     private int userId;
 
     public Refund(int orderId, double refund, int userId) {
+        super();
         this.orderId = orderId;
         this.refund = refund;
         this.userId = userId;
     }
 
-    public Refund() {}
+    public Refund() {
+        super();
+    }
 
     public int getId() {
         return id;

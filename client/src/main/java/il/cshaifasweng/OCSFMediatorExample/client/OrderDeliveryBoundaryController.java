@@ -81,15 +81,15 @@ public class OrderDeliveryBoundaryController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -392,7 +392,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         String receiverN = "";
         String choice1 = chooseName.getSelectionModel().getSelectedItem();
         if(choice1.equals("My Name")) {
-            receiverN = EntityHolder.getUser().getName();
+            receiverN = EntityHolder.getUser().getUserName();
             answers[1] = true;
         }
         else {
@@ -779,7 +779,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
 
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getId());
         arr.add(EntityHolder.getUser().getEmail());
         arr.add(EntityHolder.getUser().getPhone());
@@ -804,7 +804,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
 
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getId());
         arr.add(EntityHolder.getUser().getEmail());
         arr.add(EntityHolder.getUser().getPhone());
@@ -848,7 +848,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         else if(p > 0) {
             arr.add(refund);
         }
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getEmail());
 
         App.getClient().sendToServer(arr);

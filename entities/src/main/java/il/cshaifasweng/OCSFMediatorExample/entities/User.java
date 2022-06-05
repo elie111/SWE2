@@ -22,6 +22,7 @@ public class User implements Serializable {
     private int status;
     private String storeOrNull;
     private String userName;
+    private String statusForTable;
 
     public User(String name, String identificationNumber, String email, String phone, String credit,
                 String monthAndYear, String cvv, String password, String account, String storeOrNull,
@@ -45,11 +46,11 @@ public class User implements Serializable {
         super();
     }
 
-    public String getName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setName(String name) {
+    public void setUserName(String name) {
         this.userName = name;
     }
 
@@ -147,5 +148,20 @@ public class User implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusForTable() {
+        if(status == 1) {
+            statusForTable = "Active";
+        }
+        else {
+            statusForTable = "Not Active";
+        }
+
+        return statusForTable;
+    }
+
+    public void setStatusForTable(String statusForTable) {
+        this.statusForTable = statusForTable;
     }
 }

@@ -10,7 +10,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
@@ -49,15 +48,15 @@ public class OrderListEmployeeController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -116,15 +115,17 @@ public class OrderListEmployeeController implements Initializable {
         if(index > -1) {
             ArrayList<Object> msg = new ArrayList<>();
             msg.add("#supplyOrder");
-            msg.add(index);
-
+            int orderNumber = Integer.parseInt(list.get(index).getOrderID());
+            msg.add(orderNumber);
             App.getClient().sendToServer(msg);
-            if(list.get(index).getReceiverName().equals(list.get(index).getName())) {}
+
+            if(list.get(index).getReceiverName().equals(list.get(index).getName())) {
+                message();
+            }
             else {
                 sendEmail(list.get(index).getEmail(), list.get(index).getOrderID());
             }
 
-            message();
             tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
         }
     }
@@ -161,13 +162,10 @@ public class OrderListEmployeeController implements Initializable {
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             String subject = "About your order, number " + orderID;
             msg.setSubject(subject);
-            msg.setText("Your order has been supplied!");
+            msg.setText("Your order has been supplied");
             Transport.send(msg);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-        // session.close();
-
     }
 }

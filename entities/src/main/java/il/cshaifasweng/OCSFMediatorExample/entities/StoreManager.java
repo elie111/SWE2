@@ -16,6 +16,7 @@ public class StoreManager implements Serializable {
     private String userName;
     // 1 active, 2 not active
     private int status;
+    private String statusForTable;
 
     public StoreManager(String userName, String email, String password, String storeName, int status) {
         super();
@@ -54,11 +55,11 @@ public class StoreManager implements Serializable {
         this.password = password;
     }
 
-    public String getName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -76,5 +77,20 @@ public class StoreManager implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusForTable() {
+        if(status == 1) {
+            statusForTable = "Active";
+        }
+        else {
+            statusForTable = "Not Active";
+        }
+
+        return statusForTable;
+    }
+
+    public void setStatusForTable(String statusForTable) {
+        this.statusForTable = statusForTable;
     }
 }

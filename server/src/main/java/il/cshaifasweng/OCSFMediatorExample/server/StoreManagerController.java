@@ -35,7 +35,7 @@ public class StoreManagerController {
         allQuery.getResultList().get(id - 1).setEmail(storeManager.getEmail());
         allQuery.getResultList().get(id - 1).setPassword(storeManager.getPassword());
         allQuery.getResultList().get(id - 1).setStoreName(storeManager.getStoreName());
-        allQuery.getResultList().get(id - 1).setName(storeManager.getName());
+        allQuery.getResultList().get(id - 1).setUserName(storeManager.getUserName());
         allQuery.getResultList().get(id - 1).setStatus(storeManager.getStatus());
 
         session.update(allQuery.getResultList().get(id - 1));

@@ -47,7 +47,7 @@ public class UserController {
         allQuery.getResultList().get(id - 1).setPhone(user.getPhone());
         allQuery.getResultList().get(id - 1).setRefund(user.getRefund());
         allQuery.getResultList().get(id - 1).setStoreOrNull(user.getStoreOrNull());
-        allQuery.getResultList().get(id - 1).setName(user.getName());
+        allQuery.getResultList().get(id - 1).setUserName(user.getUserName());
 
         session.update(allQuery.getResultList().get(id - 1));
         session.flush();

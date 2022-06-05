@@ -34,7 +34,7 @@ public class EmployeeController {
 
         allQuery.getResultList().get(id - 1).setEmail(employee.getEmail());
         allQuery.getResultList().get(id - 1).setPassword(employee.getPassword());
-        allQuery.getResultList().get(id - 1).setName(employee.getName());
+        allQuery.getResultList().get(id - 1).setUserName(employee.getUserName());
         allQuery.getResultList().get(id - 1).setStatus(employee.getStatus());
 
         session.update(allQuery.getResultList().get(id - 1));

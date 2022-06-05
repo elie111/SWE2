@@ -71,15 +71,15 @@ public class OrderPickUpBoundaryController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -342,7 +342,7 @@ public class OrderPickUpBoundaryController implements Initializable {
         String card = checkCard();
         String formOfS = "Pick Up";
         String address = "";
-        String receiverN = EntityHolder.getUser().getName();
+        String receiverN = EntityHolder.getUser().getUserName();
         String receiverP = "";
         double finalP = p;
         int status = 1;
@@ -646,7 +646,7 @@ public class OrderPickUpBoundaryController implements Initializable {
 
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getId());
         arr.add(EntityHolder.getUser().getEmail());
         arr.add(EntityHolder.getUser().getPhone());
@@ -671,7 +671,7 @@ public class OrderPickUpBoundaryController implements Initializable {
 
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#updateDetails");
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getId());
         arr.add(EntityHolder.getUser().getEmail());
         arr.add(EntityHolder.getUser().getPhone());
@@ -715,7 +715,7 @@ public class OrderPickUpBoundaryController implements Initializable {
         else if(p > 0) {
             arr.add(refund);
         }
-        arr.add(EntityHolder.getUser().getName());
+        arr.add(EntityHolder.getUser().getUserName());
         arr.add(EntityHolder.getUser().getEmail());
 
         App.getClient().sendToServer(arr);

@@ -220,8 +220,38 @@ public class SimpleClient extends AbstractClient {
 			CatalogEmployeeController c = new CatalogEmployeeController();
 			c.nextStep(3);
 		}
-		// handling complaint - employee
-
+		// income report store manager
+		if(msgArray.get(0).equals("#incomeStore")) {
+			IncomeReportsBoundaryController.setOrders((ArrayList<Order>)(msgArray.get(1)), (String)msgArray.get(2));
+		}
+		// orders report store manager
+		if(msgArray.get(0).equals("#orderStore")) {
+			OrdersReportsBoundaryController.setData((ArrayList<Order>)(msgArray.get(1)),
+													(ArrayList<Flower>)(msgArray.get(2)),
+													(String)msgArray.get(3));
+		}
+		// complaints report store manager
+		if(msgArray.get(0).equals("#complaintsStore")) {
+			ComplaintsReportsBoundaryController.setComplaints((ArrayList<Complaint>)(msgArray.get(1)), (String)msgArray.get(2));
+		}
+		// income report chain manager
+		if(msgArray.get(0).equals("#incomeChain")) {
+			IncomeReportsChainBoundaryController.setOrders((ArrayList<Order>)(msgArray.get(1)));
+		}
+		// orders report chain manager
+		if(msgArray.get(0).equals("#orderChain")) {
+			OrdersReportsChainBoundaryController.setData((ArrayList<Order>)(msgArray.get(1)), (ArrayList<Flower>)(msgArray.get(2)));
+		}
+		// complaints report chain manager
+		if(msgArray.get(0).equals("#complaintsChain")) {
+			ComplaintsReportsChainBoundaryController.setComplaints((ArrayList<Complaint>)(msgArray.get(1)));
+		}
+		// change authorization chain manager
+		if(msgArray.get(0).equals("#getAllLists")) {
+			ChangeAuthorizationChainBoundaryController.testAll((ArrayList<User>)(msgArray.get(1)),
+															   (ArrayList<Employee>)(msgArray.get(2)),
+															   (ArrayList<StoreManager>)(msgArray.get(3)));
+		}
 	}
 
 	@Override

@@ -30,15 +30,15 @@ public class ManageStoreController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -75,5 +75,32 @@ public class ManageStoreController implements Initializable {
                 c.refreshAfterDisconnect();
             }
         }
+    }
+
+    @FXML
+    public void compFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#complaintsStore");
+        arr.add(EntityHolder.getStoreM().getStoreName());
+        App.getClient().sendToServer(arr);
+        App.setRoot("ComplaintsReportsBoundary");
+    }
+
+    @FXML
+    public void incomeFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#incomeStore");
+        arr.add(EntityHolder.getStoreM().getStoreName());
+        App.getClient().sendToServer(arr);
+        App.setRoot("IncomeReportsBoundary");
+    }
+
+    @FXML
+    public void ordersFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#orderStore");
+        arr.add(EntityHolder.getStoreM().getStoreName());
+        App.getClient().sendToServer(arr);
+        App.setRoot("OrdersReportsBoundary");
     }
 }

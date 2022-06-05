@@ -19,8 +19,10 @@ public class Complaint implements Serializable {
     private int status;
     private int userId;
     private double price;
+    private String storeName;
 
-    public Complaint(int userId, int orderId, String content, String dateTime, int status, double price) {
+    public Complaint(int userId, int orderId, String content, String dateTime,
+                     int status, double price, String storeName) {
         super();
         this.userId = userId;
         this.orderId = orderId;
@@ -28,6 +30,7 @@ public class Complaint implements Serializable {
         this.dateTime = dateTime;
         this.status = status;
         this.price = price;
+        this.storeName = storeName;
     }
 
     public Complaint() {
@@ -88,5 +91,13 @@ public class Complaint implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }

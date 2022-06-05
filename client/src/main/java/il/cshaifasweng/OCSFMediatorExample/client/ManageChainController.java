@@ -31,15 +31,15 @@ public class ManageChainController implements Initializable {
         }
         else {
             if(EntityHolder.getTable() == 0) {
-                userName.setText(EntityHolder.getUser().getName());
+                userName.setText(EntityHolder.getUser().getUserName());
                 Email = EntityHolder.getUser().getEmail();
             }
             else if(EntityHolder.getTable() == 1) {
-                userName.setText(EntityHolder.getEmployee().getName());
+                userName.setText(EntityHolder.getEmployee().getUserName());
                 Email = EntityHolder.getEmployee().getEmail();
             }
             else if(EntityHolder.getTable() == 2) {
-                userName.setText(EntityHolder.getStoreM().getName());
+                userName.setText(EntityHolder.getStoreM().getUserName());
                 Email = EntityHolder.getStoreM().getEmail();
             }
             else if(EntityHolder.getTable() == 3) {
@@ -76,5 +76,37 @@ public class ManageChainController implements Initializable {
                 c.refreshAfterDisconnect();
             }
         }
+    }
+
+    @FXML
+    public void compFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#complaintsChain");
+        App.getClient().sendToServer(arr);
+        App.setRoot("ComplaintsReportsChainBoundary");
+    }
+
+    @FXML
+    public void incomeFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#incomeChain");
+        App.getClient().sendToServer(arr);
+        App.setRoot("IncomeReportsChainBoundary");
+    }
+
+    @FXML
+    public void ordersFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#orderChain");
+        App.getClient().sendToServer(arr);
+        App.setRoot("OrdersReportsChainBoundary");
+    }
+
+    @FXML
+    public void changeFunc(ActionEvent event) throws IOException {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("#getAllLists");
+        App.getClient().sendToServer(arr);
+        App.setRoot("ChangeAuthorizationChainBoundary");
     }
 }

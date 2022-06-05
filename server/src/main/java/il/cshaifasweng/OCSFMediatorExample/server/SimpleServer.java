@@ -75,7 +75,7 @@ public class SimpleServer extends AbstractServer {
 						password = list.get(i).getPassword();
 						if(password.equals(myPassword)) {
 							answers.add("#connectUserAfterRegistration");
-							answers.add(list.get(i).getName());
+							answers.add(list.get(i).getUserName());
 							answers.add(list.get(i).getId());
 							answers.add(list.get(i).getEmail());
 							answers.add(list.get(i).getPhone());
@@ -196,7 +196,7 @@ public class SimpleServer extends AbstractServer {
 							double p = list.get(i).getFinalPrice() + list.get(i).getRefund();
 							Complaint complaint = new Complaint((int)arr.get(1), (int)arr.get(2),
 																(String)arr.get(3), (String)arr.get(4),
-																(int)arr.get(5), p);
+																(int)arr.get(5), p, list.get(i).getStoreName());
 							complaintController.addComplaint(complaint);
 							session.getTransaction().commit();
 							answers.add("#complaintAdded");
@@ -276,11 +276,16 @@ public class SimpleServer extends AbstractServer {
 			// supply order - employee
 			if((arr.get(0)).equals("#supplyOrder")) {
 				List<Order> list = orderController.getAllData(Order.class);
-				int newID = (int)arr.get(1);
-				int newID1 = newID + 1;
-				list.get(newID).setStatus(2);
-				orderController.updateData(newID1, list.get(newID));
-				session.getTransaction().commit();
+				int orderNumber = (int)arr.get(1);
+
+				for(int i = 0; i < list.size(); i++) {
+					if(orderNumber == list.get(i).getOrderID()) {
+						int realOrderID = list.get(i).getId();
+						list.get(i).setStatus(2);
+						orderController.updateData(realOrderID, list.get(i));
+						session.getTransaction().commit();
+					}
+				}
 			}
 			// disconnecting
 			if((arr.get(0)).equals("#disconnecting")) {
@@ -299,7 +304,6 @@ public class SimpleServer extends AbstractServer {
 			if((arr.get(0)).equals("#closeComplaint")) {
 				List<Complaint> list = complaintController.getAllData(Complaint.class);
 				List<User> list1 = userController.getAllData(User.class);
-//				List<Order> list = orderController.getAllData(Order.class);
 				int userID = (int)arr.get(1);
 				int orderID = (int)arr.get(2);
 				int complaintID = (int)arr.get(3);
@@ -316,13 +320,97 @@ public class SimpleServer extends AbstractServer {
 				Refund r = new Refund(orderID, refund, userID);
 				refundController.addRefund(r);
 				session.getTransaction().commit();
-				// update entity, user, refund afterwards in client
 			}
-
-
-
-
-
+			// income report store manager
+			if((arr.get(0)).equals("#incomeStore")) {
+				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
+				String store = (String)arr.get(1);
+				answers.add("#incomeStore");
+				answers.add(list);
+				answers.add(store);
+				client.sendToClient(answers);
+			}
+			// orders report store manager
+			if((arr.get(0)).equals("#orderStore")) {
+				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
+				ArrayList<Flower> list1 = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
+				String store = (String)arr.get(1);
+				answers.add("#orderStore");
+				answers.add(list);
+				answers.add(list1);
+				answers.add(store);
+				client.sendToClient(answers);
+			}
+			// complaints report store manager
+			if((arr.get(0)).equals("#complaintsStore")) {
+				ArrayList<Complaint> list = (ArrayList<Complaint>) complaintController.getAllData(Complaint.class);
+				String store = (String)arr.get(1);
+				answers.add("#complaintsStore");
+				answers.add(list);
+				answers.add(store);
+				client.sendToClient(answers);
+			}
+			// income report chain manager
+			if((arr.get(0)).equals("#incomeChain")) {
+				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
+				answers.add("#incomeChain");
+				answers.add(list);
+				client.sendToClient(answers);
+			}
+			// orders report chain manager
+			if((arr.get(0)).equals("#orderChain")) {
+				ArrayList<Order> list = (ArrayList<Order>) orderController.getAllData(Order.class);
+				ArrayList<Flower> list1 = (ArrayList<Flower>) flowerController.getAllData(Flower.class);
+				answers.add("#orderChain");
+				answers.add(list);
+				answers.add(list1);
+				client.sendToClient(answers);
+			}
+			// complaints report chain manager
+			if((arr.get(0)).equals("#complaintsChain")) {
+				ArrayList<Complaint> list = (ArrayList<Complaint>) complaintController.getAllData(Complaint.class);
+				answers.add("#complaintsChain");
+				answers.add(list);
+				client.sendToClient(answers);
+			}
+			// change authorization chain manager
+			if((arr.get(0)).equals("#getAllLists")) {
+				ArrayList<User> list1 = (ArrayList<User>) userController.getAllData(User.class);
+				ArrayList<Employee> list2 = (ArrayList<Employee>) employeeController.getAllData(Employee.class);
+				ArrayList<StoreManager> list3 = (ArrayList<StoreManager>) storeManagerController.getAllData(StoreManager.class);
+				answers.add("#getAllLists");
+				answers.add(list1);
+				answers.add(list2);
+				answers.add(list3);
+				client.sendToClient(answers);
+			}
+			// change User
+			if((arr.get(0)).equals("#changeU")) {
+				List<User> list = userController.getAllData(User.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
+				list.get(newID).setStatus((int)arr.get(2));
+				userController.updateData(newID1, list.get(newID));
+				session.getTransaction().commit();
+			}
+			// change employee
+			if((arr.get(0)).equals("#changeE")) {
+				List<Employee> list = employeeController.getAllData(Employee.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
+				list.get(newID).setStatus((int)arr.get(2));
+				employeeController.updateData(newID1, list.get(newID));
+				session.getTransaction().commit();
+			}
+			// change Manager
+			if((arr.get(0)).equals("#changeM")) {
+				List<StoreManager> list = storeManagerController.getAllData(StoreManager.class);
+				int newID = (int)arr.get(1);
+				int newID1 = newID + 1;
+				list.get(newID).setStatus((int)arr.get(2));
+				storeManagerController.updateData(newID1, list.get(newID));
+				session.getTransaction().commit();
+			}
 		}
 		catch (Exception exception) {
 			if (session != null) {
@@ -354,7 +442,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
-					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getUserName());
 					answers.add(list.get(i).getId());
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPhone());
@@ -392,7 +480,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
-					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getUserName());
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getStatus());
@@ -422,7 +510,7 @@ public class SimpleServer extends AbstractServer {
 					answers.add("#connectEntity");
 					answers.add(true);
 					answers.add(arr.get(1));
-					answers.add(list.get(i).getName());
+					answers.add(list.get(i).getUserName());
 					answers.add(list.get(i).getEmail());
 					answers.add(list.get(i).getPassword());
 					answers.add(list.get(i).getStoreName());

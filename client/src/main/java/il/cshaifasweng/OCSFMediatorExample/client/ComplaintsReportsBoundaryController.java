@@ -1,38 +1,55 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class SingleComplaintEmployeeController implements Initializable {
-    @FXML private Text complaintL;
+public class ComplaintsReportsBoundaryController implements Initializable {
+    @FXML
+    private Text complaintTxt;
     @FXML private Button userName;
-    @FXML private Label orderNL;
-    @FXML private TextField orderNumberTF;
-    @FXML private Label userIDL;
-    @FXML private TextField userIDTF;
-    @FXML private Label messageL;
-    @FXML private TextArea complaintTF;
-    @FXML private Label chooseRl;
-    @FXML private ComboBox<String> chooseRefund;
-    @FXML private Button cancelBtn;
-    @FXML private Button sendBtn;
+    @FXML private Button returnBtn;
+    @FXML private Label fromL;
+    @FXML private DatePicker startDate;
+    @FXML private Label toL;
+    @FXML private DatePicker endDate;
+    @FXML private Button generate;
+    @FXML private Label totalLabel;
+    @FXML private Label finalRes;
+    @FXML private BarChart<?, ?> complaintsChart;
+    @FXML private CategoryAxis categoryA;
+    @FXML private NumberAxis numberA;
 
-    private static ComplaintHolder currentComplaint;
+    private static ArrayList<Complaint> compList = new ArrayList<>();
+    private int numComp = 0;
+    private static String store = "";
     private String Email;
 
-    public static void setCurrentComplaint(ComplaintHolder complaint) {
-        SingleComplaintEmployeeController.currentComplaint = complaint;
+    public static void setComplaints(ArrayList<Complaint> complaints, String store) {
+        ComplaintsReportsBoundaryController.compList = complaints;
+        ComplaintsReportsBoundaryController.store = store;
     }
 
     @Override
@@ -59,19 +76,16 @@ public class SingleComplaintEmployeeController implements Initializable {
             }
         }
 
-        orderNumberTF.setText(currentComplaint.getOrderID());
-        userIDTF.setText(currentComplaint.getUserID());
-        complaintTF.setText(currentComplaint.getContent());
-
-        chooseRefund.getItems().addAll("0%", "50%", "100%");
-
-        orderNumberTF.setEditable(false);
-        userIDTF.setEditable(false);
-        complaintTF.setEditable(false);
-
-        checkDate();
-
-        sendBtn.disableProperty().bind(chooseRefund.valueProperty().isNull());
+        String beforeS = getDate(LocalDateTime.now());
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+        LocalDate s = LocalDate.parse(beforeS, formatter2);
+        endDate.setValue(s);
+        startDate.setValue(s.minusDays(6));
+        try {
+            initChart();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -105,59 +119,7 @@ public class SingleComplaintEmployeeController implements Initializable {
 
     @FXML
     public void returnFunc(ActionEvent event) throws IOException {
-        App.setRoot("ComplaintListEmployee");
-    }
-
-    @FXML
-    public void sendFunc(ActionEvent event) throws IOException {
-        double refundP = 0;
-        String chosen = chooseRefund.getSelectionModel().getSelectedItem();
-        // "0%", "50%", "100%"
-        if(chosen.equals("0%")) {
-            refundP = 0 * currentComplaint.getPrice();
-        }
-        else if(chosen.equals("50%")) {
-            refundP = 0.50 * currentComplaint.getPrice();
-        }
-        else if(chosen.equals("100%")) {
-            refundP = 1 * currentComplaint.getPrice();
-        }
-
-        int uID = Integer.parseInt(currentComplaint.getUserID());
-        int oID = Integer.parseInt(currentComplaint.getOrderID());
-        int cID = currentComplaint.getComplaintID();
-
-        ArrayList<Object> arr = new ArrayList<>();
-        arr.add("#closeComplaint");
-        arr.add(uID);
-        arr.add(oID);
-        arr.add(cID);
-        arr.add(refundP);
-        App.getClient().sendToServer(arr);
-        moveOn();
-    }
-
-    public void moveOn() throws IOException {
-        ComplaintListEmployeeController c = new ComplaintListEmployeeController();
-        c.removeItem();
-        App.setRoot("ComplaintListEmployee");
-    }
-
-    public void checkDate() {
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
-
-        LocalDateTime complaintD = LocalDateTime.parse(currentComplaint.getDate(), formatter2);
-        LocalDateTime plus24 = complaintD.plusDays(1);
-        String now = getDate(LocalDateTime.now());
-        LocalDateTime now1 = LocalDateTime.parse(now, formatter2);
-
-        if(now1.isAfter(plus24)) {
-            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setTitle("Message");
-            a.setHeaderText("You are late in handling complaint\nRefund is 100$");
-            a.showAndWait();
-            chooseRefund.setValue("100%");
-        }
+        App.setRoot("ManageStore");
     }
 
     public String getDate(LocalDateTime now) {
@@ -185,5 +147,47 @@ public class SingleComplaintEmployeeController implements Initializable {
         now2 = now2.replace(":", "-");
 
         return now2;
+    }
+
+    public void initChart() throws ParseException {
+        numComp = 0;
+
+        complaintsChart.setAnimated(false);
+        complaintsChart.getData().clear();
+        complaintsChart.layout();
+
+        long dur = Math.abs(Duration.between(startDate.getValue().atStartOfDay(), endDate.getValue().atStartOfDay()).toDays());
+        XYChart.Series dataSeries1 = new XYChart.Series();
+        dataSeries1.setName("Complaints");
+
+        int[] reportsPerMonth = new int[(int)dur + 1];
+
+        for(int i = 0; i < compList.size(); i++) {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+            Date date1 = formatter.parse(compList.get(i).getDateTime());
+
+            if(compList.get(i).getStoreName().equals(store) &&
+               date1.after(Date.from(startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())) &&
+               date1.before(Date.from(endDate.getValue().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                long index = Math.abs(Duration.between(date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(), startDate.getValue().atStartOfDay()).toDays());
+                reportsPerMonth[(int)index] += 1;
+                numComp += 1;
+            }
+        }
+
+        for(int i = 0; i < reportsPerMonth.length; i++) {
+            DateFormat dateFormat = new SimpleDateFormat("MMM-dd");
+            Date date2 = Date.from(startDate.getValue().plusDays(i).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String strDate = dateFormat.format(date2);
+            dataSeries1.getData().add(new XYChart.Data(strDate, reportsPerMonth[i]));
+        }
+
+        finalRes.setText(Integer.toString(numComp));
+        complaintsChart.getData().add(dataSeries1);
+    }
+
+    @FXML
+    public void generateFunc(ActionEvent event) throws ParseException {
+        initChart();
     }
 }
