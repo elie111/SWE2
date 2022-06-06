@@ -19,11 +19,11 @@ public class SimpleClient extends AbstractClient {
 		super(host, port);
 	}
 
-	public static SimpleClient getClient() {
+	public static SimpleClient getClient(String a, String b) {
 		if (client == null) {
-			System.out.println("please enter the IP address and then the port number: ");
-			client = new SimpleClient(sc.next(), sc.nextInt());
-			// client = new SimpleClient("localhost", 3000);
+//			System.out.println("please enter the IP address and then the port number: ");
+//			client = new SimpleClient(sc.next(), sc.nextInt());
+			client = new SimpleClient(a, Integer.parseInt(b));
 		}
 		return client;
 	}

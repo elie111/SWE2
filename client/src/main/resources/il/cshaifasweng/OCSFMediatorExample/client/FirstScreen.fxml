@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cornsilk;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.FirstScreenController">
+    <children>
+        <Text fx:id="dataL" fill="#b91818" layoutX="194.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40px; -fx-fill: linear-gradient; -fx-font-weight: bold; -fx-font-style: oblique;" text="Enter Data:" />
+        <Label fx:id="ipL" layoutX="175.0" layoutY="150.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="IP Address:" />
+        <TextField fx:id="ipText" layoutX="275.0" layoutY="150.0" />
+        <Label fx:id="portL" layoutX="175.0" layoutY="200.0" style="-fx-text-fill: linear-gradient(#ff5400, #be1d00); -fx-font-weight: bold; -fx-font-style: italic; -fx-font-size: 15px;" text="Port Number:" />
+        <TextField fx:id="portText" layoutX="275.0" layoutY="200.0" />
+        <Button fx:id="sendBtn" layoutX="300.0" layoutY="250.0" mnemonicParsing="false" onAction="#sendPress" style="-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-insets: 0,1,2; -fx-background-radius: 3,2,1; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;" text="Enter" />
+    </children>
+</AnchorPane>

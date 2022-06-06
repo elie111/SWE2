@@ -18,27 +18,28 @@ import org.greenrobot.eventbus.Subscribe;
 /** JavaFX App */
 public class App extends Application {
     private static Scene scene;
-    private static SimpleClient client;
+    private static SimpleClient client = new SimpleClient("a", 3000);
     private static int orderID = 3548;
 
     public static SimpleClient getClient() {
         return client;
     }
 
-    public void setClient(SimpleClient client) {
-        this.client = client;
+    public static void setClient(SimpleClient clientA) {
+        client = clientA;
     }
 
     @Override
     public void start(Stage stage) throws IOException {
     	EventBus.getDefault().register(this);
-    	client = SimpleClient.getClient();
-    	client.openConnection();
-        ArrayList<Object> arr = new ArrayList<>();
-        arr.add("#getcatalog");
-        client.sendToServer(arr);
-
-        scene = new Scene(loadFXML("LoginOrSignupBoundary"), 600, 400);
+//    	client = SimpleClient.getClient();
+//    	client.openConnection();
+//        ArrayList<Object> arr = new ArrayList<>();
+//        arr.add("#getcatalog");
+//        client.sendToServer(arr);
+//
+//        scene = new Scene(loadFXML("LoginOrSignupBoundary"), 600, 400);
+        scene = new Scene(loadFXML("FirstScreen"), 600, 400);
         stage.setScene(scene);
         stage.show();
     }
