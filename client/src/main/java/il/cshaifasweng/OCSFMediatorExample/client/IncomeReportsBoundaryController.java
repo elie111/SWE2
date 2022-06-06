@@ -127,7 +127,7 @@ public class IncomeReportsBoundaryController implements Initializable {
     }
 
     public void initChart() throws ParseException {
-        int numComp = 0;
+        double numComp = 0;
         incomeChart.setAnimated(false);
         incomeChart.getData().clear();
         incomeChart.layout();
@@ -159,7 +159,7 @@ public class IncomeReportsBoundaryController implements Initializable {
             dataSeries1.getData().add(new XYChart.Data(strDate, reportsPerMonth[i]));
         }
 
-        String price = Integer.toString(numComp) + " $";
+        String price = Double.toString(numComp) + " $";
         finalRes.setText(price);
         incomeChart.getData().add(dataSeries1);
     }

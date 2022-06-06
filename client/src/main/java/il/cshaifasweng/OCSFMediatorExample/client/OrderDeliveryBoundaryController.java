@@ -523,7 +523,7 @@ public class OrderDeliveryBoundaryController implements Initializable {
         char c;
         for(int i = 0; i < a.length(); i++) {
             c = a.charAt(i);
-            if (Character.isLetter(c) || c == ' ' || (c >= '0' && c <= '9')) {
+            if (Character.isLetter(c) || c == ' ' || (c >= '0' && c <= '9') || c == ',' || c == '-') {
                 continue;
             }
             else {

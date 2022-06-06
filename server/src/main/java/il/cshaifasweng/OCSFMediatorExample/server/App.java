@@ -47,8 +47,8 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
-        // System.out.println("please enter the port number: ");
-        //server = new SimpleServer(sc.nextInt());
+//        System.out.println("please enter the port number: ");
+//        server = new SimpleServer(sc.nextInt());
         server = new SimpleServer(3000);
         server.listen();
 

@@ -56,8 +56,8 @@ public class IncomeReportsChainBoundaryController implements Initializable {
     private static ArrayList<Order> ordersList = new ArrayList<>();
     private String Email;
 
-    private int finalPrice1 = 0;
-    private int finalPrice2 = 0;
+    private double finalPrice1 = 0;
+    private double finalPrice2 = 0;
     private String currentStore = "All";
 
     private String[] stores = {"All", "Haifa", "Tel Aviv", "New York", "Eilat", "London"};
@@ -258,8 +258,8 @@ public class IncomeReportsChainBoundaryController implements Initializable {
         incomeChart1.getData().add(dataSeries1);
         incomeChart2.getData().add(dataSeries2);
 
-        yearIncome1.setText(Integer.toString(finalPrice1)+" $");
-        yearIncome2.setText(Integer.toString(finalPrice2)+" $");
+        yearIncome1.setText(Double.toString(finalPrice1)+" $");
+        yearIncome2.setText(Double.toString(finalPrice2)+" $");
     }
 
     @FXML

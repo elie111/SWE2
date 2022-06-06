@@ -21,9 +21,9 @@ public class SimpleClient extends AbstractClient {
 
 	public static SimpleClient getClient() {
 		if (client == null) {
-//			System.out.println("please enter the IP address and then the port number: ");
-//			client = new SimpleClient(sc.next(), sc.nextInt());
-			client = new SimpleClient("localhost", 3000);
+			System.out.println("please enter the IP address and then the port number: ");
+			client = new SimpleClient(sc.next(), sc.nextInt());
+			// client = new SimpleClient("localhost", 3000);
 		}
 		return client;
 	}
@@ -122,8 +122,9 @@ public class SimpleClient extends AbstractClient {
 			for(int i = 0; i < list.size(); i++) {
 				generalUserId = list.get(i).getUserID();
 				if(generalUserId == myUserId) {
+					double newPrice = list.get(i).getFinalPrice() + list.get(i).getRefund();
 					OrderHolder o = new OrderHolder(list.get(i).getOrderID(), list.get(i).getDateTime(),
-													list.get(i).getFinalPrice(), list.get(i).getFlowers(),
+													newPrice, list.get(i).getFlowers(),
 													list.get(i).getStatus());
 					newList.add(o);
 				}
