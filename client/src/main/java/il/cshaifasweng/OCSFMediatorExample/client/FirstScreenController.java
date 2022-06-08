@@ -35,6 +35,10 @@ public class FirstScreenController implements Initializable {
         ArrayList<Object> arr = new ArrayList<>();
         arr.add("#getcatalog");
         client.sendToServer(arr);
+        ArrayList<Object> arr2 = new ArrayList<>();
+        arr2.add("#getAllLists");
+        App.getClient().sendToServer(arr2);
+
         App.setRoot("LoginOrSignupBoundary");
     }
 }
